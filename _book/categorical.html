@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lesson 7 Gap Analysis with Categorical Variables | Basic Analytics in R</title>
+  <meta name="description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lesson 7 Gap Analysis with Categorical Variables | Basic Analytics in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lesson 7 Gap Analysis with Categorical Variables | Basic Analytics in R" />
+  
+  <meta name="twitter:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+<meta name="author" content="Michael Brydon" />
+
+
+<meta name="date" content="2020-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ttest.html">
+<link rel="next" href="correlation.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li>Basic Analytics in R</li>
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#format-of-these-tutorials"><i class="fa fa-check"></i><b>1.1</b> Format of these tutorials</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#a-note-on-flexibility"><i class="fa fa-check"></i><b>1.2</b> A note on flexibility</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-get-started"><i class="fa fa-check"></i><b>1.3</b> How to get started</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#update-for-the-tidyverse"><i class="fa fa-check"></i><b>1.4</b> Update for the Tidyverse</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#a-note-on-python"><i class="fa fa-check"></i><b>1.5</b> A Note on Python</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Importing Data</a><ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>2.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data.html"><a href="data.html#open-an-r-script-file"><i class="fa fa-check"></i><b>2.1.1</b> Open an R script file</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data.html"><a href="data.html#executing-code"><i class="fa fa-check"></i><b>2.1.2</b> Executing code</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data.html"><a href="data.html#load-the-tidyverse-package-into-r"><i class="fa fa-check"></i><b>2.1.3</b> Load the tidyverse package into R</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data.html"><a href="data.html#assigning-objects-to-variables"><i class="fa fa-check"></i><b>2.1.4</b> Assigning objects to variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#data-frames-and-tibbles"><i class="fa fa-check"></i><b>2.2</b> Data frames and tibbles</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data.html"><a href="data.html#reading-a-csv-file"><i class="fa fa-check"></i><b>2.2.1</b> Reading a CSV file</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data.html"><a href="data.html#reading-an-excel-file"><i class="fa fa-check"></i><b>2.2.2</b> Reading an Excel file</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data.html"><a href="data.html#using-your-data"><i class="fa fa-check"></i><b>2.3</b> Using your data</a></li>
+<li class="chapter" data-level="2.4" data-path="data.html"><a href="data.html#factors-versus-character-data"><i class="fa fa-check"></i><b>2.4</b> Factors versus character data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualize.html"><a href="visualize.html"><i class="fa fa-check"></i><b>3</b> Basic Visualization</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualize.html"><a href="visualize.html#preliminaries-1"><i class="fa fa-check"></i><b>3.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualize.html"><a href="visualize.html#import-the-data-into-r-studio"><i class="fa fa-check"></i><b>3.1.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="3.1.2" data-path="visualize.html"><a href="visualize.html#use-variables-to-save-typing"><i class="fa fa-check"></i><b>3.1.2</b> Use variables to save typing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="visualize.html"><a href="visualize.html#basic-descriptive-statistics"><i class="fa fa-check"></i><b>3.1.3</b> Basic descriptive statistics</a></li>
+<li class="chapter" data-level="3.1.4" data-path="visualize.html"><a href="visualize.html#r-as-a-calculator"><i class="fa fa-check"></i><b>3.1.4</b> R as a calculator</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualize.html"><a href="visualize.html#histograms"><i class="fa fa-check"></i><b>3.2</b> Histograms</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualize.html"><a href="visualize.html#basic-formatting"><i class="fa fa-check"></i><b>3.2.1</b> Basic formatting</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualize.html"><a href="visualize.html#getting-help"><i class="fa fa-check"></i><b>3.2.2</b> Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualize.html"><a href="visualize.html#going-beyond"><i class="fa fa-check"></i><b>3.3</b> Going beyond</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualize.html"><a href="visualize.html#density-instead-of-frequency"><i class="fa fa-check"></i><b>3.3.1</b> Density instead of frequency</a></li>
+<li class="chapter" data-level="3.3.2" data-path="visualize.html"><a href="visualize.html#adding-a-kernel-density-line"><i class="fa fa-check"></i><b>3.3.2</b> Adding a kernel density line</a></li>
+<li class="chapter" data-level="3.3.3" data-path="visualize.html"><a href="visualize.html#adding-a-rug"><i class="fa fa-check"></i><b>3.3.3</b> Adding a rug</a></li>
+<li class="chapter" data-level="3.3.4" data-path="visualize.html"><a href="visualize.html#relative-frequency-more-advanced"><i class="fa fa-check"></i><b>3.3.4</b> Relative frequency (more advanced)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualize.html"><a href="visualize.html#using-ggplot"><i class="fa fa-check"></i><b>3.4</b> Using ggplot</a></li>
+<li class="chapter" data-level="3.5" data-path="visualize.html"><a href="visualize.html#creating-a-box-plot"><i class="fa fa-check"></i><b>3.5</b> Creating a box plot</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="filter.html"><a href="filter.html"><i class="fa fa-check"></i><b>4</b> Filtering Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="filter.html"><a href="filter.html#preliminaries-2"><i class="fa fa-check"></i><b>4.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="filter.html"><a href="filter.html#import-data"><i class="fa fa-check"></i><b>4.1.1</b> Import data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="filter.html"><a href="filter.html#filters"><i class="fa fa-check"></i><b>4.2</b> Filters</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="filter.html"><a href="filter.html#using-a-logical-critereon"><i class="fa fa-check"></i><b>4.2.1</b> Using a logical critereon</a></li>
+<li class="chapter" data-level="4.2.2" data-path="filter.html"><a href="filter.html#filtering-using-a-list"><i class="fa fa-check"></i><b>4.2.2</b> Filtering Using a List</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="filter.html"><a href="filter.html#syntatic-sugar"><i class="fa fa-check"></i><b>4.3</b> Syntatic sugar</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="filter.html"><a href="filter.html#membership"><i class="fa fa-check"></i><b>4.3.1</b> Membership</a></li>
+<li class="chapter" data-level="4.3.2" data-path="filter.html"><a href="filter.html#pipes"><i class="fa fa-check"></i><b>4.3.2</b> Pipes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recode.html"><a href="recode.html"><i class="fa fa-check"></i><b>5</b> Recoding Data</a><ul>
+<li class="chapter" data-level="5.1" data-path="recode.html"><a href="recode.html#preliminaries-3"><i class="fa fa-check"></i><b>5.1</b> Preliminaries</a></li>
+<li class="chapter" data-level="5.2" data-path="recode.html"><a href="recode.html#recode-a-text-column-to-a-dummy"><i class="fa fa-check"></i><b>5.2</b> Recode a Text Column to a Dummy</a></li>
+<li class="chapter" data-level="5.3" data-path="recode.html"><a href="recode.html#recode-according-to-list-membership"><i class="fa fa-check"></i><b>5.3</b> Recode According to List Membership</a></li>
+<li class="chapter" data-level="5.4" data-path="recode.html"><a href="recode.html#using-the-tidyverse"><i class="fa fa-check"></i><b>5.4</b> Using the tidyverse</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="recode.html"><a href="recode.html#mutate-basics"><i class="fa fa-check"></i><b>5.4.1</b> Mutate basics</a></li>
+<li class="chapter" data-level="5.4.2" data-path="recode.html"><a href="recode.html#recoding-categorical-data"><i class="fa fa-check"></i><b>5.4.2</b> Recoding categorical data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ttest.html"><a href="ttest.html"><i class="fa fa-check"></i><b>6</b> Gap Analysis Using t-Tests</a><ul>
+<li class="chapter" data-level="6.1" data-path="ttest.html"><a href="ttest.html#import-the-data-into-r-studio-1"><i class="fa fa-check"></i><b>6.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="6.2" data-path="ttest.html"><a href="ttest.html#visual-gap-analysis"><i class="fa fa-check"></i><b>6.2</b> Visual gap analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="ttest.html"><a href="ttest.html#boxplots-in-ggplot"><i class="fa fa-check"></i><b>6.2.1</b> Boxplots in ggplot</a></li>
+<li class="chapter" data-level="6.2.2" data-path="ttest.html"><a href="ttest.html#boxplots-in-base-r-and-formula-notation"><i class="fa fa-check"></i><b>6.2.2</b> Boxplots in base R (and formula notation)</a></li>
+<li class="chapter" data-level="6.2.3" data-path="ttest.html"><a href="ttest.html#histograms-1"><i class="fa fa-check"></i><b>6.2.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="ttest.html"><a href="ttest.html#t-test"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-test</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="ttest.html"><a href="ttest.html#columns-or-formulas"><i class="fa fa-check"></i><b>6.3.1</b> Columns or formulas?</a></li>
+<li class="chapter" data-level="6.3.2" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-columns"><i class="fa fa-check"></i><b>6.3.2</b> Equality of variance test (columns)</a></li>
+<li class="chapter" data-level="6.3.3" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-pivoted-columns"><i class="fa fa-check"></i><b>6.3.3</b> Equality of variance test (pivoted columns)</a></li>
+<li class="chapter" data-level="6.3.4" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-formula"><i class="fa fa-check"></i><b>6.3.4</b> Equality of variance test (formula)</a></li>
+<li class="chapter" data-level="6.3.5" data-path="ttest.html"><a href="ttest.html#unequal-variance-t-test"><i class="fa fa-check"></i><b>6.3.5</b> Unequal variance <em>t</em>-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="categorical.html"><a href="categorical.html"><i class="fa fa-check"></i><b>7</b> Gap Analysis with Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1" data-path="categorical.html"><a href="categorical.html#categorical-variables"><i class="fa fa-check"></i><b>7.1</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="categorical.html"><a href="categorical.html#preliminaries-4"><i class="fa fa-check"></i><b>7.1.1</b> Preliminaries</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="categorical.html"><a href="categorical.html#tables-in-r"><i class="fa fa-check"></i><b>7.2</b> Tables in R</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="categorical.html"><a href="categorical.html#simple-table"><i class="fa fa-check"></i><b>7.2.1</b> Simple Table</a></li>
+<li class="chapter" data-level="7.2.2" data-path="categorical.html"><a href="categorical.html#frequency-verus-proportions"><i class="fa fa-check"></i><b>7.2.2</b> Frequency Verus Proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="categorical.html"><a href="categorical.html#contingency-tables"><i class="fa fa-check"></i><b>7.3</b> Contingency Tables</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="categorical.html"><a href="categorical.html#using-gmodels"><i class="fa fa-check"></i><b>7.3.1</b> Using gmodels</a></li>
+<li class="chapter" data-level="7.3.2" data-path="categorical.html"><a href="categorical.html#using-gmodels-crosstable-command"><i class="fa fa-check"></i><b>7.3.2</b> Using gmodel’s CrossTable Command</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>8</b> Correlation and Scatterplots</a><ul>
+<li class="chapter" data-level="8.1" data-path="correlation.html"><a href="correlation.html#data-1"><i class="fa fa-check"></i><b>8.1</b> Data</a></li>
+<li class="chapter" data-level="8.2" data-path="correlation.html"><a href="correlation.html#scatterplots"><i class="fa fa-check"></i><b>8.2</b> Scatterplots</a></li>
+<li class="chapter" data-level="8.3" data-path="correlation.html"><a href="correlation.html#coefficient-of-correlation"><i class="fa fa-check"></i><b>8.3</b> Coefficient of correlation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="correlation.html"><a href="correlation.html#simple-correlation"><i class="fa fa-check"></i><b>8.3.1</b> Simple correlation</a></li>
+<li class="chapter" data-level="8.3.2" data-path="correlation.html"><a href="correlation.html#correlation-matrix"><i class="fa fa-check"></i><b>8.3.2</b> Correlation matrix</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#linear-regression"><i class="fa fa-check"></i><b>9.1</b> Linear Regression</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="regression.html"><a href="regression.html#review-of-the-basics"><i class="fa fa-check"></i><b>9.1.1</b> Review of the basics</a></li>
+<li class="chapter" data-level="9.1.2" data-path="regression.html"><a href="regression.html#formula-notation"><i class="fa fa-check"></i><b>9.1.2</b> Formula notation</a></li>
+<li class="chapter" data-level="9.1.3" data-path="regression.html"><a href="regression.html#model-quality-and-statistical-significance"><i class="fa fa-check"></i><b>9.1.3</b> Model quality and statistical significance</a></li>
+<li class="chapter" data-level="9.1.4" data-path="regression.html"><a href="regression.html#interpretation"><i class="fa fa-check"></i><b>9.1.4</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#regression-diagnostics"><i class="fa fa-check"></i><b>9.2</b> Regression diagnostics</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regression.html"><a href="regression.html#plots-in-base-r"><i class="fa fa-check"></i><b>9.2.1</b> Plots in base R</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regression.html"><a href="regression.html#ggplot-data"><i class="fa fa-check"></i><b>9.2.2</b> ggplot data</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regression.html"><a href="regression.html#ggplot-histogram"><i class="fa fa-check"></i><b>9.2.3</b> ggplot histogram</a></li>
+<li class="chapter" data-level="9.2.4" data-path="regression.html"><a href="regression.html#ggplot-predicted-versus-actuals"><i class="fa fa-check"></i><b>9.2.4</b> ggplot predicted versus actuals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="multiregression.html"><a href="multiregression.html"><i class="fa fa-check"></i><b>10</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="10.1" data-path="multiregression.html"><a href="multiregression.html#kitchen-sink-model"><i class="fa fa-check"></i><b>10.1</b> Kitchen sink model</a></li>
+<li class="chapter" data-level="10.2" data-path="multiregression.html"><a href="multiregression.html#categorical-explanatory-variables"><i class="fa fa-check"></i><b>10.2</b> Categorical explanatory variables</a></li>
+<li class="chapter" data-level="10.3" data-path="multiregression.html"><a href="multiregression.html#checking-for-colinearity"><i class="fa fa-check"></i><b>10.3</b> Checking for colinearity</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="multiregression.html"><a href="multiregression.html#scatterplot-matrix"><i class="fa fa-check"></i><b>10.3.1</b> Scatterplot matrix</a></li>
+<li class="chapter" data-level="10.3.2" data-path="multiregression.html"><a href="multiregression.html#correlation-matrix-1"><i class="fa fa-check"></i><b>10.3.2</b> Correlation matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="multiregression.html"><a href="multiregression.html#model-refinement"><i class="fa fa-check"></i><b>10.4</b> Model refinement</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="multiregression.html"><a href="multiregression.html#manual-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.1</b> Manual stepwise refinement</a></li>
+<li class="chapter" data-level="10.4.2" data-path="multiregression.html"><a href="multiregression.html#automated-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.2</b> Automated stepwise refinement</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="multiregression.html"><a href="multiregression.html#regression-diagnostics-1"><i class="fa fa-check"></i><b>10.5</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="10.6" data-path="multiregression.html"><a href="multiregression.html#standardized-regression-coefficients"><i class="fa fa-check"></i><b>10.6</b> Standardized regression coefficients</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="multiregression.html"><a href="multiregression.html#extracting-betas"><i class="fa fa-check"></i><b>10.6.1</b> Extracting betas</a></li>
+<li class="chapter" data-level="10.6.2" data-path="multiregression.html"><a href="multiregression.html#tornado-diagram"><i class="fa fa-check"></i><b>10.6.2</b> Tornado diagram</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Basic Analytics in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="categorical" class="section level1">
+<h1><span class="header-section-number">Lesson 7</span> Gap Analysis with Categorical Variables</h1>
+<p>The focus of this tutorial is on “associations” between two <em>categorical</em> variables. The scenario we will examine is the following:</p>
+<blockquote>
+<p>Are managerial status and gender at the bank related?</p>
+</blockquote>
+<p>Naturally, we should expect managerial status and gender to be independent—there should be no relationship between the two. If there is a relationship between the two, we have a gap (a situation that requires managerial attention).</p>
+<div id="categorical-variables" class="section level2">
+<h2><span class="header-section-number">7.1</span> Categorical Variables</h2>
+<div id="preliminaries-4" class="section level3">
+<h3><span class="header-section-number">7.1.1</span> Preliminaries</h3>
+<p>The two variables we are interested in (managerial status and gender) are categorical. We already have a text-based gender variable in the Bank data set. We can map the ordinal variable <code>JobGrade</code> to a binary categorical variable using the procedure described in Lesson @reg(recode). I call the new variable “Mgmt.text” in order to indicate that it is a text variable:</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb74-2" title="2">Bank &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/Bank.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb74-3" title="3"></a>
+<a class="sourceLine" id="cb74-4" title="4">nonmgmt=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb74-5" title="5">Bank &lt;-<span class="st"> </span>Bank <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Mgmt.text =</span> <span class="kw">ifelse</span>(JobGrade <span class="op">%in%</span><span class="st"> </span>nonmgmt,<span class="st">&quot;non-mgmt&quot;</span>, <span class="st">&quot;mgmt&quot;</span>))</a>
+<a class="sourceLine" id="cb74-6" title="6"></a>
+<a class="sourceLine" id="cb74-7" title="7"><span class="kw">View</span>(Bank)  <span class="co">## confirm the results</span></a></code></pre></div>
+</div>
+</div>
+<div id="tables-in-r" class="section level2">
+<h2><span class="header-section-number">7.2</span> Tables in R</h2>
+<div id="simple-table" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> Simple Table</h3>
+<p>R has a built-in table command that creates an <em>n</em> x <em>m</em> “pivot table”. In this case, the table will show the number of employees in each combination of managerial status and gender. The table command needs to know the two categorical variables (in this case: <code>Bank$Gender</code> and <code>Bank$Mgmt.Text</code>):</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1"><span class="kw">table</span>(Bank<span class="op">$</span>Gender, Bank<span class="op">$</span>Mgmt.text)</a></code></pre></div>
+<pre><code>##         
+##          mgmt non-mgmt
+##   Female   10      130
+##   Male     25       43</code></pre>
+</div>
+<div id="frequency-verus-proportions" class="section level3">
+<h3><span class="header-section-number">7.2.2</span> Frequency Verus Proportions</h3>
+<p>The table above provides a good summary of the data, but is not useful for comparison purposes because we have different number of male and female employees. To assess whether the two variables are independent, we need to look at <em>proportions</em>. The easiest way to do this in R is to assign the table to a new object and use the table object as input to other R functions:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" title="1">  mytable &lt;-<span class="st"> </span><span class="kw">table</span>(Bank<span class="op">$</span>Gender, Bank<span class="op">$</span>Mgmt.text)</a>
+<a class="sourceLine" id="cb77-2" title="2">  <span class="kw">addmargins</span>(mytable, <span class="dt">margin=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))  <span class="co">## just to show the marginal frequencies</span></a></code></pre></div>
+<pre><code>##         
+##          mgmt non-mgmt Sum
+##   Female   10      130 140
+##   Male     25       43  68
+##   Sum      35      173 208</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1">  <span class="kw">prop.table</span>(mytable)</a></code></pre></div>
+<pre><code>##         
+##                mgmt   non-mgmt
+##   Female 0.04807692 0.62500000
+##   Male   0.12019231 0.20673077</code></pre>
+<p>By default, <code>prop.table</code> calulates the relative frequency of each cell. For example, there are 130 employees who are both female and non-mgmt out of a total of 208 employees. The relative frequency of Female + non-mgmt is thus 130/208 = 0.625.</p>
+<p>A more useful measure is this case the <em>row</em> percentages: of the 140 females, what proportion are mangement? And how does that compare to the percentages for the 68 male employees?</p>
+<p>You can tell <code>prop.table</code> to use marginal totals rather than the grand total when calculating proportions. Given the convention that tables are described as rows x columns, we set the value of the <code>margin</code> argument to 1 for row percentages and 2 for column percentages:</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" title="1">  <span class="kw">prop.table</span>(mytable, <span class="dt">margin=</span><span class="dv">1</span>)</a></code></pre></div>
+<pre><code>##         
+##                mgmt   non-mgmt
+##   Female 0.07142857 0.92857143
+##   Male   0.36764706 0.63235294</code></pre>
+<p>The 130 female non-managers out of a marginal total of 140 female employees yields a proportion of females who are non-managers of 0.929. We can make this look a bit more like percentages by multiplying and rounding the resulting table:</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" title="1">  <span class="kw">round</span>(<span class="kw">prop.table</span>(mytable, <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</a></code></pre></div>
+<pre><code>##         
+##          mgmt non-mgmt
+##   Female    7       93
+##   Male     37       63</code></pre>
+<p>This makes it clear that the proportion of females who are managers in the bank is quite different from the proportion of males who are managers. The sum of the percentages in each row is 100%.</p>
+</div>
+</div>
+<div id="contingency-tables" class="section level2">
+<h2><span class="header-section-number">7.3</span> Contingency Tables</h2>
+<p>The built-in table function is R is a good start, but it would be a lot of additional work to use it to do full contingency tables and chi-squared tests of independence. Fortunately, we can use third-party packages to perform specialized analyses. For example, the “gmodels” package provides contingency table functionality that is almost identical to SAS.</p>
+<div id="using-gmodels" class="section level3">
+<h3><span class="header-section-number">7.3.1</span> Using gmodels</h3>
+<p>gmodels is not installed by default so use RStudio’s Packages tab to install the package. The procedure is identical to that used to install the tidyverse packages in the <a href="./data.html">data tutorial</a>.</p>
+</div>
+<div id="using-gmodels-crosstable-command" class="section level3">
+<h3><span class="header-section-number">7.3.2</span> Using gmodel’s CrossTable Command</h3>
+<p>The gmodels has a <code>CrossTable</code> function. A brief explanation of the options I have selected:</p>
+<ol style="list-style-type: decimal">
+<li>As before, the first two variables are my columns containing categorical data</li>
+<li>expected=TRUE creates a chi-squared test of independence</li>
+<li>prop.t=FALSE turns off the cell-level proportions. These are just clutter for my purposes.</li>
+<li>prop.c=FALSE turns off column percentages.</li>
+<li>prop.chisq=FALSE suppresses the contribution to the chi-squared statistic in each cell. Normally I like to show this, but I want to keep things simple for now.</li>
+</ol>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" title="1"><span class="co"># 2-Way Cross Tabulation</span></a>
+<a class="sourceLine" id="cb85-2" title="2"><span class="kw">library</span>(gmodels)</a>
+<a class="sourceLine" id="cb85-3" title="3"><span class="kw">CrossTable</span>(Bank<span class="op">$</span>Gender, Bank<span class="op">$</span>Mgmt.text, <span class="dt">expected=</span><span class="ot">TRUE</span>, <span class="dt">prop.t=</span><span class="ot">FALSE</span>, <span class="dt">prop.c=</span><span class="ot">FALSE</span>, <span class="dt">prop.chisq=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |              Expected N |
+## |           N / Row Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  208 
+## 
+##  
+##              | Bank$Mgmt.text 
+##  Bank$Gender |      mgmt |  non-mgmt | Row Total | 
+## -------------|-----------|-----------|-----------|
+##       Female |        10 |       130 |       140 | 
+##              |    23.558 |   116.442 |           | 
+##              |     0.071 |     0.929 |     0.673 | 
+## -------------|-----------|-----------|-----------|
+##         Male |        25 |        43 |        68 | 
+##              |    11.442 |    56.558 |           | 
+##              |     0.368 |     0.632 |     0.327 | 
+## -------------|-----------|-----------|-----------|
+## Column Total |        35 |       173 |       208 | 
+## -------------|-----------|-----------|-----------|
+## 
+##  
+## Statistics for All Table Factors
+## 
+## 
+## Pearson&#39;s Chi-squared test 
+## ------------------------------------------------------------
+## Chi^2 =  28.69528     d.f. =  1     p =  8.470998e-08 
+## 
+## Pearson&#39;s Chi-squared test with Yates&#39; continuity correction 
+## ------------------------------------------------------------
+## Chi^2 =  26.61778     d.f. =  1     p =  2.479519e-07 
+## 
+## </code></pre>
+<p>To walk through this:
+The legend of the top of the (rather ugly) output tells you what is in each cell:</p>
+<ol style="list-style-type: decimal">
+<li>The <em>observed</em> joint frequency. The data set contains 10 employees who are both Female and Mgmt.</li>
+<li>The <em>expected</em> joint frequency given the assumption of independence. This tell us that if gender and management status are independent, we should expect 23.558 (i.e., 24) employees who are both Female and Mgmt. The fact that the observed frequency is much lower than the expected frequency suggests that they two variables are not independent in the Bank data set.</li>
+<li>The row percentages tell you, for example, how many females (the row) belong to the Mgmt and non-Mgmt classes. In this case, 7.1% of females are managers. If you skip down a row, you see that 37% of males are managers.</li>
+<li>The column percentages are summed in the other direction. They tell you for a particular column (e.g., managers) what proportion are female and male. Here 29% of managers are female and 71% are male.</li>
+</ol>
+<p>You can eyeball this all you want, but the real question is whether there is statistical evidence that Gender and Management Status are NOT independent. The chi-squared independence test at the bottom of the output provides the answer.</p>
+<pre><code># Pearson&#39;s Chi-squared test 
+## ------------------------------------------------------------
+## Chi^2 =  28.7     d.f. =  1     p =  8.471e-08 </code></pre>
+<p>The <em>p</em>-value is very small (10<sup>-8</sup>), which indicates there is a very small probability that the two dimensions are independent. If they are not independent, they must be dependent (associated) in some way. This is a gap.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ttest.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="correlation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

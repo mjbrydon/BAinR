@@ -1,0 +1,190 @@
+# Gap Analysis with Categorical Variables {#categorical}
+
+The focus of this tutorial is on "associations" between two _categorical_ variables. The scenario we will examine is the following:
+
+>Are managerial status and gender at the bank related?
+
+Naturally, we should expect managerial status and gender to be independent---there should be no relationship between the two.  If there is a relationship between the two, we have a gap (a situation that requires managerial attention).
+
+## Categorical Variables
+
+### Preliminaries
+
+The two variables we are interested in (managerial status and gender) are categorical.  We already have a text-based gender variable in the Bank data set.  We can map the ordinal variable `JobGrade` to a binary categorical variable using the procedure described in Lesson \@reg(recode).  I call the new variable "Mgmt.text" in order to indicate that it is a text variable:
+
+
+```r
+library(tidyverse)
+Bank <- read_csv("Data/Bank.csv")
+
+nonmgmt=c(1,2,3,4)
+Bank <- Bank %>% mutate(Mgmt.text = ifelse(JobGrade %in% nonmgmt,"non-mgmt", "mgmt"))
+
+View(Bank)  ## confirm the results
+```
+
+## Tables in R
+
+### Simple Table
+
+R has a built-in table command that creates an _n_ x _m_ "pivot table".  In this case, the table will show the number of employees in each combination of managerial status and gender.  The table command needs to know the two categorical variables (in this case: `Bank$Gender` and `Bank$Mgmt.Text`):
+
+
+```r
+table(Bank$Gender, Bank$Mgmt.text)
+```
+
+```
+##         
+##          mgmt non-mgmt
+##   Female   10      130
+##   Male     25       43
+```
+
+### Frequency Verus Proportions
+The table above provides a good summary of the data, but is not useful for comparison purposes because we have different number of male and female employees.  To assess whether the two variables are independent, we need to look at _proportions_.  The easiest way to do this in R is to assign the table to a new object and use the table object as input to other R functions:
+
+
+```r
+  mytable <- table(Bank$Gender, Bank$Mgmt.text)
+  addmargins(mytable, margin=c(1,2))  ## just to show the marginal frequencies
+```
+
+```
+##         
+##          mgmt non-mgmt Sum
+##   Female   10      130 140
+##   Male     25       43  68
+##   Sum      35      173 208
+```
+
+```r
+  prop.table(mytable)
+```
+
+```
+##         
+##                mgmt   non-mgmt
+##   Female 0.04807692 0.62500000
+##   Male   0.12019231 0.20673077
+```
+
+By default, `prop.table` calulates the relative frequency of each cell.  For example, there are 130 employees who are both female and non-mgmt out of a total of 208 employees.  The relative frequency of Female + non-mgmt is thus 130/208 = 0.625.
+
+A more useful measure is this case the _row_ percentages: of the 140 females, what proportion are mangement?  And how does that compare to the percentages for the 68 male employees?
+
+You can tell `prop.table` to use marginal totals rather than the grand total when calculating proportions.  Given the convention that tables are described as rows x columns, we set the value of the `margin` argument to 1 for row percentages and 2 for column percentages:
+
+
+```r
+  prop.table(mytable, margin=1)
+```
+
+```
+##         
+##                mgmt   non-mgmt
+##   Female 0.07142857 0.92857143
+##   Male   0.36764706 0.63235294
+```
+
+The 130 female non-managers out of a marginal total of 140 female employees yields a proportion of females who are non-managers of 0.929.  We can make this look a bit more like percentages by multiplying and rounding the resulting table:
+
+
+```r
+  round(prop.table(mytable, 1) * 100)
+```
+
+```
+##         
+##          mgmt non-mgmt
+##   Female    7       93
+##   Male     37       63
+```
+
+This makes it clear that the proportion of females who are managers in the bank is quite different from the proportion of males who are managers.  The sum of the percentages in each row is 100%.
+
+## Contingency Tables
+
+The built-in table function is R is a good start, but it would be a lot of additional work to use it to do full contingency tables and chi-squared tests of independence.  Fortunately, we can use third-party packages to perform specialized analyses.  For example, the "gmodels" package provides contingency table functionality that is almost identical to SAS.
+
+### Using gmodels
+gmodels is not installed by default so use RStudio's Packages tab to install the package.  The procedure is identical to that used to install the tidyverse packages in the [data tutorial](./data.html).
+
+### Using gmodel's CrossTable Command
+The gmodels has a `CrossTable` function.  A brief explanation of the options I have selected:
+
+1. As before, the first two variables are my columns containing categorical data
+2. expected=TRUE creates a chi-squared test of independence
+3. prop.t=FALSE turns off the cell-level proportions.  These are just clutter for my purposes.
+4. prop.c=FALSE turns off column percentages. 
+4. prop.chisq=FALSE suppresses the contribution to the chi-squared statistic in each cell.  Normally I like to show this, but I want to keep things simple for now.
+
+
+
+```r
+# 2-Way Cross Tabulation
+library(gmodels)
+CrossTable(Bank$Gender, Bank$Mgmt.text, expected=TRUE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+```
+
+```
+## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |              Expected N |
+## |           N / Row Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  208 
+## 
+##  
+##              | Bank$Mgmt.text 
+##  Bank$Gender |      mgmt |  non-mgmt | Row Total | 
+## -------------|-----------|-----------|-----------|
+##       Female |        10 |       130 |       140 | 
+##              |    23.558 |   116.442 |           | 
+##              |     0.071 |     0.929 |     0.673 | 
+## -------------|-----------|-----------|-----------|
+##         Male |        25 |        43 |        68 | 
+##              |    11.442 |    56.558 |           | 
+##              |     0.368 |     0.632 |     0.327 | 
+## -------------|-----------|-----------|-----------|
+## Column Total |        35 |       173 |       208 | 
+## -------------|-----------|-----------|-----------|
+## 
+##  
+## Statistics for All Table Factors
+## 
+## 
+## Pearson's Chi-squared test 
+## ------------------------------------------------------------
+## Chi^2 =  28.69528     d.f. =  1     p =  8.470998e-08 
+## 
+## Pearson's Chi-squared test with Yates' continuity correction 
+## ------------------------------------------------------------
+## Chi^2 =  26.61778     d.f. =  1     p =  2.479519e-07 
+## 
+## 
+```
+
+To walk through this:
+The legend of the top of the (rather ugly) output tells you what is in each cell:
+
+1. The _observed_ joint frequency.  The data set contains 10 employees who are both Female and Mgmt.
+2. The _expected_ joint frequency given the assumption of independence.  This tell us that if gender and management status are independent, we should expect 23.558 (i.e., 24) employees who are both Female and Mgmt.  The fact that the observed frequency is much lower than the expected frequency suggests that they two variables are not independent in the Bank data set.
+3. The row percentages tell you, for example, how many females (the row) belong to the Mgmt and non-Mgmt classes.  In this case, 7.1% of females are managers.  If you skip down a row, you see that 37% of males are managers.
+4. The column percentages are summed in the other direction.  They tell you for a particular column (e.g., managers) what proportion are female and male.  Here 29% of managers are female and 71% are male.
+
+You can eyeball this all you want, but the real question is whether there is statistical evidence that Gender and Management Status are NOT independent.  The chi-squared independence test at the bottom of the output provides the answer.
+
+```
+# Pearson's Chi-squared test 
+## ------------------------------------------------------------
+## Chi^2 =  28.7     d.f. =  1     p =  8.471e-08 
+```
+
+The _p_-value is very small (10^-8^), which indicates there is a very small probability that the two dimensions are independent.  If they are not independent, they must be dependent (associated) in some way.  This is a gap.
+

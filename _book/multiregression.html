@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lesson 10 Multiple Linear Regression | Basic Analytics in R</title>
+  <meta name="description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lesson 10 Multiple Linear Regression | Basic Analytics in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lesson 10 Multiple Linear Regression | Basic Analytics in R" />
+  
+  <meta name="twitter:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+<meta name="author" content="Michael Brydon" />
+
+
+<meta name="date" content="2020-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="regression.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li>Basic Analytics in R</li>
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#format-of-these-tutorials"><i class="fa fa-check"></i><b>1.1</b> Format of these tutorials</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#a-note-on-flexibility"><i class="fa fa-check"></i><b>1.2</b> A note on flexibility</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-get-started"><i class="fa fa-check"></i><b>1.3</b> How to get started</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#update-for-the-tidyverse"><i class="fa fa-check"></i><b>1.4</b> Update for the Tidyverse</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#a-note-on-python"><i class="fa fa-check"></i><b>1.5</b> A Note on Python</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Importing Data</a><ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>2.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data.html"><a href="data.html#open-an-r-script-file"><i class="fa fa-check"></i><b>2.1.1</b> Open an R script file</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data.html"><a href="data.html#executing-code"><i class="fa fa-check"></i><b>2.1.2</b> Executing code</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data.html"><a href="data.html#load-the-tidyverse-package-into-r"><i class="fa fa-check"></i><b>2.1.3</b> Load the tidyverse package into R</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data.html"><a href="data.html#assigning-objects-to-variables"><i class="fa fa-check"></i><b>2.1.4</b> Assigning objects to variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#data-frames-and-tibbles"><i class="fa fa-check"></i><b>2.2</b> Data frames and tibbles</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data.html"><a href="data.html#reading-a-csv-file"><i class="fa fa-check"></i><b>2.2.1</b> Reading a CSV file</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data.html"><a href="data.html#reading-an-excel-file"><i class="fa fa-check"></i><b>2.2.2</b> Reading an Excel file</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data.html"><a href="data.html#using-your-data"><i class="fa fa-check"></i><b>2.3</b> Using your data</a></li>
+<li class="chapter" data-level="2.4" data-path="data.html"><a href="data.html#factors-versus-character-data"><i class="fa fa-check"></i><b>2.4</b> Factors versus character data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualize.html"><a href="visualize.html"><i class="fa fa-check"></i><b>3</b> Basic Visualization</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualize.html"><a href="visualize.html#preliminaries-1"><i class="fa fa-check"></i><b>3.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualize.html"><a href="visualize.html#import-the-data-into-r-studio"><i class="fa fa-check"></i><b>3.1.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="3.1.2" data-path="visualize.html"><a href="visualize.html#use-variables-to-save-typing"><i class="fa fa-check"></i><b>3.1.2</b> Use variables to save typing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="visualize.html"><a href="visualize.html#basic-descriptive-statistics"><i class="fa fa-check"></i><b>3.1.3</b> Basic descriptive statistics</a></li>
+<li class="chapter" data-level="3.1.4" data-path="visualize.html"><a href="visualize.html#r-as-a-calculator"><i class="fa fa-check"></i><b>3.1.4</b> R as a calculator</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualize.html"><a href="visualize.html#histograms"><i class="fa fa-check"></i><b>3.2</b> Histograms</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualize.html"><a href="visualize.html#basic-formatting"><i class="fa fa-check"></i><b>3.2.1</b> Basic formatting</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualize.html"><a href="visualize.html#getting-help"><i class="fa fa-check"></i><b>3.2.2</b> Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualize.html"><a href="visualize.html#going-beyond"><i class="fa fa-check"></i><b>3.3</b> Going beyond</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualize.html"><a href="visualize.html#density-instead-of-frequency"><i class="fa fa-check"></i><b>3.3.1</b> Density instead of frequency</a></li>
+<li class="chapter" data-level="3.3.2" data-path="visualize.html"><a href="visualize.html#adding-a-kernel-density-line"><i class="fa fa-check"></i><b>3.3.2</b> Adding a kernel density line</a></li>
+<li class="chapter" data-level="3.3.3" data-path="visualize.html"><a href="visualize.html#adding-a-rug"><i class="fa fa-check"></i><b>3.3.3</b> Adding a rug</a></li>
+<li class="chapter" data-level="3.3.4" data-path="visualize.html"><a href="visualize.html#relative-frequency-more-advanced"><i class="fa fa-check"></i><b>3.3.4</b> Relative frequency (more advanced)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualize.html"><a href="visualize.html#using-ggplot"><i class="fa fa-check"></i><b>3.4</b> Using ggplot</a></li>
+<li class="chapter" data-level="3.5" data-path="visualize.html"><a href="visualize.html#creating-a-box-plot"><i class="fa fa-check"></i><b>3.5</b> Creating a box plot</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="filter.html"><a href="filter.html"><i class="fa fa-check"></i><b>4</b> Filtering Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="filter.html"><a href="filter.html#preliminaries-2"><i class="fa fa-check"></i><b>4.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="filter.html"><a href="filter.html#import-data"><i class="fa fa-check"></i><b>4.1.1</b> Import data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="filter.html"><a href="filter.html#filters"><i class="fa fa-check"></i><b>4.2</b> Filters</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="filter.html"><a href="filter.html#using-a-logical-critereon"><i class="fa fa-check"></i><b>4.2.1</b> Using a logical critereon</a></li>
+<li class="chapter" data-level="4.2.2" data-path="filter.html"><a href="filter.html#filtering-using-a-list"><i class="fa fa-check"></i><b>4.2.2</b> Filtering Using a List</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="filter.html"><a href="filter.html#syntatic-sugar"><i class="fa fa-check"></i><b>4.3</b> Syntatic sugar</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="filter.html"><a href="filter.html#membership"><i class="fa fa-check"></i><b>4.3.1</b> Membership</a></li>
+<li class="chapter" data-level="4.3.2" data-path="filter.html"><a href="filter.html#pipes"><i class="fa fa-check"></i><b>4.3.2</b> Pipes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recode.html"><a href="recode.html"><i class="fa fa-check"></i><b>5</b> Recoding Data</a><ul>
+<li class="chapter" data-level="5.1" data-path="recode.html"><a href="recode.html#preliminaries-3"><i class="fa fa-check"></i><b>5.1</b> Preliminaries</a></li>
+<li class="chapter" data-level="5.2" data-path="recode.html"><a href="recode.html#recode-a-text-column-to-a-dummy"><i class="fa fa-check"></i><b>5.2</b> Recode a Text Column to a Dummy</a></li>
+<li class="chapter" data-level="5.3" data-path="recode.html"><a href="recode.html#recode-according-to-list-membership"><i class="fa fa-check"></i><b>5.3</b> Recode According to List Membership</a></li>
+<li class="chapter" data-level="5.4" data-path="recode.html"><a href="recode.html#using-the-tidyverse"><i class="fa fa-check"></i><b>5.4</b> Using the tidyverse</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="recode.html"><a href="recode.html#mutate-basics"><i class="fa fa-check"></i><b>5.4.1</b> Mutate basics</a></li>
+<li class="chapter" data-level="5.4.2" data-path="recode.html"><a href="recode.html#recoding-categorical-data"><i class="fa fa-check"></i><b>5.4.2</b> Recoding categorical data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ttest.html"><a href="ttest.html"><i class="fa fa-check"></i><b>6</b> Gap Analysis Using t-Tests</a><ul>
+<li class="chapter" data-level="6.1" data-path="ttest.html"><a href="ttest.html#import-the-data-into-r-studio-1"><i class="fa fa-check"></i><b>6.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="6.2" data-path="ttest.html"><a href="ttest.html#visual-gap-analysis"><i class="fa fa-check"></i><b>6.2</b> Visual gap analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="ttest.html"><a href="ttest.html#boxplots-in-ggplot"><i class="fa fa-check"></i><b>6.2.1</b> Boxplots in ggplot</a></li>
+<li class="chapter" data-level="6.2.2" data-path="ttest.html"><a href="ttest.html#boxplots-in-base-r-and-formula-notation"><i class="fa fa-check"></i><b>6.2.2</b> Boxplots in base R (and formula notation)</a></li>
+<li class="chapter" data-level="6.2.3" data-path="ttest.html"><a href="ttest.html#histograms-1"><i class="fa fa-check"></i><b>6.2.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="ttest.html"><a href="ttest.html#t-test"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-test</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="ttest.html"><a href="ttest.html#columns-or-formulas"><i class="fa fa-check"></i><b>6.3.1</b> Columns or formulas?</a></li>
+<li class="chapter" data-level="6.3.2" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-columns"><i class="fa fa-check"></i><b>6.3.2</b> Equality of variance test (columns)</a></li>
+<li class="chapter" data-level="6.3.3" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-pivoted-columns"><i class="fa fa-check"></i><b>6.3.3</b> Equality of variance test (pivoted columns)</a></li>
+<li class="chapter" data-level="6.3.4" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-formula"><i class="fa fa-check"></i><b>6.3.4</b> Equality of variance test (formula)</a></li>
+<li class="chapter" data-level="6.3.5" data-path="ttest.html"><a href="ttest.html#unequal-variance-t-test"><i class="fa fa-check"></i><b>6.3.5</b> Unequal variance <em>t</em>-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="categorical.html"><a href="categorical.html"><i class="fa fa-check"></i><b>7</b> Gap Analysis with Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1" data-path="categorical.html"><a href="categorical.html#categorical-variables"><i class="fa fa-check"></i><b>7.1</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="categorical.html"><a href="categorical.html#preliminaries-4"><i class="fa fa-check"></i><b>7.1.1</b> Preliminaries</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="categorical.html"><a href="categorical.html#tables-in-r"><i class="fa fa-check"></i><b>7.2</b> Tables in R</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="categorical.html"><a href="categorical.html#simple-table"><i class="fa fa-check"></i><b>7.2.1</b> Simple Table</a></li>
+<li class="chapter" data-level="7.2.2" data-path="categorical.html"><a href="categorical.html#frequency-verus-proportions"><i class="fa fa-check"></i><b>7.2.2</b> Frequency Verus Proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="categorical.html"><a href="categorical.html#contingency-tables"><i class="fa fa-check"></i><b>7.3</b> Contingency Tables</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="categorical.html"><a href="categorical.html#using-gmodels"><i class="fa fa-check"></i><b>7.3.1</b> Using gmodels</a></li>
+<li class="chapter" data-level="7.3.2" data-path="categorical.html"><a href="categorical.html#using-gmodels-crosstable-command"><i class="fa fa-check"></i><b>7.3.2</b> Using gmodel’s CrossTable Command</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>8</b> Correlation and Scatterplots</a><ul>
+<li class="chapter" data-level="8.1" data-path="correlation.html"><a href="correlation.html#data-1"><i class="fa fa-check"></i><b>8.1</b> Data</a></li>
+<li class="chapter" data-level="8.2" data-path="correlation.html"><a href="correlation.html#scatterplots"><i class="fa fa-check"></i><b>8.2</b> Scatterplots</a></li>
+<li class="chapter" data-level="8.3" data-path="correlation.html"><a href="correlation.html#coefficient-of-correlation"><i class="fa fa-check"></i><b>8.3</b> Coefficient of correlation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="correlation.html"><a href="correlation.html#simple-correlation"><i class="fa fa-check"></i><b>8.3.1</b> Simple correlation</a></li>
+<li class="chapter" data-level="8.3.2" data-path="correlation.html"><a href="correlation.html#correlation-matrix"><i class="fa fa-check"></i><b>8.3.2</b> Correlation matrix</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#linear-regression"><i class="fa fa-check"></i><b>9.1</b> Linear Regression</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="regression.html"><a href="regression.html#review-of-the-basics"><i class="fa fa-check"></i><b>9.1.1</b> Review of the basics</a></li>
+<li class="chapter" data-level="9.1.2" data-path="regression.html"><a href="regression.html#formula-notation"><i class="fa fa-check"></i><b>9.1.2</b> Formula notation</a></li>
+<li class="chapter" data-level="9.1.3" data-path="regression.html"><a href="regression.html#model-quality-and-statistical-significance"><i class="fa fa-check"></i><b>9.1.3</b> Model quality and statistical significance</a></li>
+<li class="chapter" data-level="9.1.4" data-path="regression.html"><a href="regression.html#interpretation"><i class="fa fa-check"></i><b>9.1.4</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#regression-diagnostics"><i class="fa fa-check"></i><b>9.2</b> Regression diagnostics</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regression.html"><a href="regression.html#plots-in-base-r"><i class="fa fa-check"></i><b>9.2.1</b> Plots in base R</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regression.html"><a href="regression.html#ggplot-data"><i class="fa fa-check"></i><b>9.2.2</b> ggplot data</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regression.html"><a href="regression.html#ggplot-histogram"><i class="fa fa-check"></i><b>9.2.3</b> ggplot histogram</a></li>
+<li class="chapter" data-level="9.2.4" data-path="regression.html"><a href="regression.html#ggplot-predicted-versus-actuals"><i class="fa fa-check"></i><b>9.2.4</b> ggplot predicted versus actuals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="multiregression.html"><a href="multiregression.html"><i class="fa fa-check"></i><b>10</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="10.1" data-path="multiregression.html"><a href="multiregression.html#kitchen-sink-model"><i class="fa fa-check"></i><b>10.1</b> Kitchen sink model</a></li>
+<li class="chapter" data-level="10.2" data-path="multiregression.html"><a href="multiregression.html#categorical-explanatory-variables"><i class="fa fa-check"></i><b>10.2</b> Categorical explanatory variables</a></li>
+<li class="chapter" data-level="10.3" data-path="multiregression.html"><a href="multiregression.html#checking-for-colinearity"><i class="fa fa-check"></i><b>10.3</b> Checking for colinearity</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="multiregression.html"><a href="multiregression.html#scatterplot-matrix"><i class="fa fa-check"></i><b>10.3.1</b> Scatterplot matrix</a></li>
+<li class="chapter" data-level="10.3.2" data-path="multiregression.html"><a href="multiregression.html#correlation-matrix-1"><i class="fa fa-check"></i><b>10.3.2</b> Correlation matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="multiregression.html"><a href="multiregression.html#model-refinement"><i class="fa fa-check"></i><b>10.4</b> Model refinement</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="multiregression.html"><a href="multiregression.html#manual-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.1</b> Manual stepwise refinement</a></li>
+<li class="chapter" data-level="10.4.2" data-path="multiregression.html"><a href="multiregression.html#automated-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.2</b> Automated stepwise refinement</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="multiregression.html"><a href="multiregression.html#regression-diagnostics-1"><i class="fa fa-check"></i><b>10.5</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="10.6" data-path="multiregression.html"><a href="multiregression.html#standardized-regression-coefficients"><i class="fa fa-check"></i><b>10.6</b> Standardized regression coefficients</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="multiregression.html"><a href="multiregression.html#extracting-betas"><i class="fa fa-check"></i><b>10.6.1</b> Extracting betas</a></li>
+<li class="chapter" data-level="10.6.2" data-path="multiregression.html"><a href="multiregression.html#tornado-diagram"><i class="fa fa-check"></i><b>10.6.2</b> Tornado diagram</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Basic Analytics in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multiregression" class="section level1">
+<h1><span class="header-section-number">Lesson 10</span> Multiple Linear Regression</h1>
+<p>The purpose of this tutorial is to continue our exploration of regression by constructing linear models with two or more explanatory variables. This is an extension of Lesson <a href="regression.html#regression">9</a>.</p>
+<div id="kitchen-sink-model" class="section level2">
+<h2><span class="header-section-number">10.1</span> Kitchen sink model</h2>
+<p>We can extend the <code>lm(y~x)</code> function to construct a more complicated “formula” for the multi-dimensional model: <code>lm(y ~ x1 + x2 + ... + xn )</code>. This tells R to find the best model in which the response variable <code>y</code> is a linear function of a set of explanatory variables x1, x2, and so on.</p>
+<p>I will start with a model I call “model.ks” (to denote an “everything including the kitchen sink” approach to variable selection). Note that I do not include AirEntrain in this model because it is categorical:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" title="1">model.ks &lt;-<span class="st"> </span><span class="kw">lm</span>(Strength <span class="op">~</span><span class="st"> </span>No <span class="op">+</span><span class="st"> </span>Cement <span class="op">+</span><span class="st"> </span>Slag <span class="op">+</span><span class="st"> </span>Water <span class="op">+</span><span class="st"> </span>CoarseAgg <span class="op">+</span><span class="st"> </span>FlyAsh <span class="op">+</span><span class="st"> </span>SP <span class="op">+</span><span class="st"> </span>FineAgg, <span class="dt">data=</span>Con)</a>
+<a class="sourceLine" id="cb116-2" title="2"><span class="kw">summary</span>(model.ks)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Strength ~ No + Cement + Slag + Water + CoarseAgg + 
+##     FlyAsh + SP + FineAgg, data = Con)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -10.307  -2.831   0.502   2.806   8.577 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) 115.283443 142.786273   0.807    0.421  
+## No           -0.007705   0.020713  -0.372    0.711  
+## Cement        0.082580   0.046976   1.758    0.082 .
+## Slag         -0.022513   0.065139  -0.346    0.730  
+## Water        -0.216471   0.142461  -1.520    0.132  
+## CoarseAgg    -0.047911   0.055876  -0.857    0.393  
+## FlyAsh        0.066842   0.048425   1.380    0.171  
+## SP            0.251812   0.213277   1.181    0.241  
+## FineAgg      -0.035626   0.057300  -0.622    0.536  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.01 on 94 degrees of freedom
+## Multiple R-squared:  0.8271, Adjusted R-squared:  0.8124 
+## F-statistic: 56.21 on 8 and 94 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>As we should expect, this result is identical to the kitchen sink model in Excel (R<sup>2</sup> = 0.8271).</p>
+</div>
+<div id="categorical-explanatory-variables" class="section level2">
+<h2><span class="header-section-number">10.2</span> Categorical explanatory variables</h2>
+<p>Recall the “air entrainment” variable in the concrete data set:</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" title="1"><span class="kw">summary</span>(Con<span class="op">$</span>AirEntrain)</a></code></pre></div>
+<pre><code>##    Length     Class      Mode 
+##       103 character character</code></pre>
+<p>AirEntrain is a categorical (yes/no) variable and cannot be used in regression without transforming it to a numerical {0,1} dummy/indicator variable. We can use our recoding skills from Lesson <a href="recode.html#recode">5</a> to do this manually, or (as you will see below), we can let R take care of dummy coding for us.</p>
+<p>Before we do this, recall the discussion in Lesson <a href="data.html#data">2</a> about the difference between character variables and <em>factors</em>. We want to treat AirEntrain as a factor (categorical variable) with a finite set of values. Since the tidyverse does not automatically convert character variables to factors, we must do it explicitly. Below I use the dplyr <code>mutate</code> function to replace AirEntrain with the factor version:</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" title="1">Con &lt;-<span class="st"> </span>Con <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">AirEntrain =</span> <span class="kw">as_factor</span>(AirEntrain))</a>
+<a class="sourceLine" id="cb120-2" title="2"><span class="kw">summary</span>(Con<span class="op">$</span>AirEntrain)</a></code></pre></div>
+<pre><code>##  No Yes 
+##  56  47</code></pre>
+<p>Now that AirEntrain is a factor, I can include it in the regression and R will take care of recoding it as a dummy variable:</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" title="1">model.ks &lt;-<span class="st"> </span><span class="kw">lm</span>(Strength <span class="op">~</span><span class="st"> </span>No <span class="op">+</span><span class="st"> </span>Cement <span class="op">+</span><span class="st"> </span>Slag <span class="op">+</span><span class="st"> </span>Water <span class="op">+</span><span class="st"> </span>CoarseAgg <span class="op">+</span><span class="st"> </span>FlyAsh <span class="op">+</span><span class="st"> </span>SP <span class="op">+</span><span class="st"> </span>FineAgg <span class="op">+</span><span class="st"> </span>AirEntrain, <span class="dt">data=</span>Con)</a>
+<a class="sourceLine" id="cb122-2" title="2"><span class="kw">summary</span>(model.ks)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Strength ~ No + Cement + Slag + Water + CoarseAgg + 
+##     FlyAsh + SP + FineAgg + AirEntrain, data = Con)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.188 -1.548 -0.017  1.277  7.975 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   41.500508  95.616675   0.434  0.66527    
+## No            -0.017346   0.013864  -1.251  0.21401    
+## Cement         0.096195   0.031403   3.063  0.00286 ** 
+## Slag           0.015681   0.043652   0.359  0.72023    
+## Water         -0.138011   0.095431  -1.446  0.15149    
+## CoarseAgg     -0.016038   0.037438  -0.428  0.66935    
+## FlyAsh         0.086950   0.032399   2.684  0.00862 ** 
+## SP             0.190158   0.142572   1.334  0.18554    
+## FineAgg       -0.002053   0.038399  -0.053  0.95748    
+## AirEntrainYes -6.068252   0.559372 -10.848  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.679 on 93 degrees of freedom
+## Multiple R-squared:  0.9237, Adjusted R-squared:  0.9163 
+## F-statistic: 125.1 on 9 and 93 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>You can see in the table of coefficients that a new variable called “AirEntrainYes” has been added to the model automatically. R adds the “Yes” suffix to remind us that the original values of AirEntrain have been mapped to “Yes” = 1. There is no “AirEntrainNo” variable because “No” has been selected as the base-case (when AirEntrainYes = 0).</p>
+<p>We can isolate AirEntrain and show this visually:</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data=</span>Con <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">AirEntrainDummy =</span> <span class="kw">if_else</span>(AirEntrain<span class="op">==</span><span class="st">&quot;Yes&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb124-2" title="2">       , <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>AirEntrainDummy, <span class="dt">y=</span>Strength)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb124-3" title="3"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb124-4" title="4"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span>lm,  <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">se=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="10_multiple_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Here, I have had to manually create a temporary AirEntrainDummy variable in order to get the regression line to plot correctly. But you can see the basic idea: Each measure of concrete strength falls on either the AirEntrainDummy = 0 or the AirEntrainDummy = 1 tick mark. It turns out that the mean of the points at AirEntrainDummy = 0 is higher than then mean of the points at AirEntrainDummy = 1. As such, the best-fit line slopes downwards. This is what the negative coefficient for the AirEntrainYes variable tells us: adding air leads to an average <em>decrease</em> in strength of -6.068252.</p>
+<p>To summarize categorical variables:</p>
+<ol style="list-style-type: decimal">
+<li>You should convert categorical variables to factors.</li>
+<li>If you want fine-grained controlled over base-cases and the naming of dummy variables, you should create your dummy variables manually (see the <code>if_else</code> example above).</li>
+<li>Alternatively, you can let R create <em>n</em>-1 dummy variables for you automatically, where <em>n</em> is the number of “levels” (or unique values) of the source factor.</li>
+</ol>
+<p>You will likely find approach (2) to be the most useful in practice because, in many cases, you will want to change the granularity of your categorical variables. A regression equation with a zillion dummy variables in it is hard to read and has little generalizable business value.</p>
+<p>For example, instead of having a factor “city” with many different levels/values {West Vancouver, North Vancouver, Chilliwack, Kelowna, Prince George, …}, it might be better to group cities by region {North, Metro Vancouver, Interior, …}. This is what I mean by changing granularity.</p>
+</div>
+<div id="checking-for-colinearity" class="section level2">
+<h2><span class="header-section-number">10.3</span> Checking for colinearity</h2>
+<div id="scatterplot-matrix" class="section level3">
+<h3><span class="header-section-number">10.3.1</span> Scatterplot matrix</h3>
+<p>Recall that we use SAS’s scatterplot matrix feature to quickly scan for pairs of explanatory variables that might be colinear. To do this in R we must first make sure we limit our data frame to numerical variables (the regression function creates dummies automatically, but AirEntrain remains a categorical variable). To do this, I use dplyr’s <code>select_if</code> function. It only returns columns for which a logical condition is true. R’s <code>is.numeric</code> function returns TRUE if the column is numeric.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" title="1">Con <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select_if</span>(is.numeric) <span class="op">%&gt;%</span><span class="st"> </span>head  <span class="co">## demonstrate the use of the select_if filter</span></a></code></pre></div>
+<pre><code>## # A tibble: 6 x 9
+##      No Cement  Slag FlyAsh Water    SP CoarseAgg FineAgg Strength
+##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+## 1     1    273    82    105   210     9       904     680     35.0
+## 2     2    163   149    191   180    12       843     746     32.3
+## 3     3    162   148    191   179    16       840     743     35.4
+## 4     4    162   148    190   179    19       838     741     42.1
+## 5     5    154   112    144   220    10       923     658     26.8
+## 6     6    147    89    115   202     9       860     829     18.1</code></pre>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" title="1"><span class="kw">pairs</span>(Con <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select_if</span>(is.numeric))</a></code></pre></div>
+<p><img src="10_multiple_regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="correlation-matrix-1" class="section level3">
+<h3><span class="header-section-number">10.3.2</span> Correlation matrix</h3>
+<p>Unfortunately, scatterplot matrices can be hard to read if you have too many variables. You can generate a simple correlation matrix instead and scan for high correlations (close to -1 or +1). It is not as visual, but it works. I pipe the results though the <code>round</code> function to make the matrix more readable:</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" title="1"><span class="kw">cor</span>(Con <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select_if</span>(is.numeric)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">2</span>)</a></code></pre></div>
+<pre><code>##              No Cement  Slag FlyAsh Water    SP CoarseAgg FineAgg Strength
+## No         1.00  -0.03 -0.08   0.34 -0.14 -0.33      0.22   -0.31     0.19
+## Cement    -0.03   1.00 -0.24  -0.49  0.22 -0.11     -0.31    0.06     0.46
+## Slag      -0.08  -0.24  1.00  -0.32 -0.03  0.31     -0.22   -0.18    -0.33
+## FlyAsh     0.34  -0.49 -0.32   1.00 -0.24 -0.14      0.17   -0.28     0.41
+## Water     -0.14   0.22 -0.03  -0.24  1.00 -0.16     -0.60    0.11    -0.22
+## SP        -0.33  -0.11  0.31  -0.14 -0.16  1.00     -0.10    0.06    -0.02
+## CoarseAgg  0.22  -0.31 -0.22   0.17 -0.60 -0.10      1.00   -0.49    -0.15
+## FineAgg   -0.31   0.06 -0.18  -0.28  0.11  0.06     -0.49    1.00    -0.17
+## Strength   0.19   0.46 -0.33   0.41 -0.22 -0.02     -0.15   -0.17     1.00</code></pre>
+</div>
+</div>
+<div id="model-refinement" class="section level2">
+<h2><span class="header-section-number">10.4</span> Model refinement</h2>
+<div id="manual-stepwise-refinement" class="section level3">
+<h3><span class="header-section-number">10.4.1</span> Manual stepwise refinement</h3>
+<p>As in Excel, we can manually remove explanatory variables one-by-one until we have a model in which all the explanatory variables are significant. This is the essence of data-driven (versus theory driven) model refinement.</p>
+<p>The heuristic we used in Excel for refinement is to remove the variable with the highest <em>p</em>-value (meaning that its slope has the highest probability of being zero). In model.ks, we could start by removing fine aggregates because its <em>p</em>-value is 0.95748. We then re-run the model and determine if we still have any non-significant coefficients.</p>
+<p>This iterative process is somewhat easier in R than Excel because we simply cut-and-paste the equation, delete a variable name, and re-run the <code>lm()</code> function.</p>
+</div>
+<div id="automated-stepwise-refinement" class="section level3">
+<h3><span class="header-section-number">10.4.2</span> Automated stepwise refinement</h3>
+<p>Like SAS, R has several approaches to automatic model refinement. By default the <code>step</code> function uses a bi-directional AIC-based heuristic (that is, it removes and adds variables based on values of the Akaike information criterion). It is conceptually similar to the Mallows Cp-based heuristic favored by the SAS elearning materials. We do not need to understand these heuristics in depth to use them. However, we should appreciate that different algorithms may yield slightly different final models.</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" title="1">model.step &lt;-<span class="st"> </span><span class="kw">step</span>(model.ks)</a></code></pre></div>
+<pre><code>## Start:  AIC=212.45
+## Strength ~ No + Cement + Slag + Water + CoarseAgg + FlyAsh + 
+##     SP + FineAgg + AirEntrain
+## 
+##              Df Sum of Sq     RSS    AIC
+## - FineAgg     1      0.02  667.28 210.45
+## - Slag        1      0.93  668.18 210.59
+## - CoarseAgg   1      1.32  668.57 210.65
+## - No          1     11.23  678.49 212.17
+## - SP          1     12.76  680.02 212.40
+## &lt;none&gt;                     667.26 212.45
+## - Water       1     15.01  682.26 212.74
+## - FlyAsh      1     51.68  718.93 218.13
+## - Cement      1     67.33  734.58 220.35
+## - AirEntrain  1    844.38 1511.63 294.68
+## 
+## Step:  AIC=210.45
+## Strength ~ No + Cement + Slag + Water + CoarseAgg + FlyAsh + 
+##     SP + AirEntrain
+## 
+##              Df Sum of Sq     RSS    AIC
+## &lt;none&gt;                     667.28 210.45
+## - No          1     19.89  687.17 211.48
+## - SP          1     22.76  690.04 211.91
+## - Slag        1     56.43  723.71 216.81
+## - CoarseAgg   1     62.38  729.66 217.66
+## - Water       1    360.96 1028.24 252.99
+## - AirEntrain  1    850.57 1517.85 293.10
+## - FlyAsh      1   2141.06 2808.33 356.48
+## - Cement      1   2318.00 2985.28 362.77</code></pre>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" title="1"><span class="kw">summary</span>(model.step)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Strength ~ No + Cement + Slag + Water + CoarseAgg + 
+##     FlyAsh + SP + AirEntrain, data = Con)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.1972 -1.5293 -0.0321  1.2833  7.9801 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   36.409657   8.674414   4.197 6.13e-05 ***
+## No            -0.017817   0.010643  -1.674  0.09744 .  
+## Cement         0.097848   0.005415  18.070  &lt; 2e-16 ***
+## Slag           0.017990   0.006381   2.819  0.00587 ** 
+## Water         -0.133008   0.018652  -7.131 2.03e-10 ***
+## CoarseAgg     -0.014053   0.004741  -2.964  0.00384 ** 
+## FlyAsh         0.088660   0.005105  17.367  &lt; 2e-16 ***
+## SP             0.195040   0.108925   1.791  0.07658 .  
+## AirEntrainYes -6.070662   0.554587 -10.946  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.664 on 94 degrees of freedom
+## Multiple R-squared:  0.9237, Adjusted R-squared:  0.9172 
+## F-statistic: 142.2 on 8 and 94 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>As one might expect, the <em>adjusted</em> R<sup>2</sup> has gone up slightly relative to the kitchen sink model.</p>
+</div>
+</div>
+<div id="regression-diagnostics-1" class="section level2">
+<h2><span class="header-section-number">10.5</span> Regression diagnostics</h2>
+<p>Finally, we should examine the residuals and overall fit for the refined model:</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" title="1"><span class="kw">hist</span>(<span class="kw">resid</span>(model.step))</a></code></pre></div>
+<p><img src="10_multiple_regression_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" title="1"><span class="kw">boxplot</span>(<span class="kw">resid</span>(model.step), <span class="dt">horizontal=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="10_multiple_regression_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" title="1"><span class="kw">qqnorm</span>(<span class="kw">resid</span>(model.step))</a>
+<a class="sourceLine" id="cb136-2" title="2"><span class="kw">qqline</span>(<span class="kw">resid</span>(model.step))</a></code></pre></div>
+<p><img src="10_multiple_regression_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" title="1"><span class="kw">plot</span>(<span class="kw">fitted</span>(model.step), Con<span class="op">$</span>Strength, <span class="dt">xlab=</span><span class="st">&quot;predicted value&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;observed value&quot;</span>)</a>
+<a class="sourceLine" id="cb137-2" title="2">  <span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="10_multiple_regression_files/figure-html/unnamed-chunk-10-4.png" width="672" /></p>
+</div>
+<div id="standardized-regression-coefficients" class="section level2">
+<h2><span class="header-section-number">10.6</span> Standardized regression coefficients</h2>
+<p>Recall the interpretation of the coefficients: “A one unit change in variable <span class="math inline">\(X_i\)</span> is associated with a <span class="math inline">\(\beta_i\)</span> change in the response variable.” So here, a one unit change in Cement is associated with a 0.097848 change in Strength. Whether 0.097848 is big or small depends critically on the units used for the Cement variable. If the “one unit change” is measured in grams, then 0.097848 is likely a large effect. In contrast, if a one unit change is measured in metric tonnes, then the effect on strength is much smaller.</p>
+<p>The bottom line is this: You cannot meaningfully compare the size of the regression coefficients to assess the <em>most important</em> effect—it is an apples-and-oranges comparison. <em>Standardized</em> regression coefficients are a different matter. A standardized regression coefficient is created by transforming all variables in the model to have a mean of zero and a standard deviation of 1.0. This allows the standardized coefficients to be interpreted as follows: “A one standard deviation change in variable <span class="math inline">\(X_i\)</span> is associated with a <span class="math inline">\(\beta_i\)</span> standard deviation change in the response variable”. All this talk of “standard deviation changes” means units do not matter. Standardized regression coefficients are difficult to translate into business terms, but they are directly comparable. This allows you to determine which variables in your final model are really driving the variation in your response variable.</p>
+<div id="extracting-betas" class="section level3">
+<h3><span class="header-section-number">10.6.1</span> Extracting betas</h3>
+<p>I have been sloppy with notation in these tutorials: I have used <span class="math inline">\(\beta_i\)</span> to denote regression coefficients when I should have used <span class="math inline">\(B\)</span>. Traditionally, the Greek <span class="math inline">\(\beta\)</span> is used to denote the <em>standardized</em> coefficient. For this reason, the package that supplies standardized coefficients is called <code>lm.beta</code>. The package is not part of base R, but is found in the “QuantPsyc” library. You must install this library in RStudio before loading the library (recall the package installation instructions in the <a href="./data.html">data</a> tutorial.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1"><span class="kw">library</span>(QuantPsyc)</a>
+<a class="sourceLine" id="cb138-2" title="2">model.std &lt;-<span class="st"> </span><span class="kw">lm.beta</span>(model.step)</a>
+<a class="sourceLine" id="cb138-3" title="3">model.std  <span class="co">## show the vector of results</span></a></code></pre></div>
+<pre><code>##            No        Cement          Slag         Water     CoarseAgg 
+##   -0.05749766    0.83361908    0.11748155   -0.29031355   -0.13416672 
+##        FlyAsh            SP AirEntrainYes 
+##    0.81797381    0.05914383   -0.32818794</code></pre>
+</div>
+<div id="tornado-diagram" class="section level3">
+<h3><span class="header-section-number">10.6.2</span> Tornado diagram</h3>
+<p>A good way to visualize standardized coefficients is as a sorted bar chart known as a tornado diagram:</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" title="1"><span class="kw">library</span>(broom)  <span class="co">## needed for tidy call</span></a>
+<a class="sourceLine" id="cb140-2" title="2"><span class="kw">tidy</span>(model.std) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb140-3" title="3"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">reorder</span>(names, <span class="kw">abs</span>(x)), <span class="dt">y=</span>x)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb140-4" title="4"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb140-5" title="5"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Standardized Coefficient&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb140-6" title="6"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
+<p><img src="10_multiple_regression_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Here I have to first convert the vector of results into a tibble before piping to ggplot. The <code>reorder</code> call sorts the x-axis (variable names) according to absolute value of their standardized coefficient. The result resembles a tornado (hence the name). It is easy to tell at a glance that both Cement and FlyAsh have a large positive impact on Strength, whereas Water and AirEntrain have a less important negative impact (i.e., more water leads to lower strength). Note that this tornado does not show the statistical significance of the coefficients. We assume after refining our model using the <code>step</code> function that all the coefficients are significant (or at least worth keeping). The tornado diagram shows the relative size of the effect, which is critical to understanding root causes.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

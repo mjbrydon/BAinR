@@ -1,0 +1,147 @@
+# Multiple Linear Regression {#multiregression}
+
+The purpose of this tutorial is to continue our exploration of regression by constructing linear models with two or more explanatory variables. This is an extension of Lesson \@ref(regression).
+
+```{r echo=FALSE, include=FALSE}
+library(tidyverse)
+Con <- read_csv("Data/ConcreteStrength.csv")
+## rename some columns to make them easier to use in R
+Con <- Con %>% dplyr::rename(Strength = "Compressive Strength (28-day)(Mpa)",
+       FlyAsh = "Fly ash",
+       CoarseAgg = "Coarse Aggr.",
+       FineAgg = "Fine Aggr.",
+       AirEntrain = "Air Entrainment")
+```
+
+## Kitchen sink model
+We can extend the `lm(y~x)` function to construct a more complicated "formula" for the multi-dimensional model: `lm(y ~ x1 + x2 + ... + xn )`.  This tells R to find the best model in which the response variable `y` is a linear function of a set of explanatory variables x1, x2, and so on.
+
+I will start with a model I call "model.ks" (to denote an "everything including the kitchen sink" approach to variable selection).  Note that I do not include AirEntrain in this model because it is categorical:
+
+```{r}
+model.ks <- lm(Strength ~ No + Cement + Slag + Water + CoarseAgg + FlyAsh + SP + FineAgg, data=Con)
+summary(model.ks)
+```
+
+As we should expect, this result is identical to the kitchen sink model in Excel (R^2^ = 0.8271).
+
+## Categorical explanatory variables
+Recall the "air entrainment" variable in the concrete data set:
+
+```{r}
+summary(Con$AirEntrain)
+```
+
+AirEntrain is a categorical (yes/no) variable and cannot be used in regression without transforming it to a numerical {0,1} dummy/indicator variable.  We can use our recoding skills from Lesson \@ref(recode) to do this manually, or (as you will see below), we can let R take care of dummy coding for us.
+
+Before we do this, recall the discussion in Lesson \@ref(data) about the difference between character variables and _factors_.  We want to treat AirEntrain as a factor (categorical variable) with a finite set of values.  Since the tidyverse does not automatically convert character variables to factors, we must do it explicitly.  Below I use the dplyr `mutate` function to replace AirEntrain with the factor version:
+
+```{r}
+Con <- Con %>% mutate(AirEntrain = as_factor(AirEntrain))
+summary(Con$AirEntrain)
+```
+
+Now that AirEntrain is a factor, I can include it in the regression and R will take care of recoding it as a dummy variable:
+
+```{r}
+model.ks <- lm(Strength ~ No + Cement + Slag + Water + CoarseAgg + FlyAsh + SP + FineAgg + AirEntrain, data=Con)
+summary(model.ks)
+```
+
+You can see in the table of coefficients that a new variable called "AirEntrainYes" has been added to the model automatically.  R adds the "Yes" suffix to remind us that the original values of AirEntrain have been mapped to "Yes" = 1.  There is no "AirEntrainNo" variable because "No" has been selected as the base-case (when AirEntrainYes = 0).
+
+We can isolate AirEntrain and show this visually:
+
+```{r}
+ggplot(data=Con %>% mutate(AirEntrainDummy = if_else(AirEntrain=="Yes", 1, 0))
+       , mapping=aes(x=AirEntrainDummy, y=Strength)) +
+  geom_point() +
+  geom_smooth(method=lm,  col="blue", se=FALSE)
+```
+
+Here, I have had to manually create a temporary AirEntrainDummy variable in order to get the regression line to plot correctly.  But you can see the basic idea: Each measure of concrete strength  falls on either the AirEntrainDummy = 0 or the AirEntrainDummy = 1 tick mark.  It turns out that the mean of the points at AirEntrainDummy = 0 is higher than then mean of the points at AirEntrainDummy = 1.  As such, the best-fit line slopes downwards.  This is what the negative coefficient for the AirEntrainYes variable tells us: adding air leads to an average _decrease_ in strength of -6.068252.
+
+To summarize categorical variables:
+
+1.  You should convert categorical variables to factors.
+2.  If you want fine-grained controlled over base-cases and the naming of dummy variables, you should create your dummy variables manually (see the `if_else` example above).
+3.  Alternatively, you can let R create _n_-1 dummy variables for you automatically, where _n_ is the number of "levels" (or unique values) of the source factor.
+
+You will likely find approach (2) to be the most useful in practice because, in many cases, you will want to change the granularity of your categorical variables.  A regression equation with a zillion dummy variables in it is hard to read and has little generalizable business value.
+
+For example, instead of having a factor "city" with many different levels/values {West Vancouver, North Vancouver, Chilliwack, Kelowna, Prince George, ...}, it might be better to group cities by region {North, Metro Vancouver, Interior, ...}.  This is what I mean by changing granularity.
+
+## Checking for colinearity
+### Scatterplot matrix
+Recall that we use SAS's scatterplot matrix feature to quickly scan for pairs of explanatory variables that might be colinear.  To do this in R we must first make sure we limit our data frame to numerical variables (the regression function creates dummies automatically, but AirEntrain remains a categorical variable). To do this, I use dplyr's `select_if` function.  It only returns columns for which a logical condition is true.  R's `is.numeric` function returns TRUE if the column is numeric.
+
+```{r}
+Con %>% dplyr::select_if(is.numeric) %>% head  ## demonstrate the use of the select_if filter
+pairs(Con %>% dplyr::select_if(is.numeric))
+```
+
+### Correlation matrix
+Unfortunately, scatterplot matrices can be hard to read if you have too many variables.  You can generate a simple correlation matrix instead and scan for high correlations (close to -1 or +1).  It is not as visual, but it works. I pipe the results though the `round` function to make the matrix more readable:
+
+```{r}
+cor(Con %>% dplyr::select_if(is.numeric)) %>% round(2)
+```
+
+
+## Model refinement
+### Manual stepwise refinement
+As in Excel, we can manually remove explanatory variables one-by-one until we have a model in which all the explanatory variables are significant. This is the essence of data-driven (versus theory driven) model refinement. 
+
+The heuristic we used in Excel for refinement is to remove the variable with the highest _p_-value (meaning that its slope has the highest probability of being zero). In model.ks, we could start by removing fine aggregates because its _p_-value is 0.95748. We then re-run the model and determine if we still have any non-significant coefficients.
+
+This iterative process is somewhat easier in  R than Excel because we simply cut-and-paste the equation, delete a variable name, and re-run the `lm()` function.
+
+### Automated stepwise refinement
+Like SAS, R has several approaches to automatic model refinement.  By default the `step` function uses a bi-directional AIC-based heuristic (that is, it removes and adds variables based on values of the Akaike information criterion).  It is conceptually similar to the Mallows Cp-based heuristic favored by the SAS elearning materials.  We do not need to understand these heuristics in depth to use them.  However, we should appreciate that different algorithms may yield slightly different final models.
+
+```{r}
+model.step <- step(model.ks)
+summary(model.step)
+```
+
+As one might expect, the _adjusted_ R^2^ has gone up slightly relative to the kitchen sink model.
+
+## Regression diagnostics
+Finally, we should examine the residuals and overall fit for the refined model:
+
+```{r}
+hist(resid(model.step))
+boxplot(resid(model.step), horizontal=TRUE)
+qqnorm(resid(model.step))
+qqline(resid(model.step))
+plot(fitted(model.step), Con$Strength, xlab="predicted value", ylab="observed value")
+  abline(0, 1)
+```
+
+## Standardized regression coefficients
+Recall the interpretation of the coefficients:  "A one unit change in variable $X_i$ is associated with a $\beta_i$ change in the response variable."  So here, a one unit change in Cement is associated with a 0.097848 change in Strength.  Whether 0.097848 is big or small depends critically on the units used for the Cement variable.  If the "one unit change" is measured in grams, then 0.097848 is likely a large effect.  In contrast, if a one unit change is measured in metric tonnes, then the effect on strength is much smaller.
+
+The bottom line is this:  You cannot meaningfully compare the size of the regression coefficients to assess the _most important_ effect---it is an apples-and-oranges comparison.  _Standardized_ regression coefficients are a different matter.  A standardized regression coefficient is created by transforming all variables in the model to have a mean of zero and a standard deviation of 1.0.  This allows the standardized coefficients to be interpreted as follows: "A one standard deviation change in variable $X_i$ is associated with a $\beta_i$ standard deviation change in the response variable".  All this talk of "standard deviation changes" means units do not matter.  Standardized regression coefficients are difficult to translate into business terms, but they are directly comparable.  This allows you to determine which variables in your final model are really driving the variation in your response variable.
+
+### Extracting betas
+I have been sloppy with notation in these tutorials:  I have used $\beta_i$ to denote regression coefficients when I should have used $B$.  Traditionally, the Greek $\beta$ is used to denote the _standardized_ coefficient.  For this reason, the package that supplies standardized coefficients is called `lm.beta`.  The package is not part of base R, but is found in the "QuantPsyc" library.  You must install this library in RStudio before loading the library (recall the package installation instructions in the [data](./data.html) tutorial.
+
+```{r warning=FALSE, message=FALSE}
+library(QuantPsyc)
+model.std <- lm.beta(model.step)
+model.std  ## show the vector of results
+```
+
+### Tornado diagram
+A good way to visualize standardized coefficients is as a sorted bar chart known as a tornado diagram:
+
+```{r message=FALSE, warning=FALSE}
+library(broom)  ## needed for tidy call
+tidy(model.std) %>% ggplot() +
+  geom_col(mapping=aes(x=reorder(names, abs(x)), y=x)) + 
+  xlab("") +
+  ylab("Standardized Coefficient") +
+  coord_flip()
+```
+
+Here I have to first convert the vector of results into a tibble before piping to ggplot.  The `reorder` call sorts the x-axis (variable names) according to absolute value of their standardized coefficient.  The result resembles a tornado (hence the name).  It is easy to tell at a glance that both Cement and FlyAsh have a large positive impact on Strength, whereas Water and AirEntrain have a less important negative impact (i.e., more water leads to lower strength).  Note that this tornado does not show the statistical significance of the coefficients.  We assume after refining our model using the `step` function that all the coefficients are significant (or at least worth keeping).  The tornado diagram shows the relative size of the effect, which is critical to understanding root causes.

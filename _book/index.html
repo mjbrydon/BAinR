@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Basic Analytics in R</title>
+  <meta name="description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Basic Analytics in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Basic Analytics in R" />
+  
+  <meta name="twitter:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+<meta name="author" content="Michael Brydon" />
+
+
+<meta name="date" content="2020-09-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="data.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163030947-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-163030947-3');
+</script>
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li>Basic Analytics in R</li>
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#format-of-these-tutorials"><i class="fa fa-check"></i><b>1.1</b> Format of these tutorials</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#a-note-on-flexibility"><i class="fa fa-check"></i><b>1.2</b> A note on flexibility</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-get-started"><i class="fa fa-check"></i><b>1.3</b> How to get started</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#update-for-the-tidyverse"><i class="fa fa-check"></i><b>1.4</b> Update for the Tidyverse</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#a-note-on-python"><i class="fa fa-check"></i><b>1.5</b> A Note on Python</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Importing Data</a><ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>2.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data.html"><a href="data.html#open-an-r-script-file"><i class="fa fa-check"></i><b>2.1.1</b> Open an R script file</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data.html"><a href="data.html#executing-code"><i class="fa fa-check"></i><b>2.1.2</b> Executing code</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data.html"><a href="data.html#load-the-tidyverse-package-into-r"><i class="fa fa-check"></i><b>2.1.3</b> Load the tidyverse package into R</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data.html"><a href="data.html#assigning-objects-to-variables"><i class="fa fa-check"></i><b>2.1.4</b> Assigning objects to variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#data-frames-and-tibbles"><i class="fa fa-check"></i><b>2.2</b> Data frames and tibbles</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data.html"><a href="data.html#reading-a-csv-file"><i class="fa fa-check"></i><b>2.2.1</b> Reading a CSV file</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data.html"><a href="data.html#reading-an-excel-file"><i class="fa fa-check"></i><b>2.2.2</b> Reading an Excel file</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data.html"><a href="data.html#using-your-data"><i class="fa fa-check"></i><b>2.3</b> Using your data</a></li>
+<li class="chapter" data-level="2.4" data-path="data.html"><a href="data.html#factors-versus-character-data"><i class="fa fa-check"></i><b>2.4</b> Factors versus character data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualize.html"><a href="visualize.html"><i class="fa fa-check"></i><b>3</b> Basic Visualization</a><ul>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>3.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualize.html"><a href="visualize.html#import-the-data-into-r-studio"><i class="fa fa-check"></i><b>3.1.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="3.1.2" data-path="visualize.html"><a href="visualize.html#use-variables-to-save-typing"><i class="fa fa-check"></i><b>3.1.2</b> Use variables to save typing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="visualize.html"><a href="visualize.html#basic-descriptive-statistics"><i class="fa fa-check"></i><b>3.1.3</b> Basic descriptive statistics</a></li>
+<li class="chapter" data-level="3.1.4" data-path="visualize.html"><a href="visualize.html#r-as-a-calculator"><i class="fa fa-check"></i><b>3.1.4</b> R as a calculator</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualize.html"><a href="visualize.html#histograms"><i class="fa fa-check"></i><b>3.2</b> Histograms</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualize.html"><a href="visualize.html#basic-formatting"><i class="fa fa-check"></i><b>3.2.1</b> Basic formatting</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualize.html"><a href="visualize.html#getting-help"><i class="fa fa-check"></i><b>3.2.2</b> Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualize.html"><a href="visualize.html#going-beyond"><i class="fa fa-check"></i><b>3.3</b> Going beyond</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualize.html"><a href="visualize.html#density-instead-of-frequency"><i class="fa fa-check"></i><b>3.3.1</b> Density instead of frequency</a></li>
+<li class="chapter" data-level="3.3.2" data-path="visualize.html"><a href="visualize.html#adding-a-kernel-density-line"><i class="fa fa-check"></i><b>3.3.2</b> Adding a kernel density line</a></li>
+<li class="chapter" data-level="3.3.3" data-path="visualize.html"><a href="visualize.html#adding-a-rug"><i class="fa fa-check"></i><b>3.3.3</b> Adding a rug</a></li>
+<li class="chapter" data-level="3.3.4" data-path="visualize.html"><a href="visualize.html#relative-frequency-more-advanced"><i class="fa fa-check"></i><b>3.3.4</b> Relative frequency (more advanced)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualize.html"><a href="visualize.html#using-ggplot"><i class="fa fa-check"></i><b>3.4</b> Using ggplot</a></li>
+<li class="chapter" data-level="3.5" data-path="visualize.html"><a href="visualize.html#creating-a-box-plot"><i class="fa fa-check"></i><b>3.5</b> Creating a box plot</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="filter.html"><a href="filter.html"><i class="fa fa-check"></i><b>4</b> Filtering Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>4.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="filter.html"><a href="filter.html#import-data"><i class="fa fa-check"></i><b>4.1.1</b> Import data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="filter.html"><a href="filter.html#filters"><i class="fa fa-check"></i><b>4.2</b> Filters</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="filter.html"><a href="filter.html#using-a-logical-critereon"><i class="fa fa-check"></i><b>4.2.1</b> Using a logical critereon</a></li>
+<li class="chapter" data-level="4.2.2" data-path="filter.html"><a href="filter.html#filtering-using-a-list"><i class="fa fa-check"></i><b>4.2.2</b> Filtering Using a List</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="filter.html"><a href="filter.html#syntatic-sugar"><i class="fa fa-check"></i><b>4.3</b> Syntatic sugar</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="filter.html"><a href="filter.html#membership"><i class="fa fa-check"></i><b>4.3.1</b> Membership</a></li>
+<li class="chapter" data-level="4.3.2" data-path="filter.html"><a href="filter.html#pipes"><i class="fa fa-check"></i><b>4.3.2</b> Pipes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recode.html"><a href="recode.html"><i class="fa fa-check"></i><b>5</b> Recoding Data</a><ul>
+<li class="chapter" data-level="5.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>5.1</b> Preliminaries</a></li>
+<li class="chapter" data-level="5.2" data-path="recode.html"><a href="recode.html#recode-a-text-column-to-a-dummy"><i class="fa fa-check"></i><b>5.2</b> Recode a Text Column to a Dummy</a></li>
+<li class="chapter" data-level="5.3" data-path="recode.html"><a href="recode.html#recode-according-to-list-membership"><i class="fa fa-check"></i><b>5.3</b> Recode According to List Membership</a></li>
+<li class="chapter" data-level="5.4" data-path="recode.html"><a href="recode.html#using-the-tidyverse"><i class="fa fa-check"></i><b>5.4</b> Using the tidyverse</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="recode.html"><a href="recode.html#mutate-basics"><i class="fa fa-check"></i><b>5.4.1</b> Mutate basics</a></li>
+<li class="chapter" data-level="5.4.2" data-path="recode.html"><a href="recode.html#recoding-categorical-data"><i class="fa fa-check"></i><b>5.4.2</b> Recoding categorical data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ttest.html"><a href="ttest.html"><i class="fa fa-check"></i><b>6</b> Gap Analysis Using t-Tests</a><ul>
+<li class="chapter" data-level="6.1" data-path="visualize.html"><a href="visualize.html#import-the-data-into-r-studio"><i class="fa fa-check"></i><b>6.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="6.2" data-path="ttest.html"><a href="ttest.html#visual-gap-analysis"><i class="fa fa-check"></i><b>6.2</b> Visual gap analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="ttest.html"><a href="ttest.html#boxplots-in-ggplot"><i class="fa fa-check"></i><b>6.2.1</b> Boxplots in ggplot</a></li>
+<li class="chapter" data-level="6.2.2" data-path="ttest.html"><a href="ttest.html#boxplots-in-base-r-and-formula-notation"><i class="fa fa-check"></i><b>6.2.2</b> Boxplots in base R (and formula notation)</a></li>
+<li class="chapter" data-level="6.2.3" data-path="visualize.html"><a href="visualize.html#histograms"><i class="fa fa-check"></i><b>6.2.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="ttest.html"><a href="ttest.html#t-test"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-test</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="ttest.html"><a href="ttest.html#columns-or-formulas"><i class="fa fa-check"></i><b>6.3.1</b> Columns or formulas?</a></li>
+<li class="chapter" data-level="6.3.2" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-columns"><i class="fa fa-check"></i><b>6.3.2</b> Equality of variance test (columns)</a></li>
+<li class="chapter" data-level="6.3.3" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-pivoted-columns"><i class="fa fa-check"></i><b>6.3.3</b> Equality of variance test (pivoted columns)</a></li>
+<li class="chapter" data-level="6.3.4" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-formula"><i class="fa fa-check"></i><b>6.3.4</b> Equality of variance test (formula)</a></li>
+<li class="chapter" data-level="6.3.5" data-path="ttest.html"><a href="ttest.html#unequal-variance-t-test"><i class="fa fa-check"></i><b>6.3.5</b> Unequal variance <em>t</em>-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="categorical.html"><a href="categorical.html"><i class="fa fa-check"></i><b>7</b> Gap Analysis with Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1" data-path="categorical.html"><a href="categorical.html#categorical-variables"><i class="fa fa-check"></i><b>7.1</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>7.1.1</b> Preliminaries</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="categorical.html"><a href="categorical.html#tables-in-r"><i class="fa fa-check"></i><b>7.2</b> Tables in R</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="categorical.html"><a href="categorical.html#simple-table"><i class="fa fa-check"></i><b>7.2.1</b> Simple Table</a></li>
+<li class="chapter" data-level="7.2.2" data-path="categorical.html"><a href="categorical.html#frequency-verus-proportions"><i class="fa fa-check"></i><b>7.2.2</b> Frequency Verus Proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="categorical.html"><a href="categorical.html#contingency-tables"><i class="fa fa-check"></i><b>7.3</b> Contingency Tables</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="categorical.html"><a href="categorical.html#using-gmodels"><i class="fa fa-check"></i><b>7.3.1</b> Using gmodels</a></li>
+<li class="chapter" data-level="7.3.2" data-path="categorical.html"><a href="categorical.html#using-gmodels-crosstable-command"><i class="fa fa-check"></i><b>7.3.2</b> Using gmodel’s CrossTable Command</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>8</b> Correlation and Scatterplots</a><ul>
+<li class="chapter" data-level="8.1" data-path="data.html"><a href="data.html#data"><i class="fa fa-check"></i><b>8.1</b> Data</a></li>
+<li class="chapter" data-level="8.2" data-path="correlation.html"><a href="correlation.html#scatterplots"><i class="fa fa-check"></i><b>8.2</b> Scatterplots</a></li>
+<li class="chapter" data-level="8.3" data-path="correlation.html"><a href="correlation.html#coefficient-of-correlation"><i class="fa fa-check"></i><b>8.3</b> Coefficient of correlation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="correlation.html"><a href="correlation.html#simple-correlation"><i class="fa fa-check"></i><b>8.3.1</b> Simple correlation</a></li>
+<li class="chapter" data-level="8.3.2" data-path="correlation.html"><a href="correlation.html#correlation-matrix"><i class="fa fa-check"></i><b>8.3.2</b> Correlation matrix</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#linear-regression"><i class="fa fa-check"></i><b>9.1</b> Linear Regression</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="regression.html"><a href="regression.html#review-of-the-basics"><i class="fa fa-check"></i><b>9.1.1</b> Review of the basics</a></li>
+<li class="chapter" data-level="9.1.2" data-path="regression.html"><a href="regression.html#formula-notation"><i class="fa fa-check"></i><b>9.1.2</b> Formula notation</a></li>
+<li class="chapter" data-level="9.1.3" data-path="regression.html"><a href="regression.html#model-quality-and-statistical-significance"><i class="fa fa-check"></i><b>9.1.3</b> Model quality and statistical significance</a></li>
+<li class="chapter" data-level="9.1.4" data-path="regression.html"><a href="regression.html#interpretation"><i class="fa fa-check"></i><b>9.1.4</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#regression-diagnostics"><i class="fa fa-check"></i><b>9.2</b> Regression diagnostics</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regression.html"><a href="regression.html#plots-in-base-r"><i class="fa fa-check"></i><b>9.2.1</b> Plots in base R</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regression.html"><a href="regression.html#ggplot-data"><i class="fa fa-check"></i><b>9.2.2</b> ggplot data</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regression.html"><a href="regression.html#ggplot-histogram"><i class="fa fa-check"></i><b>9.2.3</b> ggplot histogram</a></li>
+<li class="chapter" data-level="9.2.4" data-path="regression.html"><a href="regression.html#ggplot-predicted-versus-actuals"><i class="fa fa-check"></i><b>9.2.4</b> ggplot predicted versus actuals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="multiregression.html"><a href="multiregression.html"><i class="fa fa-check"></i><b>10</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="10.1" data-path="multiregression.html"><a href="multiregression.html#kitchen-sink-model"><i class="fa fa-check"></i><b>10.1</b> Kitchen sink model</a></li>
+<li class="chapter" data-level="10.2" data-path="multiregression.html"><a href="multiregression.html#categorical-explanatory-variables"><i class="fa fa-check"></i><b>10.2</b> Categorical explanatory variables</a></li>
+<li class="chapter" data-level="10.3" data-path="multiregression.html"><a href="multiregression.html#checking-for-colinearity"><i class="fa fa-check"></i><b>10.3</b> Checking for colinearity</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="multiregression.html"><a href="multiregression.html#scatterplot-matrix"><i class="fa fa-check"></i><b>10.3.1</b> Scatterplot matrix</a></li>
+<li class="chapter" data-level="10.3.2" data-path="correlation.html"><a href="correlation.html#correlation-matrix"><i class="fa fa-check"></i><b>10.3.2</b> Correlation matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="multiregression.html"><a href="multiregression.html#model-refinement"><i class="fa fa-check"></i><b>10.4</b> Model refinement</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="multiregression.html"><a href="multiregression.html#manual-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.1</b> Manual stepwise refinement</a></li>
+<li class="chapter" data-level="10.4.2" data-path="multiregression.html"><a href="multiregression.html#automated-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.2</b> Automated stepwise refinement</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="regression.html"><a href="regression.html#regression-diagnostics"><i class="fa fa-check"></i><b>10.5</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="10.6" data-path="multiregression.html"><a href="multiregression.html#standardized-regression-coefficients"><i class="fa fa-check"></i><b>10.6</b> Standardized regression coefficients</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="multiregression.html"><a href="multiregression.html#extracting-betas"><i class="fa fa-check"></i><b>10.6.1</b> Extracting betas</a></li>
+<li class="chapter" data-level="10.6.2" data-path="multiregression.html"><a href="multiregression.html#tornado-diagram"><i class="fa fa-check"></i><b>10.6.2</b> Tornado diagram</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Basic Analytics in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Basic Analytics in R</h1>
+<p class="author"><em>Michael Brydon</em></p>
+<p class="date"><em>2020-09-30</em></p>
+</div>
+<div id="intro" class="section level1">
+<h1><span class="header-section-number">Lesson 1</span> Introduction</h1>
+<p>R is an open source programming language especially designed for manipulating data and performing statistical analysis. It is very similar to SAS Enterprise Guide except:</p>
+<ol style="list-style-type: decimal">
+<li>R is a <em>programming language</em>. It does not have a workflow-type graphical interface (at least not yet).</li>
+<li>R is free and works on all platforms.</li>
+</ol>
+<p>The programming language part of R is a significant barrier to casual use. But its power-per-price ratio is so compelling that R has become essential for data scientists and anyone with even a passing interest in analytics.</p>
+<div id="format-of-these-tutorials" class="section level2">
+<h2><span class="header-section-number">1.1</span> Format of these tutorials</h2>
+<p>Something to consider:</p>
+<ul>
+<li>Statistical analysis is hard to learn.</li>
+<li>R is hard to learn.</li>
+<li>Learning statistics and R at the same time is nearly impossible.</li>
+</ul>
+<p>The idea with these tutorials is not to provide a comprehensive introduction to R, but rather to build incrementally on the other material in the course:</p>
+<ol style="list-style-type: decimal">
+<li><em>Do a task in Excel</em>: conceptually simple but laborious and error prone</li>
+<li><em>Do the same task in SAS Enterprise Guide</em>: inherently more complex but offers significant guidance from the wizard interface</li>
+<li><em>Do the task a third time in R</em>: by this point you should have a good sense of the statistical and data aspects of the task and be able to focus on the R language and its requirements</li>
+</ol>
+</div>
+<div id="a-note-on-flexibility" class="section level2">
+<h2><span class="header-section-number">1.2</span> A note on flexibility</h2>
+<p>As you know if you have done a lot of work in Excel, there are often many different ways of accomplishing a task. The <em>right</em> way often comes down to personal preference and broader considerations about the reliability and understandability of your approach: It is never good thing to spend hours creating a complex spreadsheet model that you cannot understand three months later. It is also a problem if your approach is so fragile (e.g., it depends on all sorts of embedded assumptions) that the model breaks when you make a single change.</p>
+<p>The same is true in R. What I have done in these tutorials is show one (or occasionally two) ways to accomplish a task. But a quick Google search will confirm that there are other ways. And the wide availability of add-in packages for R means there often much better ways (see the note on “the tidyverse” below). So keep this in mind as you work through these tutorials. If you want more or better ways you need only Google.</p>
+</div>
+<div id="how-to-get-started" class="section level2">
+<h2><span class="header-section-number">1.3</span> How to get started</h2>
+<p>R needs an environment in which to run so you need to download (at the very least) the bare-bones R package. But many practitioners also recommend a more full-featured environment like R Studio.
+<a href="https://www.rstudio.com/">Download R Studio</a></p>
+<p>The best place to get started as an SFU student is the excellent Lynda.com materials on the SFU library site. Lynda.com includes a course called “R Statistics Essential Training” which walks you though the basics. At the very least you should use the Lynda.com materials (or some other resource) to show you how to get R and R Studio up and running.
+<a href="http://lib.sfu.ca">seach for Lynda on SFU Library site</a></p>
+<p>There are zillions of R resources on the web, including Lynda.com. Often, the easiest way to answer a specific question is to Google it.</p>
+</div>
+<div id="update-for-the-tidyverse" class="section level2">
+<h2><span class="header-section-number">1.4</span> Update for the Tidyverse</h2>
+<p>R has a package-based architecture. This means that the core R package can be extended with additional special-purpose packages written and maintained by others in the open source community. One such package (actually a collection of packages) is called the “tidyverse”. The tidyverse was released in 2016 in order to make data wrangling in R a bit easier and/or more flexible. It is built around the idea of “tidy” data. Use of the tidyverse (especially the graphics package ggplot2) is now so common in data science that I have re-written these tutorials to make better use of it.</p>
+</div>
+<div id="a-note-on-python" class="section level2">
+<h2><span class="header-section-number">1.5</span> A Note on Python</h2>
+<p>R has been around for more than 20 years as a language specifically designed for statistical analysis. What does this mean? First of all, R has built-in functions for common statistical tasks (e.g., <em>t</em>-tests, regression, and so on). Second, R works naturally with vectors and matrices, which is handy when we have tabular data. No fiddly range selection (like in Excel) or looping (like in conventional programming languages). R has taken-off in recent years due to the growth in analytics generally and packages like the tidyverse, which have made it much easier to manipulate data and create impressive visualizations.</p>
+<p>Python, on the other hand is a general purpose programming language (like Java, C++ or BASIC). However, Python has also seen an explosion in add-on packages for data manipulation, graphics, and statistical analysis. In addition, interactive notebook versions, such as Ipython and now Jupyter, make it possible to work interactively with Python (write a few lines of code, run the code, view the results). Bottom line: R and Python can be loaded up with add-on libraries and tools to the point that they are very similar. At the end of the day, they are both interactive programming languages that can be used to read data, generate graphics, and run many different types of analyses.</p>
+<p>My guess is that Python, which is a much cleaner and more versatile language, will eventually replace R as the language of choice for data science. But since we are simply trying to get a sense for how statistical programming languages work, R is a good place to start.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="data.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

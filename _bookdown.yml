@@ -1,0 +1,6 @@
+book_filename: "_babook.md"
+language:
+  ui:
+    chapter_name: "Lesson "
+delete_merged_file: true
+new_session: yes

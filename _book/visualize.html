@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lesson 3 Basic Visualization | Basic Analytics in R</title>
+  <meta name="description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lesson 3 Basic Visualization | Basic Analytics in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lesson 3 Basic Visualization | Basic Analytics in R" />
+  
+  <meta name="twitter:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+<meta name="author" content="Michael Brydon" />
+
+
+<meta name="date" content="2020-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data.html">
+<link rel="next" href="filter.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li>Basic Analytics in R</li>
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#format-of-these-tutorials"><i class="fa fa-check"></i><b>1.1</b> Format of these tutorials</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#a-note-on-flexibility"><i class="fa fa-check"></i><b>1.2</b> A note on flexibility</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-get-started"><i class="fa fa-check"></i><b>1.3</b> How to get started</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#update-for-the-tidyverse"><i class="fa fa-check"></i><b>1.4</b> Update for the Tidyverse</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#a-note-on-python"><i class="fa fa-check"></i><b>1.5</b> A Note on Python</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Importing Data</a><ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>2.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data.html"><a href="data.html#open-an-r-script-file"><i class="fa fa-check"></i><b>2.1.1</b> Open an R script file</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data.html"><a href="data.html#executing-code"><i class="fa fa-check"></i><b>2.1.2</b> Executing code</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data.html"><a href="data.html#load-the-tidyverse-package-into-r"><i class="fa fa-check"></i><b>2.1.3</b> Load the tidyverse package into R</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data.html"><a href="data.html#assigning-objects-to-variables"><i class="fa fa-check"></i><b>2.1.4</b> Assigning objects to variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#data-frames-and-tibbles"><i class="fa fa-check"></i><b>2.2</b> Data frames and tibbles</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data.html"><a href="data.html#reading-a-csv-file"><i class="fa fa-check"></i><b>2.2.1</b> Reading a CSV file</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data.html"><a href="data.html#reading-an-excel-file"><i class="fa fa-check"></i><b>2.2.2</b> Reading an Excel file</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data.html"><a href="data.html#using-your-data"><i class="fa fa-check"></i><b>2.3</b> Using your data</a></li>
+<li class="chapter" data-level="2.4" data-path="data.html"><a href="data.html#factors-versus-character-data"><i class="fa fa-check"></i><b>2.4</b> Factors versus character data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualize.html"><a href="visualize.html"><i class="fa fa-check"></i><b>3</b> Basic Visualization</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualize.html"><a href="visualize.html#preliminaries-1"><i class="fa fa-check"></i><b>3.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualize.html"><a href="visualize.html#import-the-data-into-r-studio"><i class="fa fa-check"></i><b>3.1.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="3.1.2" data-path="visualize.html"><a href="visualize.html#use-variables-to-save-typing"><i class="fa fa-check"></i><b>3.1.2</b> Use variables to save typing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="visualize.html"><a href="visualize.html#basic-descriptive-statistics"><i class="fa fa-check"></i><b>3.1.3</b> Basic descriptive statistics</a></li>
+<li class="chapter" data-level="3.1.4" data-path="visualize.html"><a href="visualize.html#r-as-a-calculator"><i class="fa fa-check"></i><b>3.1.4</b> R as a calculator</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualize.html"><a href="visualize.html#histograms"><i class="fa fa-check"></i><b>3.2</b> Histograms</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualize.html"><a href="visualize.html#basic-formatting"><i class="fa fa-check"></i><b>3.2.1</b> Basic formatting</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualize.html"><a href="visualize.html#getting-help"><i class="fa fa-check"></i><b>3.2.2</b> Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualize.html"><a href="visualize.html#going-beyond"><i class="fa fa-check"></i><b>3.3</b> Going beyond</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualize.html"><a href="visualize.html#density-instead-of-frequency"><i class="fa fa-check"></i><b>3.3.1</b> Density instead of frequency</a></li>
+<li class="chapter" data-level="3.3.2" data-path="visualize.html"><a href="visualize.html#adding-a-kernel-density-line"><i class="fa fa-check"></i><b>3.3.2</b> Adding a kernel density line</a></li>
+<li class="chapter" data-level="3.3.3" data-path="visualize.html"><a href="visualize.html#adding-a-rug"><i class="fa fa-check"></i><b>3.3.3</b> Adding a rug</a></li>
+<li class="chapter" data-level="3.3.4" data-path="visualize.html"><a href="visualize.html#relative-frequency-more-advanced"><i class="fa fa-check"></i><b>3.3.4</b> Relative frequency (more advanced)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualize.html"><a href="visualize.html#using-ggplot"><i class="fa fa-check"></i><b>3.4</b> Using ggplot</a></li>
+<li class="chapter" data-level="3.5" data-path="visualize.html"><a href="visualize.html#creating-a-box-plot"><i class="fa fa-check"></i><b>3.5</b> Creating a box plot</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="filter.html"><a href="filter.html"><i class="fa fa-check"></i><b>4</b> Filtering Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="filter.html"><a href="filter.html#preliminaries-2"><i class="fa fa-check"></i><b>4.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="filter.html"><a href="filter.html#import-data"><i class="fa fa-check"></i><b>4.1.1</b> Import data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="filter.html"><a href="filter.html#filters"><i class="fa fa-check"></i><b>4.2</b> Filters</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="filter.html"><a href="filter.html#using-a-logical-critereon"><i class="fa fa-check"></i><b>4.2.1</b> Using a logical critereon</a></li>
+<li class="chapter" data-level="4.2.2" data-path="filter.html"><a href="filter.html#filtering-using-a-list"><i class="fa fa-check"></i><b>4.2.2</b> Filtering Using a List</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="filter.html"><a href="filter.html#syntatic-sugar"><i class="fa fa-check"></i><b>4.3</b> Syntatic sugar</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="filter.html"><a href="filter.html#membership"><i class="fa fa-check"></i><b>4.3.1</b> Membership</a></li>
+<li class="chapter" data-level="4.3.2" data-path="filter.html"><a href="filter.html#pipes"><i class="fa fa-check"></i><b>4.3.2</b> Pipes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recode.html"><a href="recode.html"><i class="fa fa-check"></i><b>5</b> Recoding Data</a><ul>
+<li class="chapter" data-level="5.1" data-path="recode.html"><a href="recode.html#preliminaries-3"><i class="fa fa-check"></i><b>5.1</b> Preliminaries</a></li>
+<li class="chapter" data-level="5.2" data-path="recode.html"><a href="recode.html#recode-a-text-column-to-a-dummy"><i class="fa fa-check"></i><b>5.2</b> Recode a Text Column to a Dummy</a></li>
+<li class="chapter" data-level="5.3" data-path="recode.html"><a href="recode.html#recode-according-to-list-membership"><i class="fa fa-check"></i><b>5.3</b> Recode According to List Membership</a></li>
+<li class="chapter" data-level="5.4" data-path="recode.html"><a href="recode.html#using-the-tidyverse"><i class="fa fa-check"></i><b>5.4</b> Using the tidyverse</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="recode.html"><a href="recode.html#mutate-basics"><i class="fa fa-check"></i><b>5.4.1</b> Mutate basics</a></li>
+<li class="chapter" data-level="5.4.2" data-path="recode.html"><a href="recode.html#recoding-categorical-data"><i class="fa fa-check"></i><b>5.4.2</b> Recoding categorical data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ttest.html"><a href="ttest.html"><i class="fa fa-check"></i><b>6</b> Gap Analysis Using t-Tests</a><ul>
+<li class="chapter" data-level="6.1" data-path="ttest.html"><a href="ttest.html#import-the-data-into-r-studio-1"><i class="fa fa-check"></i><b>6.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="6.2" data-path="ttest.html"><a href="ttest.html#visual-gap-analysis"><i class="fa fa-check"></i><b>6.2</b> Visual gap analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="ttest.html"><a href="ttest.html#boxplots-in-ggplot"><i class="fa fa-check"></i><b>6.2.1</b> Boxplots in ggplot</a></li>
+<li class="chapter" data-level="6.2.2" data-path="ttest.html"><a href="ttest.html#boxplots-in-base-r-and-formula-notation"><i class="fa fa-check"></i><b>6.2.2</b> Boxplots in base R (and formula notation)</a></li>
+<li class="chapter" data-level="6.2.3" data-path="ttest.html"><a href="ttest.html#histograms-1"><i class="fa fa-check"></i><b>6.2.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="ttest.html"><a href="ttest.html#t-test"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-test</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="ttest.html"><a href="ttest.html#columns-or-formulas"><i class="fa fa-check"></i><b>6.3.1</b> Columns or formulas?</a></li>
+<li class="chapter" data-level="6.3.2" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-columns"><i class="fa fa-check"></i><b>6.3.2</b> Equality of variance test (columns)</a></li>
+<li class="chapter" data-level="6.3.3" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-pivoted-columns"><i class="fa fa-check"></i><b>6.3.3</b> Equality of variance test (pivoted columns)</a></li>
+<li class="chapter" data-level="6.3.4" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-formula"><i class="fa fa-check"></i><b>6.3.4</b> Equality of variance test (formula)</a></li>
+<li class="chapter" data-level="6.3.5" data-path="ttest.html"><a href="ttest.html#unequal-variance-t-test"><i class="fa fa-check"></i><b>6.3.5</b> Unequal variance <em>t</em>-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="categorical.html"><a href="categorical.html"><i class="fa fa-check"></i><b>7</b> Gap Analysis with Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1" data-path="categorical.html"><a href="categorical.html#categorical-variables"><i class="fa fa-check"></i><b>7.1</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="categorical.html"><a href="categorical.html#preliminaries-4"><i class="fa fa-check"></i><b>7.1.1</b> Preliminaries</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="categorical.html"><a href="categorical.html#tables-in-r"><i class="fa fa-check"></i><b>7.2</b> Tables in R</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="categorical.html"><a href="categorical.html#simple-table"><i class="fa fa-check"></i><b>7.2.1</b> Simple Table</a></li>
+<li class="chapter" data-level="7.2.2" data-path="categorical.html"><a href="categorical.html#frequency-verus-proportions"><i class="fa fa-check"></i><b>7.2.2</b> Frequency Verus Proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="categorical.html"><a href="categorical.html#contingency-tables"><i class="fa fa-check"></i><b>7.3</b> Contingency Tables</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="categorical.html"><a href="categorical.html#using-gmodels"><i class="fa fa-check"></i><b>7.3.1</b> Using gmodels</a></li>
+<li class="chapter" data-level="7.3.2" data-path="categorical.html"><a href="categorical.html#using-gmodels-crosstable-command"><i class="fa fa-check"></i><b>7.3.2</b> Using gmodel’s CrossTable Command</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>8</b> Correlation and Scatterplots</a><ul>
+<li class="chapter" data-level="8.1" data-path="correlation.html"><a href="correlation.html#data-1"><i class="fa fa-check"></i><b>8.1</b> Data</a></li>
+<li class="chapter" data-level="8.2" data-path="correlation.html"><a href="correlation.html#scatterplots"><i class="fa fa-check"></i><b>8.2</b> Scatterplots</a></li>
+<li class="chapter" data-level="8.3" data-path="correlation.html"><a href="correlation.html#coefficient-of-correlation"><i class="fa fa-check"></i><b>8.3</b> Coefficient of correlation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="correlation.html"><a href="correlation.html#simple-correlation"><i class="fa fa-check"></i><b>8.3.1</b> Simple correlation</a></li>
+<li class="chapter" data-level="8.3.2" data-path="correlation.html"><a href="correlation.html#correlation-matrix"><i class="fa fa-check"></i><b>8.3.2</b> Correlation matrix</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#linear-regression"><i class="fa fa-check"></i><b>9.1</b> Linear Regression</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="regression.html"><a href="regression.html#review-of-the-basics"><i class="fa fa-check"></i><b>9.1.1</b> Review of the basics</a></li>
+<li class="chapter" data-level="9.1.2" data-path="regression.html"><a href="regression.html#formula-notation"><i class="fa fa-check"></i><b>9.1.2</b> Formula notation</a></li>
+<li class="chapter" data-level="9.1.3" data-path="regression.html"><a href="regression.html#model-quality-and-statistical-significance"><i class="fa fa-check"></i><b>9.1.3</b> Model quality and statistical significance</a></li>
+<li class="chapter" data-level="9.1.4" data-path="regression.html"><a href="regression.html#interpretation"><i class="fa fa-check"></i><b>9.1.4</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#regression-diagnostics"><i class="fa fa-check"></i><b>9.2</b> Regression diagnostics</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regression.html"><a href="regression.html#plots-in-base-r"><i class="fa fa-check"></i><b>9.2.1</b> Plots in base R</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regression.html"><a href="regression.html#ggplot-data"><i class="fa fa-check"></i><b>9.2.2</b> ggplot data</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regression.html"><a href="regression.html#ggplot-histogram"><i class="fa fa-check"></i><b>9.2.3</b> ggplot histogram</a></li>
+<li class="chapter" data-level="9.2.4" data-path="regression.html"><a href="regression.html#ggplot-predicted-versus-actuals"><i class="fa fa-check"></i><b>9.2.4</b> ggplot predicted versus actuals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="multiregression.html"><a href="multiregression.html"><i class="fa fa-check"></i><b>10</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="10.1" data-path="multiregression.html"><a href="multiregression.html#kitchen-sink-model"><i class="fa fa-check"></i><b>10.1</b> Kitchen sink model</a></li>
+<li class="chapter" data-level="10.2" data-path="multiregression.html"><a href="multiregression.html#categorical-explanatory-variables"><i class="fa fa-check"></i><b>10.2</b> Categorical explanatory variables</a></li>
+<li class="chapter" data-level="10.3" data-path="multiregression.html"><a href="multiregression.html#checking-for-colinearity"><i class="fa fa-check"></i><b>10.3</b> Checking for colinearity</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="multiregression.html"><a href="multiregression.html#scatterplot-matrix"><i class="fa fa-check"></i><b>10.3.1</b> Scatterplot matrix</a></li>
+<li class="chapter" data-level="10.3.2" data-path="multiregression.html"><a href="multiregression.html#correlation-matrix-1"><i class="fa fa-check"></i><b>10.3.2</b> Correlation matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="multiregression.html"><a href="multiregression.html#model-refinement"><i class="fa fa-check"></i><b>10.4</b> Model refinement</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="multiregression.html"><a href="multiregression.html#manual-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.1</b> Manual stepwise refinement</a></li>
+<li class="chapter" data-level="10.4.2" data-path="multiregression.html"><a href="multiregression.html#automated-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.2</b> Automated stepwise refinement</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="multiregression.html"><a href="multiregression.html#regression-diagnostics-1"><i class="fa fa-check"></i><b>10.5</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="10.6" data-path="multiregression.html"><a href="multiregression.html#standardized-regression-coefficients"><i class="fa fa-check"></i><b>10.6</b> Standardized regression coefficients</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="multiregression.html"><a href="multiregression.html#extracting-betas"><i class="fa fa-check"></i><b>10.6.1</b> Extracting betas</a></li>
+<li class="chapter" data-level="10.6.2" data-path="multiregression.html"><a href="multiregression.html#tornado-diagram"><i class="fa fa-check"></i><b>10.6.2</b> Tornado diagram</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Basic Analytics in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="visualize" class="section level1">
+<h1><span class="header-section-number">Lesson 3</span> Basic Visualization</h1>
+<p>In this tutorial we create basic visualizations (histograms and box plots) using R. The purpose of these basic visualizations is to see the <em>distribution</em> of a particular variable. The distribution helps us identify errors and potential outliers (with respect to our expectations about the data) and also suggests the very different underlying processes that lead to (say) a normal distribution versus a uniform distribution or some kind of fat-tailed distribution.</p>
+<div id="preliminaries-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> Preliminaries</h2>
+<div id="import-the-data-into-r-studio" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Import the data into R Studio</h3>
+<p>Review Lesson <a href="data.html#data">2</a> to recall how to import a dataset into R. The result is a special type of data frame called a tibble.</p>
+</div>
+<div id="use-variables-to-save-typing" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Use variables to save typing</h3>
+<p>Recall R’s naming convention for the “Salary” column in the “Bank” tibble: <code>Bank$Salary</code>. We can assign this column to a much shorter variable if we want to save ourselves some typing:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">  sal &lt;-<span class="st"> </span>Bank<span class="op">$</span>Salary</a></code></pre></div>
+<p>We can now run commands on the variable “sal” instead of “Bank$Salary”</p>
+</div>
+<div id="basic-descriptive-statistics" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Basic descriptive statistics</h3>
+<p>R is a statistics language. As such, it has many features for extracting information from data. Type the following. The results are denoted by ## in the output:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">min</span>(sal)</a></code></pre></div>
+<pre><code>## [1] 26.7</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">max</span>(sal)</a></code></pre></div>
+<pre><code>## [1] 97</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">mean</span>(sal)</a></code></pre></div>
+<pre><code>## [1] 39.92192</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">median</span>(sal)</a></code></pre></div>
+<pre><code>## [1] 37</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">range</span>(sal)</a></code></pre></div>
+<pre><code>## [1] 26.7 97.0</code></pre>
+</div>
+<div id="r-as-a-calculator" class="section level3">
+<h3><span class="header-section-number">3.1.4</span> R as a calculator</h3>
+<p>The R command line can execute simple (or complex) math. For example, you might ask:</p>
+<blockquote>
+<p>How much does the hightest paid employee make compared to the median employee?</p>
+</blockquote>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">max</span>(sal)<span class="op">/</span><span class="kw">median</span>(sal)</a></code></pre></div>
+<pre><code>## [1] 2.621622</code></pre>
+</div>
+</div>
+<div id="histograms" class="section level2">
+<h2><span class="header-section-number">3.2</span> Histograms</h2>
+<p>Descriptive statistics are fine but a picture is worth a thousand words.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">hist</span>(sal)</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Think about this: in a handful characters <code>hist(sal)</code> you told R to transform a continuous variable (salary) into a histogram with an appropriate number of bins, frequency on the vertical axis, and basic axis labels. This should give you some sense for why people who do this for a living prefer R to Excel.</p>
+<div id="basic-formatting" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Basic formatting</h3>
+<p>You would never include the histogram above in a report for your boss without first formatting it. R is not like Excel: you don’t simply click on things and type in new values. Everything must be set using the syntax of the programming language. This approach does have some advantages, but they are unlikely to be apparent to you at this stage.</p>
+<ol style="list-style-type: decimal">
+<li>Edit the basic command by adding options:
+<ul>
+<li>set the main title with main=“Distribution of Salaries”</li>
+<li>set the x-axis label with xlab=“Salary ($K)”</li>
+<li>set the bar color with col=“blue”</li>
+</ul></li>
+<li>Notice the location of the commas (between options), quotation marks (around text), and the brackets in the expanded hist() command. If you understand this, you understand a big chunk of the R programming language:</li>
+</ol>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">hist</span>(sal,</a>
+<a class="sourceLine" id="cb24-2" title="2">     <span class="dt">main=</span><span class="st">&quot;Distribution of Salaries&quot;</span>,</a>
+<a class="sourceLine" id="cb24-3" title="3">     <span class="dt">xlab=</span><span class="st">&quot;Salary ($K)&quot;</span>,</a>
+<a class="sourceLine" id="cb24-4" title="4">     <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="getting-help" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Getting help</h3>
+<p>How did I know the option “main” allowed me to set the main title of the graphic? Well, RStudio provides access to the R documentation. I just typed in “hist” and it gave me the reference.</p>
+<p><img src="graphics/visualization_help.png" /></p>
+<p>Such reference pages take a while to get used to. If you find them incomprehensible you can search Google for “format histogram in R”, or something like that.</p>
+</div>
+</div>
+<div id="going-beyond" class="section level2">
+<h2><span class="header-section-number">3.3</span> Going beyond</h2>
+<p>R is a very rich language and you can do just about anything if you know the tricks (or have infinite time and patience to Google and read). Here are a few examples of things you <strong>are not expected to do</strong> but might find interesting.</p>
+<div id="density-instead-of-frequency" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Density instead of frequency</h3>
+<p>By default the R histogram shows frequencies (in this case, <em>counts</em> of bank employees within each salary bin). As we will see, a relative measure is often more useful because it allows the comparison of histograms of two samples of different sizes. R can show “density”, which normalizes the plot so the area under the curve (or bars) equals 1.0:</p>
+<ol style="list-style-type: decimal">
+<li>Add the freq=FALSE option.</li>
+<li>Note that FALSE is a predefined constant and does not take quotation marks.</li>
+</ol>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">hist</span>(sal,</a>
+<a class="sourceLine" id="cb25-2" title="2">     <span class="dt">main=</span><span class="st">&quot;Distribution of Salaries&quot;</span>,</a>
+<a class="sourceLine" id="cb25-3" title="3">     <span class="dt">xlab=</span><span class="st">&quot;Salary ($K)&quot;</span>,</a>
+<a class="sourceLine" id="cb25-4" title="4">     <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>,</a>
+<a class="sourceLine" id="cb25-5" title="5">     <span class="dt">freq=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="adding-a-kernel-density-line" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Adding a kernel density line</h3>
+<p>You can overlay a kernel density line on your histogram (like SAS Enterprise Guide often does). A kernel density line is simply a smoothed linear representation of the histogram. It shows the same distribution information in a different form:</p>
+<p>Add the following to your script:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">  <span class="kw">lines</span>(<span class="kw">density</span>(sal))</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="adding-a-rug" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Adding a rug</h3>
+<p>A “rug” shows a tick along the horizontal axis for every data point. It provides much the same information as the histogram, but gives a better sense of where the extreme values are.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">rug</span>(sal)</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="relative-frequency-more-advanced" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> Relative frequency (more advanced)</h3>
+<p>Finally, we may absolutely insist on showing <em>relative frequency</em> rather than density. This insistence is not really rational since the units along the vertical axis of a histogram don’t matter. After all, the point of a histogram is to give a rough graphical impression of the distribution of the data. It is easy to eye-ball the relative height of the bars without units. The designers of R must agree with this because they make us jump through some hoops to show relative frequency. I include this simply to show how R objects and their properties can be manipulated using the &lt;object name&gt;$&lt;property name&gt; notation.</p>
+<p>The steps are as follow:</p>
+<ol style="list-style-type: decimal">
+<li>Assign a histogram object to a variable (say <code>h</code>). By default, the creation of a histogram triggers a plot so we use <code>plot=FALSE</code> to suppress the plot.</li>
+<li>Extract the frequency (<code>count</code>) for each bin from the histogram object, <code>h</code>. The <code>counts</code> property is exposed by the histogram object.</li>
+<li>Calculate the percentage of the overall total for each bin. This is the count for each bin divided by the total count.</li>
+<li>Replace the histogram’s density estimate with the percentage value.</li>
+<li>Update the Y axis label to show “Percent” rather than density</li>
+</ol>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">h &lt;-<span class="st"> </span><span class="kw">hist</span>(sal, <span class="dt">plot=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb28-2" title="2">h<span class="op">$</span>density =<span class="st"> </span>h<span class="op">$</span>counts<span class="op">/</span><span class="kw">sum</span>(h<span class="op">$</span>counts) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb28-3" title="3"><span class="kw">plot</span>(h, <span class="dt">main=</span><span class="st">&quot;Distribution of Salaries&quot;</span>,</a>
+<a class="sourceLine" id="cb28-4" title="4">     <span class="dt">xlab=</span><span class="st">&quot;Salary ($K)&quot;</span>,</a>
+<a class="sourceLine" id="cb28-5" title="5">     <span class="dt">ylab=</span><span class="st">&quot;Percent&quot;</span>,</a>
+<a class="sourceLine" id="cb28-6" title="6">     <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>,</a>
+<a class="sourceLine" id="cb28-7" title="7">     <span class="dt">freq=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+</div>
+<div id="using-ggplot" class="section level2">
+<h2><span class="header-section-number">3.4</span> Using ggplot</h2>
+<p>ggplot2 is a package in the tidyverse for creating very nice graphics—better than R’s built-in graphics. The downside of ggplot2’s power is that you have to first learn a philosophy of visualization called <a href="https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448/ref=as_li_ss_tl?ie=UTF8&amp;qid=1477928463&amp;sr=8-1&amp;keywords=the+grammar+of+graphics&amp;linkCode=sl1&amp;tag=ggplot2-20&amp;linkId=f0130e557161b83fbe97ba0e9175c431">The Graphics of Grammar</a>. The analogy to the grammar of a spoken language is fairly straightforward. In a spoken language, we have nouns, verbs, adjectives, and so on, which can be strung together in certain ways to create meaning. In the grammar of graphics, we have data, geometry (e.g., bars, lines, points), aesthetics (colors, shapes), and mapping.</p>
+<p>To see how this works, we can re-create a histogram using the ggplot2 package:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">  <span class="kw">library</span>(ggplot2)  <span class="co">## not necessary because we have already loaded the tidyverse</span></a>
+<a class="sourceLine" id="cb29-2" title="2">  <span class="kw">ggplot</span>(<span class="dt">data=</span>Bank) <span class="op">+</span></a>
+<a class="sourceLine" id="cb29-3" title="3"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>Salary))</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>This syntax may look a bit odd. The basics of using ggplot are as follow:</p>
+<ol style="list-style-type: decimal">
+<li>Call <code>ggplot(data=&lt;tibble&gt;)</code> to create an empty coordinate system.</li>
+<li>Use the plus sign to add layers. The most important layer is a geometry layer (points, line, bars, and so on). In this case, we use <code>geom_histogram</code>, which is a complex geometry that takes care of binning, etc. (like R’s built-in <code>hist()</code> function)</li>
+<li>Each geometry function requires a mapping argument, which determines how columns in the data set are mapped to elements of the graph.</li>
+<li>The mapping argument calls the aesthetic function, <code>aes()</code> which sets the specifics of the mapping.</li>
+</ol>
+<p>To see how the layers work, add a title (<code>ggtitle</code>) and X-axis label (<code>xlab</code>). We can also pass some arguments to the geom_histogram function to change the appearance of the histogram itself:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">  <span class="kw">ggplot</span>(<span class="dt">data=</span>Bank) <span class="op">+</span></a>
+<a class="sourceLine" id="cb31-2" title="2"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>Salary), <span class="dt">bins=</span><span class="dv">10</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb31-3" title="3"><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Distribution of Salaries&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb31-4" title="4"><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Salary ($K)&quot;</span>)</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Finally, the geom_histogram function in ggplot2 exposes some computed variables (like <code>h$counts</code> above) that can be used in the plot. Here, the odd notation <code>..&lt;variable name&gt;..</code> is used to denote a built-in computed variable. By default, the Y axis of a histogram is the count of the observations in each bin. We can change the y axis within the <code>aes()</code> function to density (a built-in computed variable) or relative frequency using the same arithmetic above:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">mapping=<span class="kw">aes</span>(<span class="dt">x=</span>Salary, <span class="dt">y=</span>..count..)  <span class="co">## no change: y=..count.. is default`</span></a>
+<a class="sourceLine" id="cb32-2" title="2">mapping=<span class="kw">aes</span>(<span class="dt">x=</span>Salary, <span class="dt">y=</span>..density..)  <span class="co">## shows density, as above in hist()`</span></a>
+<a class="sourceLine" id="cb32-3" title="3">mapping=<span class="kw">aes</span>(<span class="dt">x=</span>Salary, <span class="dt">y=</span>..count..<span class="op">/</span><span class="kw">sum</span>(..count..)<span class="op">*</span><span class="dv">100</span>)  <span class="co">## shows relative frequency`</span></a></code></pre></div>
+<p>So here is the ggplot version of the relative frequency histogram:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data=</span>Bank) <span class="op">+</span></a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>Salary, <span class="dt">y=</span>..count..<span class="op">/</span><span class="kw">sum</span>(..count..)<span class="op">*</span><span class="dv">100</span>), <span class="dt">bins=</span><span class="dv">10</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb33-3" title="3"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Distribution of Salaries&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb33-4" title="4"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Salary ($K)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb33-5" title="5"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percent&quot;</span>)</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>Note that the percentages are slightly different from the <code>hist</code> version because the number of bins (and thus bin width) are different in the two histograms. In <code>hist</code>, R uses “Sturges rule” to calculate a reasonable number of bins automatically; in the ggplot version I set the number of bins to 10 (following a warning to change it from the default of 30).</p>
+</div>
+<div id="creating-a-box-plot" class="section level2">
+<h2><span class="header-section-number">3.5</span> Creating a box plot</h2>
+<p>As with a histogram, creating a very simple box plot requires only a single command:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">boxplot</span>(sal)</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>This can be cleaned up using the same tricks as above:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">boxplot</span>(sal, <span class="dt">horizontal=</span><span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb35-2" title="2">        <span class="dt">main=</span><span class="st">&quot;Distribution of Salaries&quot;</span>,</a>
+<a class="sourceLine" id="cb35-3" title="3">        <span class="dt">xlab=</span><span class="st">&quot;Salary ($K)&quot;</span>)</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>This presentation makes potential outliers easy to spot.</p>
+<p>ggplot also has a boxplot geometry, although it is really designed for doing side-by-side comparisons (we will see these later when we do visual gap analysis). To trick it into showing a single variable without any comparisons, we set the x axis argument to an empty string "":</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">  <span class="kw">ggplot</span>(<span class="dt">data=</span>Bank) <span class="op">+</span></a>
+<a class="sourceLine" id="cb36-2" title="2"><span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span><span class="st">&quot;&quot;</span>, <span class="dt">y=</span>Salary))</a></code></pre></div>
+<p><img src="03_visualization_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="filter.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

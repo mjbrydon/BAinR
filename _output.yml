@@ -1,0 +1,8 @@
+bookdown::gitbook:
+  css: style.css
+  includes:
+      in_header: GA_script.html
+  config:
+    toc:
+      before: |
+        <li>Basic Analytics in R</li>

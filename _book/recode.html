@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lesson 5 Recoding Data | Basic Analytics in R</title>
+  <meta name="description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lesson 5 Recoding Data | Basic Analytics in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lesson 5 Recoding Data | Basic Analytics in R" />
+  
+  <meta name="twitter:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+<meta name="author" content="Michael Brydon" />
+
+
+<meta name="date" content="2020-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="filter.html">
+<link rel="next" href="ttest.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li>Basic Analytics in R</li>
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#format-of-these-tutorials"><i class="fa fa-check"></i><b>1.1</b> Format of these tutorials</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#a-note-on-flexibility"><i class="fa fa-check"></i><b>1.2</b> A note on flexibility</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-get-started"><i class="fa fa-check"></i><b>1.3</b> How to get started</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#update-for-the-tidyverse"><i class="fa fa-check"></i><b>1.4</b> Update for the Tidyverse</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#a-note-on-python"><i class="fa fa-check"></i><b>1.5</b> A Note on Python</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Importing Data</a><ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>2.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data.html"><a href="data.html#open-an-r-script-file"><i class="fa fa-check"></i><b>2.1.1</b> Open an R script file</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data.html"><a href="data.html#executing-code"><i class="fa fa-check"></i><b>2.1.2</b> Executing code</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data.html"><a href="data.html#load-the-tidyverse-package-into-r"><i class="fa fa-check"></i><b>2.1.3</b> Load the tidyverse package into R</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data.html"><a href="data.html#assigning-objects-to-variables"><i class="fa fa-check"></i><b>2.1.4</b> Assigning objects to variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#data-frames-and-tibbles"><i class="fa fa-check"></i><b>2.2</b> Data frames and tibbles</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data.html"><a href="data.html#reading-a-csv-file"><i class="fa fa-check"></i><b>2.2.1</b> Reading a CSV file</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data.html"><a href="data.html#reading-an-excel-file"><i class="fa fa-check"></i><b>2.2.2</b> Reading an Excel file</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data.html"><a href="data.html#using-your-data"><i class="fa fa-check"></i><b>2.3</b> Using your data</a></li>
+<li class="chapter" data-level="2.4" data-path="data.html"><a href="data.html#factors-versus-character-data"><i class="fa fa-check"></i><b>2.4</b> Factors versus character data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualize.html"><a href="visualize.html"><i class="fa fa-check"></i><b>3</b> Basic Visualization</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualize.html"><a href="visualize.html#preliminaries-1"><i class="fa fa-check"></i><b>3.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualize.html"><a href="visualize.html#import-the-data-into-r-studio"><i class="fa fa-check"></i><b>3.1.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="3.1.2" data-path="visualize.html"><a href="visualize.html#use-variables-to-save-typing"><i class="fa fa-check"></i><b>3.1.2</b> Use variables to save typing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="visualize.html"><a href="visualize.html#basic-descriptive-statistics"><i class="fa fa-check"></i><b>3.1.3</b> Basic descriptive statistics</a></li>
+<li class="chapter" data-level="3.1.4" data-path="visualize.html"><a href="visualize.html#r-as-a-calculator"><i class="fa fa-check"></i><b>3.1.4</b> R as a calculator</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualize.html"><a href="visualize.html#histograms"><i class="fa fa-check"></i><b>3.2</b> Histograms</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualize.html"><a href="visualize.html#basic-formatting"><i class="fa fa-check"></i><b>3.2.1</b> Basic formatting</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualize.html"><a href="visualize.html#getting-help"><i class="fa fa-check"></i><b>3.2.2</b> Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualize.html"><a href="visualize.html#going-beyond"><i class="fa fa-check"></i><b>3.3</b> Going beyond</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualize.html"><a href="visualize.html#density-instead-of-frequency"><i class="fa fa-check"></i><b>3.3.1</b> Density instead of frequency</a></li>
+<li class="chapter" data-level="3.3.2" data-path="visualize.html"><a href="visualize.html#adding-a-kernel-density-line"><i class="fa fa-check"></i><b>3.3.2</b> Adding a kernel density line</a></li>
+<li class="chapter" data-level="3.3.3" data-path="visualize.html"><a href="visualize.html#adding-a-rug"><i class="fa fa-check"></i><b>3.3.3</b> Adding a rug</a></li>
+<li class="chapter" data-level="3.3.4" data-path="visualize.html"><a href="visualize.html#relative-frequency-more-advanced"><i class="fa fa-check"></i><b>3.3.4</b> Relative frequency (more advanced)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualize.html"><a href="visualize.html#using-ggplot"><i class="fa fa-check"></i><b>3.4</b> Using ggplot</a></li>
+<li class="chapter" data-level="3.5" data-path="visualize.html"><a href="visualize.html#creating-a-box-plot"><i class="fa fa-check"></i><b>3.5</b> Creating a box plot</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="filter.html"><a href="filter.html"><i class="fa fa-check"></i><b>4</b> Filtering Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="filter.html"><a href="filter.html#preliminaries-2"><i class="fa fa-check"></i><b>4.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="filter.html"><a href="filter.html#import-data"><i class="fa fa-check"></i><b>4.1.1</b> Import data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="filter.html"><a href="filter.html#filters"><i class="fa fa-check"></i><b>4.2</b> Filters</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="filter.html"><a href="filter.html#using-a-logical-critereon"><i class="fa fa-check"></i><b>4.2.1</b> Using a logical critereon</a></li>
+<li class="chapter" data-level="4.2.2" data-path="filter.html"><a href="filter.html#filtering-using-a-list"><i class="fa fa-check"></i><b>4.2.2</b> Filtering Using a List</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="filter.html"><a href="filter.html#syntatic-sugar"><i class="fa fa-check"></i><b>4.3</b> Syntatic sugar</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="filter.html"><a href="filter.html#membership"><i class="fa fa-check"></i><b>4.3.1</b> Membership</a></li>
+<li class="chapter" data-level="4.3.2" data-path="filter.html"><a href="filter.html#pipes"><i class="fa fa-check"></i><b>4.3.2</b> Pipes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recode.html"><a href="recode.html"><i class="fa fa-check"></i><b>5</b> Recoding Data</a><ul>
+<li class="chapter" data-level="5.1" data-path="recode.html"><a href="recode.html#preliminaries-3"><i class="fa fa-check"></i><b>5.1</b> Preliminaries</a></li>
+<li class="chapter" data-level="5.2" data-path="recode.html"><a href="recode.html#recode-a-text-column-to-a-dummy"><i class="fa fa-check"></i><b>5.2</b> Recode a Text Column to a Dummy</a></li>
+<li class="chapter" data-level="5.3" data-path="recode.html"><a href="recode.html#recode-according-to-list-membership"><i class="fa fa-check"></i><b>5.3</b> Recode According to List Membership</a></li>
+<li class="chapter" data-level="5.4" data-path="recode.html"><a href="recode.html#using-the-tidyverse"><i class="fa fa-check"></i><b>5.4</b> Using the tidyverse</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="recode.html"><a href="recode.html#mutate-basics"><i class="fa fa-check"></i><b>5.4.1</b> Mutate basics</a></li>
+<li class="chapter" data-level="5.4.2" data-path="recode.html"><a href="recode.html#recoding-categorical-data"><i class="fa fa-check"></i><b>5.4.2</b> Recoding categorical data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ttest.html"><a href="ttest.html"><i class="fa fa-check"></i><b>6</b> Gap Analysis Using t-Tests</a><ul>
+<li class="chapter" data-level="6.1" data-path="ttest.html"><a href="ttest.html#import-the-data-into-r-studio-1"><i class="fa fa-check"></i><b>6.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="6.2" data-path="ttest.html"><a href="ttest.html#visual-gap-analysis"><i class="fa fa-check"></i><b>6.2</b> Visual gap analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="ttest.html"><a href="ttest.html#boxplots-in-ggplot"><i class="fa fa-check"></i><b>6.2.1</b> Boxplots in ggplot</a></li>
+<li class="chapter" data-level="6.2.2" data-path="ttest.html"><a href="ttest.html#boxplots-in-base-r-and-formula-notation"><i class="fa fa-check"></i><b>6.2.2</b> Boxplots in base R (and formula notation)</a></li>
+<li class="chapter" data-level="6.2.3" data-path="ttest.html"><a href="ttest.html#histograms-1"><i class="fa fa-check"></i><b>6.2.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="ttest.html"><a href="ttest.html#t-test"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-test</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="ttest.html"><a href="ttest.html#columns-or-formulas"><i class="fa fa-check"></i><b>6.3.1</b> Columns or formulas?</a></li>
+<li class="chapter" data-level="6.3.2" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-columns"><i class="fa fa-check"></i><b>6.3.2</b> Equality of variance test (columns)</a></li>
+<li class="chapter" data-level="6.3.3" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-pivoted-columns"><i class="fa fa-check"></i><b>6.3.3</b> Equality of variance test (pivoted columns)</a></li>
+<li class="chapter" data-level="6.3.4" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-formula"><i class="fa fa-check"></i><b>6.3.4</b> Equality of variance test (formula)</a></li>
+<li class="chapter" data-level="6.3.5" data-path="ttest.html"><a href="ttest.html#unequal-variance-t-test"><i class="fa fa-check"></i><b>6.3.5</b> Unequal variance <em>t</em>-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="categorical.html"><a href="categorical.html"><i class="fa fa-check"></i><b>7</b> Gap Analysis with Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1" data-path="categorical.html"><a href="categorical.html#categorical-variables"><i class="fa fa-check"></i><b>7.1</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="categorical.html"><a href="categorical.html#preliminaries-4"><i class="fa fa-check"></i><b>7.1.1</b> Preliminaries</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="categorical.html"><a href="categorical.html#tables-in-r"><i class="fa fa-check"></i><b>7.2</b> Tables in R</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="categorical.html"><a href="categorical.html#simple-table"><i class="fa fa-check"></i><b>7.2.1</b> Simple Table</a></li>
+<li class="chapter" data-level="7.2.2" data-path="categorical.html"><a href="categorical.html#frequency-verus-proportions"><i class="fa fa-check"></i><b>7.2.2</b> Frequency Verus Proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="categorical.html"><a href="categorical.html#contingency-tables"><i class="fa fa-check"></i><b>7.3</b> Contingency Tables</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="categorical.html"><a href="categorical.html#using-gmodels"><i class="fa fa-check"></i><b>7.3.1</b> Using gmodels</a></li>
+<li class="chapter" data-level="7.3.2" data-path="categorical.html"><a href="categorical.html#using-gmodels-crosstable-command"><i class="fa fa-check"></i><b>7.3.2</b> Using gmodel’s CrossTable Command</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>8</b> Correlation and Scatterplots</a><ul>
+<li class="chapter" data-level="8.1" data-path="correlation.html"><a href="correlation.html#data-1"><i class="fa fa-check"></i><b>8.1</b> Data</a></li>
+<li class="chapter" data-level="8.2" data-path="correlation.html"><a href="correlation.html#scatterplots"><i class="fa fa-check"></i><b>8.2</b> Scatterplots</a></li>
+<li class="chapter" data-level="8.3" data-path="correlation.html"><a href="correlation.html#coefficient-of-correlation"><i class="fa fa-check"></i><b>8.3</b> Coefficient of correlation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="correlation.html"><a href="correlation.html#simple-correlation"><i class="fa fa-check"></i><b>8.3.1</b> Simple correlation</a></li>
+<li class="chapter" data-level="8.3.2" data-path="correlation.html"><a href="correlation.html#correlation-matrix"><i class="fa fa-check"></i><b>8.3.2</b> Correlation matrix</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#linear-regression"><i class="fa fa-check"></i><b>9.1</b> Linear Regression</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="regression.html"><a href="regression.html#review-of-the-basics"><i class="fa fa-check"></i><b>9.1.1</b> Review of the basics</a></li>
+<li class="chapter" data-level="9.1.2" data-path="regression.html"><a href="regression.html#formula-notation"><i class="fa fa-check"></i><b>9.1.2</b> Formula notation</a></li>
+<li class="chapter" data-level="9.1.3" data-path="regression.html"><a href="regression.html#model-quality-and-statistical-significance"><i class="fa fa-check"></i><b>9.1.3</b> Model quality and statistical significance</a></li>
+<li class="chapter" data-level="9.1.4" data-path="regression.html"><a href="regression.html#interpretation"><i class="fa fa-check"></i><b>9.1.4</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#regression-diagnostics"><i class="fa fa-check"></i><b>9.2</b> Regression diagnostics</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regression.html"><a href="regression.html#plots-in-base-r"><i class="fa fa-check"></i><b>9.2.1</b> Plots in base R</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regression.html"><a href="regression.html#ggplot-data"><i class="fa fa-check"></i><b>9.2.2</b> ggplot data</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regression.html"><a href="regression.html#ggplot-histogram"><i class="fa fa-check"></i><b>9.2.3</b> ggplot histogram</a></li>
+<li class="chapter" data-level="9.2.4" data-path="regression.html"><a href="regression.html#ggplot-predicted-versus-actuals"><i class="fa fa-check"></i><b>9.2.4</b> ggplot predicted versus actuals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="multiregression.html"><a href="multiregression.html"><i class="fa fa-check"></i><b>10</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="10.1" data-path="multiregression.html"><a href="multiregression.html#kitchen-sink-model"><i class="fa fa-check"></i><b>10.1</b> Kitchen sink model</a></li>
+<li class="chapter" data-level="10.2" data-path="multiregression.html"><a href="multiregression.html#categorical-explanatory-variables"><i class="fa fa-check"></i><b>10.2</b> Categorical explanatory variables</a></li>
+<li class="chapter" data-level="10.3" data-path="multiregression.html"><a href="multiregression.html#checking-for-colinearity"><i class="fa fa-check"></i><b>10.3</b> Checking for colinearity</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="multiregression.html"><a href="multiregression.html#scatterplot-matrix"><i class="fa fa-check"></i><b>10.3.1</b> Scatterplot matrix</a></li>
+<li class="chapter" data-level="10.3.2" data-path="multiregression.html"><a href="multiregression.html#correlation-matrix-1"><i class="fa fa-check"></i><b>10.3.2</b> Correlation matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="multiregression.html"><a href="multiregression.html#model-refinement"><i class="fa fa-check"></i><b>10.4</b> Model refinement</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="multiregression.html"><a href="multiregression.html#manual-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.1</b> Manual stepwise refinement</a></li>
+<li class="chapter" data-level="10.4.2" data-path="multiregression.html"><a href="multiregression.html#automated-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.2</b> Automated stepwise refinement</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="multiregression.html"><a href="multiregression.html#regression-diagnostics-1"><i class="fa fa-check"></i><b>10.5</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="10.6" data-path="multiregression.html"><a href="multiregression.html#standardized-regression-coefficients"><i class="fa fa-check"></i><b>10.6</b> Standardized regression coefficients</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="multiregression.html"><a href="multiregression.html#extracting-betas"><i class="fa fa-check"></i><b>10.6.1</b> Extracting betas</a></li>
+<li class="chapter" data-level="10.6.2" data-path="multiregression.html"><a href="multiregression.html#tornado-diagram"><i class="fa fa-check"></i><b>10.6.2</b> Tornado diagram</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Basic Analytics in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="recode" class="section level1">
+<h1><span class="header-section-number">Lesson 5</span> Recoding Data</h1>
+<p>The purpose of this tutorial is to show you how to recode columns (that is, to create a new column based on the values in one or more other columns). This is very simple in R and draws on many the same skills you might use when creating a new column in Excel using formulas and functions.</p>
+<div id="preliminaries-3" class="section level2">
+<h2><span class="header-section-number">5.1</span> Preliminaries</h2>
+<p>As always, we start by making sure we have the bank data loaded as a data frame in R Studio:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb46-2" title="2">Bank &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/Bank.csv&quot;</span>)</a></code></pre></div>
+</div>
+<div id="recode-a-text-column-to-a-dummy" class="section level2">
+<h2><span class="header-section-number">5.2</span> Recode a Text Column to a Dummy</h2>
+<p>A “dummy” or “indicator” variable takes on a value of either 0 or 1. The appeal of these particular values is that they are numerical and can be used with routines that only accept numerical data (such as linear regression). Textual binary variables such as Yes/No or True/False may be easier to read. But they are less amenable to regression.</p>
+<p>To add a new column to a tibble like Bank, you just define the column. For example:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">Bank<span class="op">$</span>Gender.Dummy &lt;-<span class="st"> </span><span class="dv">0</span></a></code></pre></div>
+<p>This appends a new column called <code>Gender.Dummy</code> to the Bank tibble and sets the value of the new column to 0 for every row. There is nothing special about this new column name: I use the period to remind myself that this is the dummy version of the Gender variable. I could have called it <code>Gender-Dummy</code> or anything else.</p>
+<p>Of course, setting all the values to 0 is not useful. To get a better value for Gender.Dummy, we have to look at the value of Gender in each row and make a decision. In Excel we use the <code>if()</code> function for such decisions. R offers a similar construct called <code>ifelse()</code>:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">Bank<span class="op">$</span>Gender.Dummy&lt;-<span class="kw">ifelse</span>(Bank<span class="op">$</span>Gender<span class="op">==</span><span class="st">&quot;Male&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>)</a></code></pre></div>
+<p>If Bank$Gender equals “Male” then the ifelse function returns a value of 1. Otherwise it returns a value of zero. In this way, a textual binary variable can be recoded as a numeric binary variable.</p>
+</div>
+<div id="recode-according-to-list-membership" class="section level2">
+<h2><span class="header-section-number">5.3</span> Recode According to List Membership</h2>
+<p>Say that we wanted to recode the JobGrade variable, which takes on values 1 through 6, to a <em>coarser-grained</em> binary variable: 0 = non-management and 1 = management. Assume that JobGrade &gt; 4 corresponds to managerial roles.</p>
+<p>We could use that condition (JobGrade &gt;) in an ifelse() statement to create a new variable:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">Bank<span class="op">$</span>Mgmt.Dummy &lt;-<span class="st"> </span><span class="kw">ifelse</span>(Bank<span class="op">$</span>JobGrade <span class="op">&gt;</span><span class="st"> </span><span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a></code></pre></div>
+<p>But lets use a more flexible “list membership” approach instead. Create a list of non-management job grades using the combine operator:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">nonmgmt=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</a></code></pre></div>
+<p>Now we can use that list plus the is.element() function to distinguish managers from non-managers:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1">Bank<span class="op">$</span>Mgmt.Dummy &lt;-<span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.element</span>(Bank<span class="op">$</span>JobGrade, nonmgmt),<span class="st">&quot;non-mgmt&quot;</span>, <span class="st">&quot;mgmt&quot;</span>)</a></code></pre></div>
+<p>The ifelse function checks to see whether Bank$JobGrade is an element of the list nonmgnt (as defined above). If it is, it returns the string “non-mgmt”; otherwise, it returns the string “mgmt”. Of course, we could have used 0 and 1 in place of the strings “non-mgmt” and “mgmt”.</p>
+</div>
+<div id="using-the-tidyverse" class="section level2">
+<h2><span class="header-section-number">5.4</span> Using the tidyverse</h2>
+<p>Recoding is such a common task in data analysis that the tidyverse’s dplyr package has several functions to simplify the process.</p>
+<div id="mutate-basics" class="section level3">
+<h3><span class="header-section-number">5.4.1</span> Mutate basics</h3>
+<p>The following statement appends a binary (dummy, indicator) column to the Bank tibble and then writes the result to the same tibble (in other words, it updates the Bank tibble):</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1">  Bank &lt;-<span class="st"> </span><span class="kw">mutate</span>(Bank, <span class="dt">Gender.Dummy =</span> <span class="kw">if_else</span>(Gender<span class="op">==</span><span class="st">&quot;Female&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>))</a></code></pre></div>
+<p>Note here that I used the dplyr version of <code>if_else</code> rather than R’s built-in <code>ifelse</code>. The dplyr version might be a bit safer, but I find they work about the same.</p>
+<p>Of course, this could also be written using pipes to make the whole thing <em>slightly</em> more readable:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1">  Bank &lt;-<span class="st"> </span>Bank <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Gender.Dummy =</span> <span class="kw">if_else</span>(Gender<span class="op">==</span><span class="st">&quot;Female&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>))</a></code></pre></div>
+<p>What this says (starting on the right of the assignment operator) is:</p>
+<ol style="list-style-type: decimal">
+<li>Start with Bank</li>
+<li>Mutate it by adding Gender.Dummy. The value of Gender.Dummy depends on the value of Gender.</li>
+<li>Assign the resulting tibble back to the Bank tibble.</li>
+</ol>
+</div>
+<div id="recoding-categorical-data" class="section level3">
+<h3><span class="header-section-number">5.4.2</span> Recoding categorical data</h3>
+<p>Considering the following code, which is more illustrative than useful:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1">Bank <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Manager =</span> <span class="kw">recode</span>(JobGrade, </a>
+<a class="sourceLine" id="cb54-2" title="2">  <span class="st">&quot;1&quot;</span> =<span class="st"> &quot;Non-mgmt&quot;</span>,</a>
+<a class="sourceLine" id="cb54-3" title="3">  <span class="st">&quot;2&quot;</span> =<span class="st"> &quot;Non-mgmt&quot;</span>,</a>
+<a class="sourceLine" id="cb54-4" title="4">  <span class="st">&quot;3&quot;</span> =<span class="st"> &quot;Non-mgmt&quot;</span>,</a>
+<a class="sourceLine" id="cb54-5" title="5">  <span class="st">&quot;4&quot;</span> =<span class="st"> &quot;Non-mgmt&quot;</span>,</a>
+<a class="sourceLine" id="cb54-6" title="6">  <span class="dt">.default =</span> <span class="st">&quot;Mgmt&quot;</span>))  <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb54-7" title="7"><span class="st">  </span><span class="kw">select</span>(Employee, JobGrade, Gender, Manager)</a></code></pre></div>
+<pre><code>## # A tibble: 208 x 4
+##    Employee JobGrade Gender Manager 
+##       &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;   
+##  1        1        1 Male   Non-mgmt
+##  2        2        1 Female Non-mgmt
+##  3        3        1 Female Non-mgmt
+##  4        4        1 Female Non-mgmt
+##  5        5        1 Male   Non-mgmt
+##  6        6        1 Female Non-mgmt
+##  7        7        1 Female Non-mgmt
+##  8        8        1 Male   Non-mgmt
+##  9        9        1 Female Non-mgmt
+## 10       10        1 Female Non-mgmt
+## # ... with 198 more rows</code></pre>
+<p>The statement does the following:</p>
+<ol style="list-style-type: decimal">
+<li>It starts with the Bank data frame (since Bank is piped into <code>mutate()</code>)</li>
+<li>It creates a new variable called “Manager” and sets its value based on the <code>recode</code> function.</li>
+<li>The first argument in the <code>recode</code> function is the source, JobGrade. The other arguments are the mappings from old values to new values. The special mapping “.default” means “everything else”. So here, JobGrade={1,2,3,4} are mapped to “Non-mgmt” and all other values of JobGrade are mapped to “Mgmt”.</li>
+<li>The results of the <code>mutate</code> function are piped to the <code>select</code> function. Select simply limits the columns so the new Manager column shows in the output. Without it, the tibble is too wide to show in the console.</li>
+</ol>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="filter.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ttest.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

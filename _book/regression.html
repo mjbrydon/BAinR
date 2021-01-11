@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lesson 9 Simple Linear Regression | Basic Analytics in R</title>
+  <meta name="description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lesson 9 Simple Linear Regression | Basic Analytics in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lesson 9 Simple Linear Regression | Basic Analytics in R" />
+  
+  <meta name="twitter:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+<meta name="author" content="Michael Brydon" />
+
+
+<meta name="date" content="2020-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="correlation.html">
+<link rel="next" href="multiregression.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li>Basic Analytics in R</li>
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#format-of-these-tutorials"><i class="fa fa-check"></i><b>1.1</b> Format of these tutorials</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#a-note-on-flexibility"><i class="fa fa-check"></i><b>1.2</b> A note on flexibility</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-get-started"><i class="fa fa-check"></i><b>1.3</b> How to get started</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#update-for-the-tidyverse"><i class="fa fa-check"></i><b>1.4</b> Update for the Tidyverse</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#a-note-on-python"><i class="fa fa-check"></i><b>1.5</b> A Note on Python</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Importing Data</a><ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>2.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data.html"><a href="data.html#open-an-r-script-file"><i class="fa fa-check"></i><b>2.1.1</b> Open an R script file</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data.html"><a href="data.html#executing-code"><i class="fa fa-check"></i><b>2.1.2</b> Executing code</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data.html"><a href="data.html#load-the-tidyverse-package-into-r"><i class="fa fa-check"></i><b>2.1.3</b> Load the tidyverse package into R</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data.html"><a href="data.html#assigning-objects-to-variables"><i class="fa fa-check"></i><b>2.1.4</b> Assigning objects to variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#data-frames-and-tibbles"><i class="fa fa-check"></i><b>2.2</b> Data frames and tibbles</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data.html"><a href="data.html#reading-a-csv-file"><i class="fa fa-check"></i><b>2.2.1</b> Reading a CSV file</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data.html"><a href="data.html#reading-an-excel-file"><i class="fa fa-check"></i><b>2.2.2</b> Reading an Excel file</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data.html"><a href="data.html#using-your-data"><i class="fa fa-check"></i><b>2.3</b> Using your data</a></li>
+<li class="chapter" data-level="2.4" data-path="data.html"><a href="data.html#factors-versus-character-data"><i class="fa fa-check"></i><b>2.4</b> Factors versus character data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualize.html"><a href="visualize.html"><i class="fa fa-check"></i><b>3</b> Basic Visualization</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualize.html"><a href="visualize.html#preliminaries-1"><i class="fa fa-check"></i><b>3.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualize.html"><a href="visualize.html#import-the-data-into-r-studio"><i class="fa fa-check"></i><b>3.1.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="3.1.2" data-path="visualize.html"><a href="visualize.html#use-variables-to-save-typing"><i class="fa fa-check"></i><b>3.1.2</b> Use variables to save typing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="visualize.html"><a href="visualize.html#basic-descriptive-statistics"><i class="fa fa-check"></i><b>3.1.3</b> Basic descriptive statistics</a></li>
+<li class="chapter" data-level="3.1.4" data-path="visualize.html"><a href="visualize.html#r-as-a-calculator"><i class="fa fa-check"></i><b>3.1.4</b> R as a calculator</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualize.html"><a href="visualize.html#histograms"><i class="fa fa-check"></i><b>3.2</b> Histograms</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualize.html"><a href="visualize.html#basic-formatting"><i class="fa fa-check"></i><b>3.2.1</b> Basic formatting</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualize.html"><a href="visualize.html#getting-help"><i class="fa fa-check"></i><b>3.2.2</b> Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualize.html"><a href="visualize.html#going-beyond"><i class="fa fa-check"></i><b>3.3</b> Going beyond</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualize.html"><a href="visualize.html#density-instead-of-frequency"><i class="fa fa-check"></i><b>3.3.1</b> Density instead of frequency</a></li>
+<li class="chapter" data-level="3.3.2" data-path="visualize.html"><a href="visualize.html#adding-a-kernel-density-line"><i class="fa fa-check"></i><b>3.3.2</b> Adding a kernel density line</a></li>
+<li class="chapter" data-level="3.3.3" data-path="visualize.html"><a href="visualize.html#adding-a-rug"><i class="fa fa-check"></i><b>3.3.3</b> Adding a rug</a></li>
+<li class="chapter" data-level="3.3.4" data-path="visualize.html"><a href="visualize.html#relative-frequency-more-advanced"><i class="fa fa-check"></i><b>3.3.4</b> Relative frequency (more advanced)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualize.html"><a href="visualize.html#using-ggplot"><i class="fa fa-check"></i><b>3.4</b> Using ggplot</a></li>
+<li class="chapter" data-level="3.5" data-path="visualize.html"><a href="visualize.html#creating-a-box-plot"><i class="fa fa-check"></i><b>3.5</b> Creating a box plot</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="filter.html"><a href="filter.html"><i class="fa fa-check"></i><b>4</b> Filtering Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="filter.html"><a href="filter.html#preliminaries-2"><i class="fa fa-check"></i><b>4.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="filter.html"><a href="filter.html#import-data"><i class="fa fa-check"></i><b>4.1.1</b> Import data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="filter.html"><a href="filter.html#filters"><i class="fa fa-check"></i><b>4.2</b> Filters</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="filter.html"><a href="filter.html#using-a-logical-critereon"><i class="fa fa-check"></i><b>4.2.1</b> Using a logical critereon</a></li>
+<li class="chapter" data-level="4.2.2" data-path="filter.html"><a href="filter.html#filtering-using-a-list"><i class="fa fa-check"></i><b>4.2.2</b> Filtering Using a List</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="filter.html"><a href="filter.html#syntatic-sugar"><i class="fa fa-check"></i><b>4.3</b> Syntatic sugar</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="filter.html"><a href="filter.html#membership"><i class="fa fa-check"></i><b>4.3.1</b> Membership</a></li>
+<li class="chapter" data-level="4.3.2" data-path="filter.html"><a href="filter.html#pipes"><i class="fa fa-check"></i><b>4.3.2</b> Pipes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recode.html"><a href="recode.html"><i class="fa fa-check"></i><b>5</b> Recoding Data</a><ul>
+<li class="chapter" data-level="5.1" data-path="recode.html"><a href="recode.html#preliminaries-3"><i class="fa fa-check"></i><b>5.1</b> Preliminaries</a></li>
+<li class="chapter" data-level="5.2" data-path="recode.html"><a href="recode.html#recode-a-text-column-to-a-dummy"><i class="fa fa-check"></i><b>5.2</b> Recode a Text Column to a Dummy</a></li>
+<li class="chapter" data-level="5.3" data-path="recode.html"><a href="recode.html#recode-according-to-list-membership"><i class="fa fa-check"></i><b>5.3</b> Recode According to List Membership</a></li>
+<li class="chapter" data-level="5.4" data-path="recode.html"><a href="recode.html#using-the-tidyverse"><i class="fa fa-check"></i><b>5.4</b> Using the tidyverse</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="recode.html"><a href="recode.html#mutate-basics"><i class="fa fa-check"></i><b>5.4.1</b> Mutate basics</a></li>
+<li class="chapter" data-level="5.4.2" data-path="recode.html"><a href="recode.html#recoding-categorical-data"><i class="fa fa-check"></i><b>5.4.2</b> Recoding categorical data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ttest.html"><a href="ttest.html"><i class="fa fa-check"></i><b>6</b> Gap Analysis Using t-Tests</a><ul>
+<li class="chapter" data-level="6.1" data-path="ttest.html"><a href="ttest.html#import-the-data-into-r-studio-1"><i class="fa fa-check"></i><b>6.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="6.2" data-path="ttest.html"><a href="ttest.html#visual-gap-analysis"><i class="fa fa-check"></i><b>6.2</b> Visual gap analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="ttest.html"><a href="ttest.html#boxplots-in-ggplot"><i class="fa fa-check"></i><b>6.2.1</b> Boxplots in ggplot</a></li>
+<li class="chapter" data-level="6.2.2" data-path="ttest.html"><a href="ttest.html#boxplots-in-base-r-and-formula-notation"><i class="fa fa-check"></i><b>6.2.2</b> Boxplots in base R (and formula notation)</a></li>
+<li class="chapter" data-level="6.2.3" data-path="ttest.html"><a href="ttest.html#histograms-1"><i class="fa fa-check"></i><b>6.2.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="ttest.html"><a href="ttest.html#t-test"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-test</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="ttest.html"><a href="ttest.html#columns-or-formulas"><i class="fa fa-check"></i><b>6.3.1</b> Columns or formulas?</a></li>
+<li class="chapter" data-level="6.3.2" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-columns"><i class="fa fa-check"></i><b>6.3.2</b> Equality of variance test (columns)</a></li>
+<li class="chapter" data-level="6.3.3" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-pivoted-columns"><i class="fa fa-check"></i><b>6.3.3</b> Equality of variance test (pivoted columns)</a></li>
+<li class="chapter" data-level="6.3.4" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-formula"><i class="fa fa-check"></i><b>6.3.4</b> Equality of variance test (formula)</a></li>
+<li class="chapter" data-level="6.3.5" data-path="ttest.html"><a href="ttest.html#unequal-variance-t-test"><i class="fa fa-check"></i><b>6.3.5</b> Unequal variance <em>t</em>-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="categorical.html"><a href="categorical.html"><i class="fa fa-check"></i><b>7</b> Gap Analysis with Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1" data-path="categorical.html"><a href="categorical.html#categorical-variables"><i class="fa fa-check"></i><b>7.1</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="categorical.html"><a href="categorical.html#preliminaries-4"><i class="fa fa-check"></i><b>7.1.1</b> Preliminaries</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="categorical.html"><a href="categorical.html#tables-in-r"><i class="fa fa-check"></i><b>7.2</b> Tables in R</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="categorical.html"><a href="categorical.html#simple-table"><i class="fa fa-check"></i><b>7.2.1</b> Simple Table</a></li>
+<li class="chapter" data-level="7.2.2" data-path="categorical.html"><a href="categorical.html#frequency-verus-proportions"><i class="fa fa-check"></i><b>7.2.2</b> Frequency Verus Proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="categorical.html"><a href="categorical.html#contingency-tables"><i class="fa fa-check"></i><b>7.3</b> Contingency Tables</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="categorical.html"><a href="categorical.html#using-gmodels"><i class="fa fa-check"></i><b>7.3.1</b> Using gmodels</a></li>
+<li class="chapter" data-level="7.3.2" data-path="categorical.html"><a href="categorical.html#using-gmodels-crosstable-command"><i class="fa fa-check"></i><b>7.3.2</b> Using gmodel’s CrossTable Command</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>8</b> Correlation and Scatterplots</a><ul>
+<li class="chapter" data-level="8.1" data-path="correlation.html"><a href="correlation.html#data-1"><i class="fa fa-check"></i><b>8.1</b> Data</a></li>
+<li class="chapter" data-level="8.2" data-path="correlation.html"><a href="correlation.html#scatterplots"><i class="fa fa-check"></i><b>8.2</b> Scatterplots</a></li>
+<li class="chapter" data-level="8.3" data-path="correlation.html"><a href="correlation.html#coefficient-of-correlation"><i class="fa fa-check"></i><b>8.3</b> Coefficient of correlation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="correlation.html"><a href="correlation.html#simple-correlation"><i class="fa fa-check"></i><b>8.3.1</b> Simple correlation</a></li>
+<li class="chapter" data-level="8.3.2" data-path="correlation.html"><a href="correlation.html#correlation-matrix"><i class="fa fa-check"></i><b>8.3.2</b> Correlation matrix</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#linear-regression"><i class="fa fa-check"></i><b>9.1</b> Linear Regression</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="regression.html"><a href="regression.html#review-of-the-basics"><i class="fa fa-check"></i><b>9.1.1</b> Review of the basics</a></li>
+<li class="chapter" data-level="9.1.2" data-path="regression.html"><a href="regression.html#formula-notation"><i class="fa fa-check"></i><b>9.1.2</b> Formula notation</a></li>
+<li class="chapter" data-level="9.1.3" data-path="regression.html"><a href="regression.html#model-quality-and-statistical-significance"><i class="fa fa-check"></i><b>9.1.3</b> Model quality and statistical significance</a></li>
+<li class="chapter" data-level="9.1.4" data-path="regression.html"><a href="regression.html#interpretation"><i class="fa fa-check"></i><b>9.1.4</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#regression-diagnostics"><i class="fa fa-check"></i><b>9.2</b> Regression diagnostics</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regression.html"><a href="regression.html#plots-in-base-r"><i class="fa fa-check"></i><b>9.2.1</b> Plots in base R</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regression.html"><a href="regression.html#ggplot-data"><i class="fa fa-check"></i><b>9.2.2</b> ggplot data</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regression.html"><a href="regression.html#ggplot-histogram"><i class="fa fa-check"></i><b>9.2.3</b> ggplot histogram</a></li>
+<li class="chapter" data-level="9.2.4" data-path="regression.html"><a href="regression.html#ggplot-predicted-versus-actuals"><i class="fa fa-check"></i><b>9.2.4</b> ggplot predicted versus actuals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="multiregression.html"><a href="multiregression.html"><i class="fa fa-check"></i><b>10</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="10.1" data-path="multiregression.html"><a href="multiregression.html#kitchen-sink-model"><i class="fa fa-check"></i><b>10.1</b> Kitchen sink model</a></li>
+<li class="chapter" data-level="10.2" data-path="multiregression.html"><a href="multiregression.html#categorical-explanatory-variables"><i class="fa fa-check"></i><b>10.2</b> Categorical explanatory variables</a></li>
+<li class="chapter" data-level="10.3" data-path="multiregression.html"><a href="multiregression.html#checking-for-colinearity"><i class="fa fa-check"></i><b>10.3</b> Checking for colinearity</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="multiregression.html"><a href="multiregression.html#scatterplot-matrix"><i class="fa fa-check"></i><b>10.3.1</b> Scatterplot matrix</a></li>
+<li class="chapter" data-level="10.3.2" data-path="multiregression.html"><a href="multiregression.html#correlation-matrix-1"><i class="fa fa-check"></i><b>10.3.2</b> Correlation matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="multiregression.html"><a href="multiregression.html#model-refinement"><i class="fa fa-check"></i><b>10.4</b> Model refinement</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="multiregression.html"><a href="multiregression.html#manual-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.1</b> Manual stepwise refinement</a></li>
+<li class="chapter" data-level="10.4.2" data-path="multiregression.html"><a href="multiregression.html#automated-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.2</b> Automated stepwise refinement</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="multiregression.html"><a href="multiregression.html#regression-diagnostics-1"><i class="fa fa-check"></i><b>10.5</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="10.6" data-path="multiregression.html"><a href="multiregression.html#standardized-regression-coefficients"><i class="fa fa-check"></i><b>10.6</b> Standardized regression coefficients</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="multiregression.html"><a href="multiregression.html#extracting-betas"><i class="fa fa-check"></i><b>10.6.1</b> Extracting betas</a></li>
+<li class="chapter" data-level="10.6.2" data-path="multiregression.html"><a href="multiregression.html#tornado-diagram"><i class="fa fa-check"></i><b>10.6.2</b> Tornado diagram</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Basic Analytics in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="regression" class="section level1">
+<h1><span class="header-section-number">Lesson 9</span> Simple Linear Regression</h1>
+<p>The purpose of this tutorial is to continue our exploration of multivariate statistics by conducting a simple (one explanatory variable) linear regression analysis. We will continue to use the concrete strength data from Lesson <a href="correlation.html#correlation">8</a>.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb101-2" title="2">Con &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/ConcreteStrength.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb101-3" title="3"><span class="co">## rename some columns to make them easier to use in R</span></a>
+<a class="sourceLine" id="cb101-4" title="4">Con &lt;-<span class="st"> </span>Con <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">Strength =</span> <span class="st">&quot;Compressive Strength (28-day)(Mpa)&quot;</span>,</a>
+<a class="sourceLine" id="cb101-5" title="5">       <span class="dt">FlyAsh =</span> <span class="st">&quot;Fly ash&quot;</span>,</a>
+<a class="sourceLine" id="cb101-6" title="6">       <span class="dt">CoarseAgg =</span> <span class="st">&quot;Coarse Aggr.&quot;</span>,</a>
+<a class="sourceLine" id="cb101-7" title="7">       <span class="dt">FineAgg =</span> <span class="st">&quot;Fine Aggr.&quot;</span>,</a>
+<a class="sourceLine" id="cb101-8" title="8">       <span class="dt">AirEntrain =</span> <span class="st">&quot;Air Entrainment&quot;</span>)</a></code></pre></div>
+<div id="linear-regression" class="section level2">
+<h2><span class="header-section-number">9.1</span> Linear Regression</h2>
+<div id="review-of-the-basics" class="section level3">
+<h3><span class="header-section-number">9.1.1</span> Review of the basics</h3>
+<p>The <code>lm</code> function in R constructs—as its name implies—a <em>linear model</em> from data. Recall that a linear model is of the form <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + ... + \beta_n X_n\)</span>, where <span class="math inline">\(Y\)</span> is the value of the response variable and <span class="math inline">\(X_i\)</span> is the value of the explanatory variable(s).</p>
+<p>“Fitting a line” means finding values for each <span class="math inline">\(\beta_i\)</span> so that the error (or “residual”) between the fitted line and the observed data is minimized. We think of each <span class="math inline">\(\beta_i\)</span> as the <em>slope</em> of the line (also called the “coefficient” or “parameter”). The slopes <em>learned</em> by the linear regression algorithm can be used in two ways:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Root cause analysis:</strong> The size, direction (positive or negative), and statistical significance of each slope provides us with a better understanding of the factors that might <em>cause</em> variation in the value of the response variable <span class="math inline">\(Y\)</span>. <strong>Example:</strong> If we have a regression equation <span class="math inline">\(Sales = \beta_0 + \beta_1 Advertising\)</span>, then we can use <span class="math inline">\(\beta_1\)</span> to better understand the impact of our spending on advertising on sales. Obviously, we want every dollar we spend on advertising to result in <em>at least</em> a dollar increase in sales, otherwise we are losing money on our advertising efforts. A statistically insignificant value of <span class="math inline">\(\beta_1\)</span> suggests that advertising has no impact on sales.</p></li>
+<li><p><strong>Prediction:</strong> The parameterized linear model <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + ... + \beta_n X_n\)</span> can be solved for values of the explanatory variables <span class="math inline">\(X_i\)</span>. This allows us to <em>predict</em> values of <span class="math inline">\(Y\)</span> using the known values of <span class="math inline">\(X\)</span>. <strong>Example:</strong> If we have a regression equation <span class="math inline">\(Sales = \beta_0 + \beta_1 Advertising\)</span> and the learned values of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, then we can plug-in our expected advertising spend (<span class="math inline">\(Advertising\)</span>) and predict our sales for the coming period.</p></li>
+</ol>
+</div>
+<div id="formula-notation" class="section level3">
+<h3><span class="header-section-number">9.1.2</span> Formula notation</h3>
+<p>Given a tibble of data, we have to tell the <code>lm</code> function which column to use as the response variable and which column (or columns, in multiple regression) to use as the explanatory variable. We do this using the <em>formula</em> notation. Thus, the general form of the function call is: <code>lm(Y ~ X1 + X2 + ... + Xn)</code>, where <code>Y</code> is the response variable and each <code>Xi</code> is an explanatory variable. Again, we read the tilde (~) symbol as “as a function of”. So this <code>lm</code> call gives us a model in which variable (column) Y is a function of some other columns named X1, etc.</p>
+<p>In our first simple regression, the response variable is Strength and the explanatory variable is FlyAsh:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" title="1"><span class="kw">lm</span>(Strength <span class="op">~</span><span class="st"> </span>FlyAsh, <span class="dt">data=</span>Con)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Strength ~ FlyAsh, data = Con)
+## 
+## Coefficients:
+## (Intercept)       FlyAsh  
+##    26.27637      0.04405</code></pre>
+<p>Note that the command does not give much information by default: It simply builds the model and provides two values:</p>
+<ol style="list-style-type: decimal">
+<li>The y-intercept <span class="math inline">\(\beta_0\)</span> (which we generally ignore in root cause analysis)</li>
+<li>The coefficient <span class="math inline">\(\beta_1\)</span>, which in this case is interpreted as the slope for FlyAsh.</li>
+</ol>
+<p>Here we conclude that a one unit increase in fly ash is associated with a 0.04405 increase in compressive strength. Of course, we need more information about the regression to make any reliable conclusions. Does the model satisfy the assumptions of linear regression? Does the model fit the data (high R<sup>2</sup>)? The the fly ash coefficient significantly different from zero?</p>
+</div>
+<div id="model-quality-and-statistical-significance" class="section level3">
+<h3><span class="header-section-number">9.1.3</span> Model quality and statistical significance</h3>
+<p>We will come back to the question of whether the linear model is valid (whether it satisfies the assumptions of the technique). First we want to understand how to access the more detailed information provided by the <code>lm()</code> function. To do this, we typically store the linear model in an intermediate R object and then access the model using other functions. Specifically:</p>
+<ol style="list-style-type: decimal">
+<li>Create an intermediate object (I call it “model.1” below) to hold the results of the <code>lm</code> function.</li>
+<li>Use <code>summary()</code> to get a more traditional report of the regression output.</li>
+<li>Use <code>confint</code> to get the 95% confidence intervals around the fly ash coefficient.</li>
+</ol>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1">model<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">lm</span>(Strength <span class="op">~</span><span class="st"> </span>FlyAsh, <span class="dt">data=</span>Con)</a>
+<a class="sourceLine" id="cb104-2" title="2"><span class="kw">summary</span>(model<span class="fl">.1</span>)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Strength ~ FlyAsh, data = Con)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -15.8827  -6.1842  -0.1203   6.1940  19.0176 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 26.276368   1.690565   15.54  &lt; 2e-16 ***
+## FlyAsh       0.044048   0.009854    4.47 2.05e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 8.501 on 101 degrees of freedom
+## Multiple R-squared:  0.1652, Adjusted R-squared:  0.1569 
+## F-statistic: 19.98 on 1 and 101 DF,  p-value: 2.05e-05</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" title="1"><span class="kw">confint</span>(model<span class="fl">.1</span>)</a></code></pre></div>
+<pre><code>##                   2.5 %      97.5 %
+## (Intercept) 22.92274091 29.62999524
+## FlyAsh       0.02449962  0.06359668</code></pre>
+</div>
+<div id="interpretation" class="section level3">
+<h3><span class="header-section-number">9.1.4</span> Interpretation</h3>
+<p>You should be getting comfortable with the output from statistical packages by now (having used regression in Excel and SAS). The <code>summary</code> function in R starts with a five-number summary of the residuals. We will plot the residuals in a moment, so we do not need to consider the distribution of the residuals at this point.</p>
+<p>Next, we get a table of the coefficients. As before, we focus on the estimated value of the coefficient itself (a one-unit increase in fly ash is associated with a 0.044048 increase in strength) and the <em>p</em>-value (2.05 x 10<sup>-05</sup>). R uses old-school notation ("***") to indicate at a glance that this is highly significant.</p>
+<p>Finally, the summary provides information on the overall model quality. We focus on the R<sup>2</sup> fit statistic (0.1652), which is not particularly good despite the apparently strong relationship between fly ash and compressive strength. Of course, these are exactly the same results you saw using both Excel and SAS Enterprise Guide, so they should look familiar.</p>
+<p>So what is the point of the <code>confint</code> function? Our best estimate of the slope for fly ash is 0.044048. We know the slope is unlikely to be zero because the <em>p</em>-value is very small. However, we also know that the overall model is not very good (low-ish R<sup>2</sup>). How should we process all these different types of information? One way is to simply calculate the 95% confidence intervals around the coefficient estimate. The <code>confint</code> function above tells us that we can be 95% confident that the true slope of the fly ash line falls somewhere between 0.02449962 and 0.06359668. The R notation might look a bit odd, but is simply says there is a 2.5% probability that the slope is less than 0.02… and a 97.5% probabilty the slope is less that 0.06… (which means a 2.5% probability that it is <em>greater</em> than 0.06…). This interval does not include zero (which we know already from the <em>p</em>-value) but does vary enough to stop us putting too much faith in the precise coefficient estimate 0.044048. We conclude (provisionally) that fly ash has some kind of positive impact on concrete strength, but can say too much more than that.</p>
+</div>
+</div>
+<div id="regression-diagnostics" class="section level2">
+<h2><span class="header-section-number">9.2</span> Regression diagnostics</h2>
+<p>Any regression model you build might be completely bogus. You need to check <em>before</em> expending any effort on interpreting the regression model or coefficients. Note that this is a critical shortcoming of Excel: it does not provide an easy way to check the distribution of regression residuals. Until it does so, Excel is not an appropriate tool for real analytics.</p>
+<p>How do we know if a regression model is bogus? Recall that an important assumption of the linear regression model is that the errors (residuals) are normally distributed. That means some of the residuals are positive, some are negative, but most are small and close to zero. The easiest way to assess whether the residuals are normal is to plot them in a histogram or boxplot.</p>
+<div id="plots-in-base-r" class="section level3">
+<h3><span class="header-section-number">9.2.1</span> Plots in base R</h3>
+<p>The <code>residuals()</code> function returns a vector containing the residual for each row in the dataset. Recall that the residual is the difference (or “error”) between the observed value of the response variable and the predicted value based on the linear model. We can plot theses residuals just like any other data using base R functions like <code>hist</code> and <code>boxplot</code>. Although not as pretty as gglplot graphics, they give us a quick sense for whether our model is valid.</p>
+<p>Note that like most R functions, <code>residuals</code> can be shortened to save a few keystrokes:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" title="1"><span class="kw">hist</span>(<span class="kw">resid</span>(model<span class="fl">.1</span>))</a></code></pre></div>
+<p><img src="09_regression_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" title="1"><span class="kw">boxplot</span>(<span class="kw">resid</span>(model<span class="fl">.1</span>), <span class="dt">horizontal=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="09_regression_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<p>Quantile-quantile (Q-Q) plots show the same information. The <code>qqnorm</code> function draws the basic plot, but an additional call needs to be made to the <code>qqline</code> function to get a reference line, as in SAS:</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" title="1"><span class="kw">qqnorm</span>(<span class="kw">resid</span>(model<span class="fl">.1</span>))</a>
+<a class="sourceLine" id="cb110-2" title="2"><span class="kw">qqline</span>(<span class="kw">resid</span>(model<span class="fl">.1</span>))</a></code></pre></div>
+<p><img src="09_regression_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Finally, it is helpful to get a graphical representation of overall model quality. Recall that the R<sup>2</sup> is only 0.1652. But what does it mean to <em>explain</em> 16.5% of the variance in concrete strength using fly ash? The predicted versus actual plot (which SAS gives us as part of is standard suite of regression diagnostics) provides a good way to visualize the overall quality of the model.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" title="1"><span class="kw">plot</span>(<span class="kw">fitted</span>(model<span class="fl">.1</span>), Con<span class="op">$</span>Strength, <span class="dt">xlab=</span><span class="st">&quot;predicted value&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;observed value&quot;</span>)</a></code></pre></div>
+<p><img src="09_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Ideally, we would have a perfect 45-degree line through the data points meaning that observed and predicted are similar. In this plot you see some deviation (in accordance with the low R<sup>2</sup>).</p>
+</div>
+<div id="ggplot-data" class="section level3">
+<h3><span class="header-section-number">9.2.2</span> ggplot data</h3>
+<p>Functions like <code>residuals</code> and <code>fitted</code> provide <em>vectors</em> as their output data structure. ggplot and other tidyverse functions require <em>tibbles</em> as input. Thus, creating ggplot visuals from these functions requires some extra work. The tidyverse “broom” package provides functions to help make the output from base R functions “tidy”. To get a sense for how this works, do the following:</p>
+<ol style="list-style-type: decimal">
+<li>Load the broom library. It is installed with the tidyverse, but is not loaded by default.<br />
+</li>
+<li>Pass the model to the <code>augment</code> function of the broom package using a pipe <code>%&gt;%</code>. Augment extracts the “augmented” information from the model (rediduals, predicted values, and so on).</li>
+<li>Display the first few rows of the resulting tibble using the <code>head</code> function.</li>
+</ol>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" title="1">  <span class="kw">library</span>(broom)</a>
+<a class="sourceLine" id="cb112-2" title="2">  model<span class="fl">.1</span> <span class="op">%&gt;%</span><span class="st"> </span>augment <span class="op">%&gt;%</span><span class="st"> </span>head</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 9
+##   Strength FlyAsh .fitted .se.fit  .resid    .hat .sigma .cooksd .std.resid
+##      &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+## 1     35.0    105    30.9   0.943   4.09  0.0123    8.53 1.46e-3     0.484 
+## 2     32.3    191    34.7   0.934  -2.42  0.0121    8.54 5.00e-4    -0.286 
+## 3     35.4    191    34.7   0.934   0.760 0.0121    8.54 4.95e-5     0.0900
+## 4     42.1    190    34.6   0.930   7.43  0.0120    8.51 4.69e-3     0.880 
+## 5     26.8    144    32.6   0.839  -5.80  0.00974   8.52 2.31e-3    -0.686 
+## 6     18.1    115    31.3   0.902 -13.2   0.0113    8.44 1.40e-2    -1.57</code></pre>
+<p>As you can see from the <code>head</code> output, the augmented tibble includes the observed values of Strength and FlyAsh in addition to the predicted value (.“fitted”) and the residual (“.resid”). You can confirm that .resid = Strength - .fitted.</p>
+</div>
+<div id="ggplot-histogram" class="section level3">
+<h3><span class="header-section-number">9.2.3</span> ggplot histogram</h3>
+<p>Now that we have the augmented model data in a tibble, we can use the ggplot functions to create diagnostic plots:</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" title="1">  model<span class="fl">.1</span> <span class="op">%&gt;%</span><span class="st"> </span>augment <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb114-2" title="2"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>.resid), <span class="dt">bins=</span><span class="dv">8</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb114-3" title="3"><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Distribution of Residuals&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb114-4" title="4"><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Residual&quot;</span>)</a></code></pre></div>
+<p><img src="09_regression_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="ggplot-predicted-versus-actuals" class="section level3">
+<h3><span class="header-section-number">9.2.4</span> ggplot predicted versus actuals</h3>
+<p>Here I make two improvements over the base R version above. First, I use the min and max functions to get an adequate range for both the X and Y axis. Second, by using the same range for both axes, I can draw a 45-degree reference line (slope = 1)</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" title="1">obs_max &lt;-<span class="st"> </span><span class="kw">max</span>(Con<span class="op">$</span>Strength)</a>
+<a class="sourceLine" id="cb115-2" title="2">obs_min =<span class="st"> </span><span class="kw">min</span>(Con<span class="op">$</span>Strength)</a>
+<a class="sourceLine" id="cb115-3" title="3">model<span class="fl">.1</span> <span class="op">%&gt;%</span><span class="st"> </span>augment <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-4" title="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>.fitted, <span class="dt">y=</span>Strength), <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-5" title="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted vs. Actual&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-6" title="6"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Observed&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-7" title="7"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Predicted&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-8" title="8"><span class="st">  </span><span class="kw">xlim</span>(obs_min, obs_max) <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-9" title="9"><span class="st">  </span><span class="kw">ylim</span>(obs_min, obs_max) <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-10" title="10"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope=</span><span class="dv">1</span>, <span class="dt">intercept=</span><span class="dv">0</span>, <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>)</a></code></pre></div>
+<p><img src="09_regression_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>This provides a slightly prettier graph. But the conclusion is still the same: this is not a good explanatory model.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="correlation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multiregression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

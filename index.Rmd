@@ -1,0 +1,61 @@
+--- 
+title: "Basic Analytics in R"
+author: "Michael Brydon"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook
+documentclass: book
+description: "This is a brief overview of the R language as it related to my Business Analytics courses at SFU.  It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide"
+---
+
+# Introduction {#intro}
+
+R is an open source programming language especially designed for manipulating data and performing statistical analysis.  It is very similar to SAS Enterprise Guide except:
+
+1.  R is a _programming language_.  It does not have a workflow-type graphical interface (at least not yet).
+2.  R is free and works on all platforms.
+
+The programming language part of R is a significant barrier to casual use.  But its power-per-price ratio is so compelling that R has become essential for data scientists and anyone with even a passing interest in analytics.
+
+## Format of these tutorials
+
+Something to consider:
+
+* Statistical analysis is hard to learn.
+* R is hard to learn.
+* Learning statistics and R at the same time is nearly impossible.
+
+The idea with these tutorials is not to provide a comprehensive introduction to R, but rather to build incrementally on the other material in the course:
+
+1. *Do a task in Excel*: conceptually simple but laborious and error prone
+2. *Do the same task in SAS Enterprise Guide*: inherently more complex but offers significant guidance from the wizard interface
+3. *Do the task a third time in R*: by this point you should have a good sense of the statistical and data aspects of the task and be able to focus on the R language and its requirements
+
+## A note on flexibility
+
+As you know if you have done a lot of work in Excel, there are often many different ways of accomplishing a task. The _right_ way often comes down to personal preference and broader considerations about the reliability and understandability of your approach: It is never good thing to spend hours creating a complex spreadsheet model that you cannot understand three months later.  It is also a problem if your approach is so fragile (e.g., it depends on all sorts of embedded assumptions) that the model breaks when you make a single change.
+
+The same is true in R. What I have done in these tutorials is show one (or occasionally two) ways to accomplish a task.  But a quick Google search will confirm that there are other ways. And the wide availability of add-in packages for R means there often much better ways (see the note on "the tidyverse" below).  So keep this in mind as you work through these tutorials.  If you want more or better ways you need only Google.
+
+## How to get started
+
+R needs an environment in which to run so you need to download (at the very least) the bare-bones R package.  But many practitioners also recommend a more full-featured environment like R Studio.
+[Download R Studio](https://www.rstudio.com/)
+
+The best place to get started as an SFU student is the excellent Lynda.com materials on the SFU library site. Lynda.com includes a course called "R Statistics Essential Training" which walks you though the basics.  At the very least you should use the Lynda.com materials (or some other resource) to show you how to get R and R Studio up and running.
+[seach for Lynda on SFU Library site](http://lib.sfu.ca)
+
+There are zillions of R resources on the web, including Lynda.com. Often, the easiest way to answer a specific question is to Google it.
+
+## Update for the Tidyverse
+
+R has a package-based architecture.  This means that the core R package can be extended with additional special-purpose packages written and maintained by others in the open source community.  One such package (actually a collection of packages) is called the "tidyverse".  The tidyverse was released in 2016 in order to make data wrangling in R a bit easier and/or more flexible. It is built around the idea of "tidy" data. Use of the tidyverse (especially the graphics package ggplot2) is now so common in data science that I have re-written these tutorials to make better use of it.
+
+## A Note on Python
+
+R has been around for more than 20 years as a language specifically designed for statistical analysis. What does this mean?  First of all, R has built-in functions for common statistical tasks (e.g., *t*-tests, regression, and so on).  Second, R works naturally with vectors and matrices, which is handy when we have tabular data.  No fiddly range selection (like in Excel) or looping (like in conventional programming languages).  R has taken-off in recent years due to the growth in analytics generally and packages like the tidyverse, which have made it much easier to manipulate data and create impressive visualizations.
+
+Python, on the other hand is a general purpose programming language (like Java, C++ or BASIC).  However, Python has also seen an explosion in add-on packages for data manipulation, graphics, and statistical analysis. In addition, interactive notebook versions, such as Ipython and now Jupyter, make it possible to work interactively with Python (write a few lines of code, run the code, view the results).  Bottom line: R and Python can be loaded up with add-on libraries and tools to the point that they are very similar.  At the end of the day, they are both interactive programming languages that can be used to read data, generate graphics, and run many different types of analyses.
+
+My guess is that Python, which is a much cleaner and more versatile language, will eventually replace R as the language of choice for data science.  But since we are simply trying to get a sense for how statistical programming languages work, R is a good place to start.

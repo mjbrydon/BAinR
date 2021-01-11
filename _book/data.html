@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lesson 2 Importing Data | Basic Analytics in R</title>
+  <meta name="description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lesson 2 Importing Data | Basic Analytics in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lesson 2 Importing Data | Basic Analytics in R" />
+  
+  <meta name="twitter:description" content="This is a brief overview of the R language as it related to my Business Analytics courses at SFU. It is meant to be a complement to doing tasks with other tools, such as Excel and SAS Enterprise Guide" />
+  
+
+<meta name="author" content="Michael Brydon" />
+
+
+<meta name="date" content="2020-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html">
+<link rel="next" href="visualize.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li>Basic Analytics in R</li>
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#format-of-these-tutorials"><i class="fa fa-check"></i><b>1.1</b> Format of these tutorials</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#a-note-on-flexibility"><i class="fa fa-check"></i><b>1.2</b> A note on flexibility</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-get-started"><i class="fa fa-check"></i><b>1.3</b> How to get started</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#update-for-the-tidyverse"><i class="fa fa-check"></i><b>1.4</b> Update for the Tidyverse</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#a-note-on-python"><i class="fa fa-check"></i><b>1.5</b> A Note on Python</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Importing Data</a><ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#preliminaries"><i class="fa fa-check"></i><b>2.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data.html"><a href="data.html#open-an-r-script-file"><i class="fa fa-check"></i><b>2.1.1</b> Open an R script file</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data.html"><a href="data.html#executing-code"><i class="fa fa-check"></i><b>2.1.2</b> Executing code</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data.html"><a href="data.html#load-the-tidyverse-package-into-r"><i class="fa fa-check"></i><b>2.1.3</b> Load the tidyverse package into R</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data.html"><a href="data.html#assigning-objects-to-variables"><i class="fa fa-check"></i><b>2.1.4</b> Assigning objects to variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#data-frames-and-tibbles"><i class="fa fa-check"></i><b>2.2</b> Data frames and tibbles</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data.html"><a href="data.html#reading-a-csv-file"><i class="fa fa-check"></i><b>2.2.1</b> Reading a CSV file</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data.html"><a href="data.html#reading-an-excel-file"><i class="fa fa-check"></i><b>2.2.2</b> Reading an Excel file</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data.html"><a href="data.html#using-your-data"><i class="fa fa-check"></i><b>2.3</b> Using your data</a></li>
+<li class="chapter" data-level="2.4" data-path="data.html"><a href="data.html#factors-versus-character-data"><i class="fa fa-check"></i><b>2.4</b> Factors versus character data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualize.html"><a href="visualize.html"><i class="fa fa-check"></i><b>3</b> Basic Visualization</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualize.html"><a href="visualize.html#preliminaries-1"><i class="fa fa-check"></i><b>3.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualize.html"><a href="visualize.html#import-the-data-into-r-studio"><i class="fa fa-check"></i><b>3.1.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="3.1.2" data-path="visualize.html"><a href="visualize.html#use-variables-to-save-typing"><i class="fa fa-check"></i><b>3.1.2</b> Use variables to save typing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="visualize.html"><a href="visualize.html#basic-descriptive-statistics"><i class="fa fa-check"></i><b>3.1.3</b> Basic descriptive statistics</a></li>
+<li class="chapter" data-level="3.1.4" data-path="visualize.html"><a href="visualize.html#r-as-a-calculator"><i class="fa fa-check"></i><b>3.1.4</b> R as a calculator</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualize.html"><a href="visualize.html#histograms"><i class="fa fa-check"></i><b>3.2</b> Histograms</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualize.html"><a href="visualize.html#basic-formatting"><i class="fa fa-check"></i><b>3.2.1</b> Basic formatting</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualize.html"><a href="visualize.html#getting-help"><i class="fa fa-check"></i><b>3.2.2</b> Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualize.html"><a href="visualize.html#going-beyond"><i class="fa fa-check"></i><b>3.3</b> Going beyond</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualize.html"><a href="visualize.html#density-instead-of-frequency"><i class="fa fa-check"></i><b>3.3.1</b> Density instead of frequency</a></li>
+<li class="chapter" data-level="3.3.2" data-path="visualize.html"><a href="visualize.html#adding-a-kernel-density-line"><i class="fa fa-check"></i><b>3.3.2</b> Adding a kernel density line</a></li>
+<li class="chapter" data-level="3.3.3" data-path="visualize.html"><a href="visualize.html#adding-a-rug"><i class="fa fa-check"></i><b>3.3.3</b> Adding a rug</a></li>
+<li class="chapter" data-level="3.3.4" data-path="visualize.html"><a href="visualize.html#relative-frequency-more-advanced"><i class="fa fa-check"></i><b>3.3.4</b> Relative frequency (more advanced)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualize.html"><a href="visualize.html#using-ggplot"><i class="fa fa-check"></i><b>3.4</b> Using ggplot</a></li>
+<li class="chapter" data-level="3.5" data-path="visualize.html"><a href="visualize.html#creating-a-box-plot"><i class="fa fa-check"></i><b>3.5</b> Creating a box plot</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="filter.html"><a href="filter.html"><i class="fa fa-check"></i><b>4</b> Filtering Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="filter.html"><a href="filter.html#preliminaries-2"><i class="fa fa-check"></i><b>4.1</b> Preliminaries</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="filter.html"><a href="filter.html#import-data"><i class="fa fa-check"></i><b>4.1.1</b> Import data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="filter.html"><a href="filter.html#filters"><i class="fa fa-check"></i><b>4.2</b> Filters</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="filter.html"><a href="filter.html#using-a-logical-critereon"><i class="fa fa-check"></i><b>4.2.1</b> Using a logical critereon</a></li>
+<li class="chapter" data-level="4.2.2" data-path="filter.html"><a href="filter.html#filtering-using-a-list"><i class="fa fa-check"></i><b>4.2.2</b> Filtering Using a List</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="filter.html"><a href="filter.html#syntatic-sugar"><i class="fa fa-check"></i><b>4.3</b> Syntatic sugar</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="filter.html"><a href="filter.html#membership"><i class="fa fa-check"></i><b>4.3.1</b> Membership</a></li>
+<li class="chapter" data-level="4.3.2" data-path="filter.html"><a href="filter.html#pipes"><i class="fa fa-check"></i><b>4.3.2</b> Pipes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recode.html"><a href="recode.html"><i class="fa fa-check"></i><b>5</b> Recoding Data</a><ul>
+<li class="chapter" data-level="5.1" data-path="recode.html"><a href="recode.html#preliminaries-3"><i class="fa fa-check"></i><b>5.1</b> Preliminaries</a></li>
+<li class="chapter" data-level="5.2" data-path="recode.html"><a href="recode.html#recode-a-text-column-to-a-dummy"><i class="fa fa-check"></i><b>5.2</b> Recode a Text Column to a Dummy</a></li>
+<li class="chapter" data-level="5.3" data-path="recode.html"><a href="recode.html#recode-according-to-list-membership"><i class="fa fa-check"></i><b>5.3</b> Recode According to List Membership</a></li>
+<li class="chapter" data-level="5.4" data-path="recode.html"><a href="recode.html#using-the-tidyverse"><i class="fa fa-check"></i><b>5.4</b> Using the tidyverse</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="recode.html"><a href="recode.html#mutate-basics"><i class="fa fa-check"></i><b>5.4.1</b> Mutate basics</a></li>
+<li class="chapter" data-level="5.4.2" data-path="recode.html"><a href="recode.html#recoding-categorical-data"><i class="fa fa-check"></i><b>5.4.2</b> Recoding categorical data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ttest.html"><a href="ttest.html"><i class="fa fa-check"></i><b>6</b> Gap Analysis Using t-Tests</a><ul>
+<li class="chapter" data-level="6.1" data-path="ttest.html"><a href="ttest.html#import-the-data-into-r-studio-1"><i class="fa fa-check"></i><b>6.1</b> Import the data into R Studio</a></li>
+<li class="chapter" data-level="6.2" data-path="ttest.html"><a href="ttest.html#visual-gap-analysis"><i class="fa fa-check"></i><b>6.2</b> Visual gap analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="ttest.html"><a href="ttest.html#boxplots-in-ggplot"><i class="fa fa-check"></i><b>6.2.1</b> Boxplots in ggplot</a></li>
+<li class="chapter" data-level="6.2.2" data-path="ttest.html"><a href="ttest.html#boxplots-in-base-r-and-formula-notation"><i class="fa fa-check"></i><b>6.2.2</b> Boxplots in base R (and formula notation)</a></li>
+<li class="chapter" data-level="6.2.3" data-path="ttest.html"><a href="ttest.html#histograms-1"><i class="fa fa-check"></i><b>6.2.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="ttest.html"><a href="ttest.html#t-test"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-test</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="ttest.html"><a href="ttest.html#columns-or-formulas"><i class="fa fa-check"></i><b>6.3.1</b> Columns or formulas?</a></li>
+<li class="chapter" data-level="6.3.2" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-columns"><i class="fa fa-check"></i><b>6.3.2</b> Equality of variance test (columns)</a></li>
+<li class="chapter" data-level="6.3.3" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-pivoted-columns"><i class="fa fa-check"></i><b>6.3.3</b> Equality of variance test (pivoted columns)</a></li>
+<li class="chapter" data-level="6.3.4" data-path="ttest.html"><a href="ttest.html#equality-of-variance-test-formula"><i class="fa fa-check"></i><b>6.3.4</b> Equality of variance test (formula)</a></li>
+<li class="chapter" data-level="6.3.5" data-path="ttest.html"><a href="ttest.html#unequal-variance-t-test"><i class="fa fa-check"></i><b>6.3.5</b> Unequal variance <em>t</em>-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="categorical.html"><a href="categorical.html"><i class="fa fa-check"></i><b>7</b> Gap Analysis with Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1" data-path="categorical.html"><a href="categorical.html#categorical-variables"><i class="fa fa-check"></i><b>7.1</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="categorical.html"><a href="categorical.html#preliminaries-4"><i class="fa fa-check"></i><b>7.1.1</b> Preliminaries</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="categorical.html"><a href="categorical.html#tables-in-r"><i class="fa fa-check"></i><b>7.2</b> Tables in R</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="categorical.html"><a href="categorical.html#simple-table"><i class="fa fa-check"></i><b>7.2.1</b> Simple Table</a></li>
+<li class="chapter" data-level="7.2.2" data-path="categorical.html"><a href="categorical.html#frequency-verus-proportions"><i class="fa fa-check"></i><b>7.2.2</b> Frequency Verus Proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="categorical.html"><a href="categorical.html#contingency-tables"><i class="fa fa-check"></i><b>7.3</b> Contingency Tables</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="categorical.html"><a href="categorical.html#using-gmodels"><i class="fa fa-check"></i><b>7.3.1</b> Using gmodels</a></li>
+<li class="chapter" data-level="7.3.2" data-path="categorical.html"><a href="categorical.html#using-gmodels-crosstable-command"><i class="fa fa-check"></i><b>7.3.2</b> Using gmodel’s CrossTable Command</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>8</b> Correlation and Scatterplots</a><ul>
+<li class="chapter" data-level="8.1" data-path="correlation.html"><a href="correlation.html#data-1"><i class="fa fa-check"></i><b>8.1</b> Data</a></li>
+<li class="chapter" data-level="8.2" data-path="correlation.html"><a href="correlation.html#scatterplots"><i class="fa fa-check"></i><b>8.2</b> Scatterplots</a></li>
+<li class="chapter" data-level="8.3" data-path="correlation.html"><a href="correlation.html#coefficient-of-correlation"><i class="fa fa-check"></i><b>8.3</b> Coefficient of correlation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="correlation.html"><a href="correlation.html#simple-correlation"><i class="fa fa-check"></i><b>8.3.1</b> Simple correlation</a></li>
+<li class="chapter" data-level="8.3.2" data-path="correlation.html"><a href="correlation.html#correlation-matrix"><i class="fa fa-check"></i><b>8.3.2</b> Correlation matrix</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#linear-regression"><i class="fa fa-check"></i><b>9.1</b> Linear Regression</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="regression.html"><a href="regression.html#review-of-the-basics"><i class="fa fa-check"></i><b>9.1.1</b> Review of the basics</a></li>
+<li class="chapter" data-level="9.1.2" data-path="regression.html"><a href="regression.html#formula-notation"><i class="fa fa-check"></i><b>9.1.2</b> Formula notation</a></li>
+<li class="chapter" data-level="9.1.3" data-path="regression.html"><a href="regression.html#model-quality-and-statistical-significance"><i class="fa fa-check"></i><b>9.1.3</b> Model quality and statistical significance</a></li>
+<li class="chapter" data-level="9.1.4" data-path="regression.html"><a href="regression.html#interpretation"><i class="fa fa-check"></i><b>9.1.4</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#regression-diagnostics"><i class="fa fa-check"></i><b>9.2</b> Regression diagnostics</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regression.html"><a href="regression.html#plots-in-base-r"><i class="fa fa-check"></i><b>9.2.1</b> Plots in base R</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regression.html"><a href="regression.html#ggplot-data"><i class="fa fa-check"></i><b>9.2.2</b> ggplot data</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regression.html"><a href="regression.html#ggplot-histogram"><i class="fa fa-check"></i><b>9.2.3</b> ggplot histogram</a></li>
+<li class="chapter" data-level="9.2.4" data-path="regression.html"><a href="regression.html#ggplot-predicted-versus-actuals"><i class="fa fa-check"></i><b>9.2.4</b> ggplot predicted versus actuals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="multiregression.html"><a href="multiregression.html"><i class="fa fa-check"></i><b>10</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="10.1" data-path="multiregression.html"><a href="multiregression.html#kitchen-sink-model"><i class="fa fa-check"></i><b>10.1</b> Kitchen sink model</a></li>
+<li class="chapter" data-level="10.2" data-path="multiregression.html"><a href="multiregression.html#categorical-explanatory-variables"><i class="fa fa-check"></i><b>10.2</b> Categorical explanatory variables</a></li>
+<li class="chapter" data-level="10.3" data-path="multiregression.html"><a href="multiregression.html#checking-for-colinearity"><i class="fa fa-check"></i><b>10.3</b> Checking for colinearity</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="multiregression.html"><a href="multiregression.html#scatterplot-matrix"><i class="fa fa-check"></i><b>10.3.1</b> Scatterplot matrix</a></li>
+<li class="chapter" data-level="10.3.2" data-path="multiregression.html"><a href="multiregression.html#correlation-matrix-1"><i class="fa fa-check"></i><b>10.3.2</b> Correlation matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="multiregression.html"><a href="multiregression.html#model-refinement"><i class="fa fa-check"></i><b>10.4</b> Model refinement</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="multiregression.html"><a href="multiregression.html#manual-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.1</b> Manual stepwise refinement</a></li>
+<li class="chapter" data-level="10.4.2" data-path="multiregression.html"><a href="multiregression.html#automated-stepwise-refinement"><i class="fa fa-check"></i><b>10.4.2</b> Automated stepwise refinement</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="multiregression.html"><a href="multiregression.html#regression-diagnostics-1"><i class="fa fa-check"></i><b>10.5</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="10.6" data-path="multiregression.html"><a href="multiregression.html#standardized-regression-coefficients"><i class="fa fa-check"></i><b>10.6</b> Standardized regression coefficients</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="multiregression.html"><a href="multiregression.html#extracting-betas"><i class="fa fa-check"></i><b>10.6.1</b> Extracting betas</a></li>
+<li class="chapter" data-level="10.6.2" data-path="multiregression.html"><a href="multiregression.html#tornado-diagram"><i class="fa fa-check"></i><b>10.6.2</b> Tornado diagram</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Basic Analytics in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data" class="section level1">
+<h1><span class="header-section-number">Lesson 2</span> Importing Data</h1>
+<p>You cannot do much of interest in R without data. Typically, your data is stored in some kind of information system. But, with a bit of skill and luck, you can typically export or extract data into an Excel or a comma-separated value (.csv) file. Of course, the data must be structured as a table, with rows and columns. You may also have a header row, which contains the name of the variable in each column.</p>
+<div id="preliminaries" class="section level2">
+<h2><span class="header-section-number">2.1</span> Preliminaries</h2>
+<div id="open-an-r-script-file" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Open an R script file</h3>
+<p>Although you can type commands directly into the R console (bottom-left pane in RStudio), you are better off creating a script file, which can be saved for future use. You execute the lines in the script interactively, either individually or in blocks.</p>
+<ol style="list-style-type: decimal">
+<li>Open R Studio and create a new R script file (hint: File -&gt; New)</li>
+<li>Save the script file. It is good practice to save early and often.</li>
+</ol>
+</div>
+<div id="executing-code" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> Executing code</h3>
+<p>Hitting the “Enter” key in a script file simply moves you to a new line. To execute a line of code from within a script file in the R Studio environment, you must do the following:</p>
+<ol style="list-style-type: decimal">
+<li>If you hit Control-Enter when your cursor is on a line of code, that line of code will be executed.</li>
+<li>If you highlight a block of code and hit Control-Enter all the lines of code within the block will be executed. Note that you have to highlight the whole block. If you leave out a few characters you will get a cryptic error.</li>
+<li>There is a little “Run” button at the top of the script window you can press in place of Control-Enter.</li>
+</ol>
+</div>
+<div id="load-the-tidyverse-package-into-r" class="section level3">
+<h3><span class="header-section-number">2.1.3</span> Load the tidyverse package into R</h3>
+<p>As noted in Lesson <a href="index.html#intro">1</a>, the core R package can be extended with other packages. For this to work, we have to do the following:</p>
+<ol style="list-style-type: decimal">
+<li>Download the other “library” package (this only has to be done once)</li>
+<li>Load the package in the R environment so its special functions and commands can be used (this has to be done every time you want to use the package)</li>
+</ol>
+<p>To download and install a package, simply use the install tool in RStudio:
+<img src="graphics/package_install.png" /></p>
+<p>The tidyverse is a collection of packages, so you can save yourself a bit of effort by installing the whole tidyverse collection instead of installing each component package individually. Enter “tidyverse” into the search dialog and hit the install button. You will see lots of messages in the console window. If all goes well, the many components of the tidyverse will be installed on your machine.</p>
+<p>To <em>use</em> the tidyverse packages in your R scripts, you have to load them into the current R environment. You can load the individual components of the tidyverse, or the whole thing at once. Regardless, you load a package by calling the <code>library</code> function at the top of your script:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<p>You get a lot of output (and perhaps even some warnings) as all the <em>core</em> components of the tidyverse are loaded: readr, ggplot2, dplyr, tidyr, etc. You can now call functions from any of these packages in your script.</p>
+</div>
+<div id="assigning-objects-to-variables" class="section level3">
+<h3><span class="header-section-number">2.1.4</span> Assigning objects to variables</h3>
+<p>Like any programming language, R is based on <em>variables</em>. A variable refers to a simple piece of data (e.g., x = 2) or something more complex, like a data frame in R (x = BankData). One difference in R is that we use <code>&lt;-</code> as the <em>assignment operator</em> instead of <code>=</code> (though R will begrudgingly accept the equals sign). The assignment operator assigns whatever is on the right of the operator to the variable on the left of the operator (hence the arrow). Below we use it to assign the result of a data import function to a variable called “Bank”. We get to pick our own variable names, of course. You could just as easily call the variable “bank”, “bank.data”, or “foo”. In general:</p>
+<ol style="list-style-type: decimal">
+<li>Avoid cryptic variable names that tell you nothing about their contents (e.g, X, x, i)</li>
+<li>Avoid special characters like $, %, &amp;, etc.</li>
+<li>Use underscore (_) or period (.) instead of whitespace</li>
+<li>To be safe, avoid names that are likely to be reserved in the language (e.g, “function”, “matrix”“, etc.). Variations like”MyFunction" or “bank.matrix” are fine, of course.</li>
+</ol>
+</div>
+</div>
+<div id="data-frames-and-tibbles" class="section level2">
+<h2><span class="header-section-number">2.2</span> Data frames and tibbles</h2>
+<p>A “data frame” is a data structure within R that exactly matches the rows and columns of your spreadsheet data (assuming your data is nicely structured into rows and columns). A “tibble” is the tidyverse’s incremental improvement on the data frame. Tibbles (think “tables”) are used by all tidyverse commands and functions, so the first step in any data analysis project is to use tidyverse functions to import your data as a tibble.</p>
+<div id="reading-a-csv-file" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Reading a CSV file</h3>
+<p>CSV is the most generic file type you will see. It is a non-proprietary text file (human readable) in which the values are separated by commas (hence the name). You can create a CSV file by exporting from Excel and most other program using File -&gt; Save As.</p>
+<p>To import the contents of a CSV file into the R environment as tibble, you use the assignment operator <code>&lt;-</code> and the <code>read_csv</code> function from the tidyverse’s “readr” package. Here, I call my target tibble “Bank”, but it could be just about any variable name.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">Bank &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/Bank.csv&quot;</span>)</a></code></pre></div>
+<p>Note that I need to know the path (either relative or absolute) to the CSV file on my computer. If you want to save yourself some typing, you can use RStudio’s “Import Dataset” tool and then copy the resulting <code>read_csv</code> statement into your script:</p>
+<ol style="list-style-type: decimal">
+<li>If you have not done so, create a CSV version of the Bank dataset by opening it in Excel and saving as CSV.</li>
+<li>Click “Import Dataset” in the top-right panel of RStudio.</li>
+</ol>
+<p><img src="graphics/import_readr.png" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>You will see two “Import Text” options: one for base R and the other from the “readr” library. The readr library is part of the tidyverse, and since the tidyverse is installed (recall the installation step above), RStudio makes readr’s import functionality available.</li>
+<li>Select the readr version of “Import Text” and navigate to your CSV file.</li>
+<li>Look at the console and note the <code>Bank &lt;- read_csv("&lt;...&gt;/Bank.csv")</code> command. You can cut and paste this into your script.</li>
+<li>The <code>View(Bank)</code> function call is added by RStudio. It simply shows your tibble in the RStudio viewer. You can keep it open or close the tab.</li>
+</ol>
+</div>
+<div id="reading-an-excel-file" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Reading an Excel file</h3>
+<p>Excel is a bit riskier because some open source programs refuse to play nice with proprietary file formats, such as Microsoft Excel. That is where the tidyverse comes in: it provides R with ability to read Excel directly. The only catch is that the “readxl” package is not part of the <em>core</em> tidyverse and is not loaded when you run <code>library(tidyverse)</code>. If you forget to load the readxl package explicitly in your script, R will assume a call to the <code>read_excel</code> function is a typo.</p>
+<ol style="list-style-type: decimal">
+<li>Redo the the “Import Dataset” steps from above, but choose “From Excel” instead of “From Text”.</li>
+<li>Select the Excel version of the bank dataset.</li>
+</ol>
+<p>Note that the RStudio loads the “readxl” package for you.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>You can change the name of the tibble (“dataset” by default) to anything you want. I changed mine to “BankXL”, so my import statement is <code>BankXL &lt;- read_excel("&lt;...&gt;/Bank.xlsx")</code>.</li>
+<li>Again, you can use <code>View(BankXL)</code> to view the contents of the tibble in RStudio’s viewer.</li>
+</ol>
+</div>
+</div>
+<div id="using-your-data" class="section level2">
+<h2><span class="header-section-number">2.3</span> Using your data</h2>
+<p>The <code>View</code> function gives you a spreadsheet view your data. You can also use the <code>glimpse</code> function from the “dplyr” package to get a text-oriented summary of your variables names, datatypes, and a few sample values. You should glimpse your data after importing data to make sure your datatypes imported correctly (numbers as numbers, text as text, dates as dates):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">  dplyr<span class="op">::</span><span class="kw">glimpse</span>(Bank)</a></code></pre></div>
+<pre><code>## Observations: 208
+## Variables: 9
+## $ Employee &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16...
+## $ EducLev  &lt;dbl&gt; 3, 1, 1, 2, 3, 3, 3, 3, 1, 3, 3, 2, 2, 2, 3, 3, 3, 2,...
+## $ JobGrade &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,...
+## $ YrHired  &lt;dbl&gt; 92, 81, 83, 87, 92, 92, 91, 87, 91, 86, 86, 87, 86, 8...
+## $ YrBorn   &lt;dbl&gt; 69, 57, 60, 55, 67, 71, 68, 62, 33, 64, 61, 58, 58, 3...
+## $ Gender   &lt;chr&gt; &quot;Male&quot;, &quot;Female&quot;, &quot;Female&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;Female...
+## $ YrsPrior &lt;dbl&gt; 1, 1, 0, 7, 0, 0, 0, 2, 0, 0, 2, 8, 0, 6, 0, 0, 0, 9,...
+## $ PCJob    &lt;chr&gt; &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;,...
+## $ Salary   &lt;dbl&gt; 32.00, 39.10, 33.20, 30.60, 29.00, 30.50, 30.00, 27.0...</code></pre>
+<p>Note: I used the function’s full name: <code>&lt;package name&gt;::&lt;function name&gt;</code> above. I don’t <em>need</em> to use the full name in this case because the tidyverse is loaded and no other package in my R environment has the name “glimpse”. However, the full name makes it clear to others (and my future self) that <code>glimpse</code> is not part of R, but is part of the dplyr package.</p>
+<p>Alternatively, you can use the <code>summary</code> function to get a summary of each column in the data frame. For each numeric column,<code>summary</code> provides a five-number summary (quartiles and mean). For columns containing text (or “character” data), <code>summary</code> simply tells you the datatype.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">  <span class="kw">summary</span>(Bank)</a></code></pre></div>
+<pre><code>##     Employee         EducLev         JobGrade       YrHired     
+##  Min.   :  1.00   Min.   :1.000   Min.   :1.00   Min.   :56.00  
+##  1st Qu.: 52.75   1st Qu.:2.000   1st Qu.:1.00   1st Qu.:82.00  
+##  Median :104.50   Median :3.000   Median :3.00   Median :87.00  
+##  Mean   :104.50   Mean   :3.159   Mean   :2.76   Mean   :85.33  
+##  3rd Qu.:156.25   3rd Qu.:5.000   3rd Qu.:4.00   3rd Qu.:90.00  
+##  Max.   :208.00   Max.   :5.000   Max.   :6.00   Max.   :93.00  
+##      YrBorn         Gender             YrsPrior         PCJob          
+##  Min.   :30.00   Length:208         Min.   : 0.000   Length:208        
+##  1st Qu.:47.75   Class :character   1st Qu.: 0.000   Class :character  
+##  Median :56.50   Mode  :character   Median : 1.000   Mode  :character  
+##  Mean   :54.61                      Mean   : 2.375                     
+##  3rd Qu.:63.00                      3rd Qu.: 4.000                     
+##  Max.   :73.00                      Max.   :18.000                     
+##      Salary     
+##  Min.   :26.70  
+##  1st Qu.:33.00  
+##  Median :37.00  
+##  Mean   :39.92  
+##  3rd Qu.:44.00  
+##  Max.   :97.00</code></pre>
+</div>
+<div id="factors-versus-character-data" class="section level2">
+<h2><span class="header-section-number">2.4</span> Factors versus character data</h2>
+<p>R is used for many types of data analysis, so the default in the tidyverse is to treat character data as character data—that is, to do nothing special with it. Older R functions, in contrast, automatically convert character columns to “factors”. A factor is just a statistical term for a categorical variable: a variable that takes on a fixed number of values, like {“red”, “green”, “blue”} or {“Chevy”, “Honda”, “Benz”}. A factor is thus a special type of character data that R recognizes as distinct category names. Factors can be very useful when doing traditional statistical analysis (which is what we will do here).</p>
+<p>In the bank data set, we have two legitimate categorical variables: PCJob={yes, no} and Gender={male, female}. We can convert these two columns to factors using the <code>as.factor</code> function:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">  Bank<span class="op">$</span>PCJob &lt;-<span class="st"> </span><span class="kw">as.factor</span>(Bank<span class="op">$</span>PCJob)</a>
+<a class="sourceLine" id="cb7-2" title="2">  Bank<span class="op">$</span>Gender &lt;-<span class="st"> </span><span class="kw">as.factor</span>(Bank<span class="op">$</span>Gender)</a></code></pre></div>
+<p>These lines might look complex, but they are really quite simple. Consider the left-hand side of the first line of code:</p>
+<ol style="list-style-type: decimal">
+<li>The tibble (data frame) is called “Bank”</li>
+<li>The column I want to update in the tibble is called “PCJob”</li>
+<li>The full name of the column I want to update is thus: <code>Bank$PCJob</code>. Note that this does not simply refer to a single value in the column. It refers to the entire column—a vector of values.</li>
+</ol>
+<p><strong>Q</strong>: Why does R use $ instead of (say) a dot to separate the data frame and the column name?</p>
+<p><strong>A</strong>: Because.</p>
+<p>The right-hand side of the assignment operator is similar. It calls the function <code>as.factor</code> on the original PCJob column and returns it as a factor. The assignment operator then replaces the original character column with the new factor column. The rest of the tibble stays the same.</p>
+<p>What is the advantage of this? Re-run the <code>summary</code> function on the bank data and you will see that the summaries of the factors now show the frequencies for each value. For example, the summary shows me that I have 140 females and 68 males in the data set:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">  <span class="kw">summary</span>(Bank)</a></code></pre></div>
+<pre><code>##     Employee         EducLev         JobGrade       YrHired     
+##  Min.   :  1.00   Min.   :1.000   Min.   :1.00   Min.   :56.00  
+##  1st Qu.: 52.75   1st Qu.:2.000   1st Qu.:1.00   1st Qu.:82.00  
+##  Median :104.50   Median :3.000   Median :3.00   Median :87.00  
+##  Mean   :104.50   Mean   :3.159   Mean   :2.76   Mean   :85.33  
+##  3rd Qu.:156.25   3rd Qu.:5.000   3rd Qu.:4.00   3rd Qu.:90.00  
+##  Max.   :208.00   Max.   :5.000   Max.   :6.00   Max.   :93.00  
+##      YrBorn         Gender       YrsPrior      PCJob         Salary     
+##  Min.   :30.00   Female:140   Min.   : 0.000   No :189   Min.   :26.70  
+##  1st Qu.:47.75   Male  : 68   1st Qu.: 0.000   Yes: 19   1st Qu.:33.00  
+##  Median :56.50                Median : 1.000             Median :37.00  
+##  Mean   :54.61                Mean   : 2.375             Mean   :39.92  
+##  3rd Qu.:63.00                3rd Qu.: 4.000             3rd Qu.:44.00  
+##  Max.   :73.00                Max.   :18.000             Max.   :97.00</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualize.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
